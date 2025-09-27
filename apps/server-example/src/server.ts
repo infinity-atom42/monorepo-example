@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3101;
+const port = process.env['PORT'] ? parseInt(process.env['PORT']) : 3101;
 
 const app = new Elysia()
   .get("/", () => "Hello Elysia")
