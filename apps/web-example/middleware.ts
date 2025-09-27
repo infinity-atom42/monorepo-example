@@ -1,5 +1,5 @@
-import type { NextMiddlewareResult } from "next/dist/server/web/types";
-import { NextResponse } from "next/server";
+import type { NextMiddlewareResult } from 'next/dist/server/web/types'
+import { NextResponse } from 'next/server'
 
 export const config = {
 	matcher: [
@@ -11,10 +11,10 @@ export const config = {
 		 * - public directory
 		 * - api/auth routes (signin, callback, signout)
 		 */
-		"/((?!_next/static|_next/image|favicon.ico|public|api/auth).*)",
+		'/((?!_next/static|_next/image|favicon.ico|public|api/auth).*)',
 	],
-};
+}
 
 export default async function middleware(): Promise<NextMiddlewareResult> {
-	return NextResponse.next();
+	return NextResponse.next()
 }

@@ -1,3 +1,3 @@
-import { useTheme } from "next-themes";
+import { useTheme } from 'next-themes'
 
-export { useTheme };
+export { useTheme }
