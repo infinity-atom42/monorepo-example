@@ -1,0 +1,46 @@
+{
+  "name": "asapreverse",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "check-types": "turbo run check-types",
+    "test": "turbo test"
+  },
+  "dependencies": {
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.14",
+    "@types/react-dom": "^19.1.9"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9.36.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-nginx": "^1.0.3",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-packagejson": "^2.5.19",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-sql": "^0.19.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "turbo": "^2.5.8",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "bun@1.2.8",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "trustedDependencies": [
+    "@tailwindcss/oxide",
+    "core-js-pure",
+    "sharp"
+  ]
+}

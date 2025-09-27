@@ -1,0 +1,25 @@
+{
+  "name": "server-example",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "build-old": "bun build src/index.ts --outdir dist",
+    "start-old": "bun run dist/index.js",
+    "build": "bun build --minify-whitespace --minify-syntax --outfile ./dist/index.js src/index.ts",
+    "build:binary": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server src/index.ts",
+    "start": "NODE_ENV=production bun ./dist/index.js",
+    "start:binary": "./server",
+    "lint": "bun lint --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
