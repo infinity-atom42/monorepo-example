@@ -12,7 +12,7 @@ const config = {
 	// Syntax
 	semi: false,
 	singleQuote: true,
-	trailingComma: 'all',
+	trailingComma: 'es5',
 	bracketSpacing: true,
 	bracketSameLine: true,
 
@@ -30,12 +30,32 @@ const config = {
 		},
 	],
 	plugins: [
-		'prettier-plugin-organize-imports',
 		'prettier-plugin-packagejson',
 		'prettier-plugin-nginx',
 		'prettier-plugin-sh',
 		'prettier-plugin-sql',
 		'prettier-plugin-tailwindcss',
+		'@ianvs/prettier-plugin-sort-imports',
+	],
+	importOrderCaseSensitive: true,
+	importOrder: [
+		"^react$",
+		"^next$",
+		"^next/.*$",
+		"<BUILTIN_MODULES>",
+		"<THIRD_PARTY_MODULES>",
+		"",
+		"^@workspace/(.*)$",
+		"",
+		"^@(.*)$",
+		"",
+		"^[./]",
+		"",
+		"^../(?!.*.css$).*$",
+		"^./(?!.*.css$).*$",
+		"\\.css$",
+		".*styles.scss$",
+		"^@setup-nextjs/(.*)$"
 	],
 }
 

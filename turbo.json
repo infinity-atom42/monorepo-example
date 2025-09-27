@@ -17,10 +17,12 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "cache": false,
+      "dependsOn": ["^lint"],
+      "env": ["PORT"]
     },
-    "check-types": {
-      "dependsOn": ["^check-types"]
+    "type:check": {
+      "dependsOn": ["^type:check"]
     }
   }
 }
