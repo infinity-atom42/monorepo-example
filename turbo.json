@@ -16,6 +16,11 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^start"]
+    },
     "lint": {
       "cache": false,
       "dependsOn": ["^lint"],

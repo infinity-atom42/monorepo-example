@@ -6,10 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build --minify-whitespace --minify-syntax --outfile ./dist/index.js src/index.ts",
-    "build:binary": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server src/index.ts",
-    "start": "NODE_ENV=production bun ./dist/index.js",
-    "start:binary": "./server",
+    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
+    "build:linux": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/server src/index.ts",
+    "start": "./dist/server",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "type:check": "tsc --noEmit"

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "types": ["bun-types"],
     "outDir": "dist",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

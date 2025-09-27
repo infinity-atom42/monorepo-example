@@ -3,11 +3,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "test": "turbo test",
     "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "type:check": "turbo run type:check",
-    "test": "turbo test",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },

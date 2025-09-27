@@ -24,6 +24,6 @@ if (cluster.isPrimary) {
     cluster.fork()
   }
 } else {
-  await import('./server.js')
+  await import('./server.ts')
   console.log(`Worker ${process.pid} started`)
 }
