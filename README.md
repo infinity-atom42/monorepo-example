@@ -1,145 +1,62 @@
-# Turborepo starter
+# Monorepo Example
 
-This Turborepo starter is maintained by the Turborepo core team.
+## Infrastructure Services
 
-## Using this example
+This project includes Docker Compose infrastructure services that can be started independently.
 
-Run the following command:
+### Available Services
 
-```sh
-npx create-turbo@latest
+- **PostgreSQL** (port 5432) - Database service
+- **RabbitMQ** (ports 5672, 15672) - Message broker with management UI
+- **Keycloak** (port 8080) - Identity and access management
+- **Redis** (port 6379) - In-memory data store
+
+### Running Infrastructure Services
+
+#### Start services
+
+```bash
+# Start all services (see logs in real-time)
+docker compose up
+
+# Start all services in background
+docker compose up -d
+
+# Start all services with fresh volumes (⚠️ deletes existing data)
+docker compose up -d --force-recreate
+
+# Start specific services
+docker compose up -d [service-name] [another-service-name]
 ```
 
-## What's inside?
+#### Stop services
 
-This Turborepo includes the following packages/apps:
+```bash
+# Stop all services
+docker compose down
 
-### Apps and Packages
+# Stop and remove volumes (⚠️ deletes data)
+docker compose down -v
+```
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@workspace/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@workspace/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@workspace/typescript-config`: `tsconfig.json`s used throughout the monorepo
+#### View service status
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+```bash
+# Check running services
+docker compose ps
 
-### Utilities
+# View service logs
+docker compose logs [service-name]
 
-This Turborepo has some additional tools already setup for you:
+# Follow logs in real-time
+docker compose logs -f [service-name]
+```
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Adding components
+## Adding components
 
 To add components to your app, run the following command at the root of your `web` app:
 
 ```bash
-bun x shadcn@latest add button -c apps/web
+pnpm dlx shadcn@canary add [component-name]
+pnpm dlx shadcn@canary add [component-name] -c apps/[app-name]
 ```
-
-This will place the ui components in the `packages/ui/src/components` directory.
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```bash
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```bash
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```bash
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```bash
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```bash
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```bash
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)

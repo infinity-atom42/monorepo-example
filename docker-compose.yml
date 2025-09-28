@@ -1,0 +1,8 @@
+include:
+  - infra/postgresql.yml
+  - infra/rabbitmq.yml
+  - infra/keycloak.yml
+  - infra/redis.yml
+
+# Main application services can be defined here
+# The infrastructure services are included from their respective directories
