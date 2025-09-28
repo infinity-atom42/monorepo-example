@@ -2,32 +2,29 @@
 	"$schema": "https://turborepo.com/schema.json",
 	"ui": "tui",
 	"globalEnv": ["NODE_ENV"],
-	"globalDependencies": [".env"],
 	"tasks": {
 		"test": {
 			"dependsOn": ["^test"]
 		},
 		"dev": {
 			"cache": false,
-			"persistent": true
+			"persistent": true,
+			"inputs": ["$TURBO_DEFAULT$", ".env"]
 		},
 		"build": {
 			"dependsOn": ["^build"],
-			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"inputs": ["$TURBO_DEFAULT$", ".env"],
 			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
 		},
 		"start": {
 			"cache": false,
 			"persistent": true,
-			"dependsOn": ["^start"]
+			"dependsOn": ["build", "^build"]
 		},
-		"lint": {
-			"cache": false,
-			"dependsOn": ["^lint"],
-			"env": ["PORT"]
-		},
-		"type:check": {
-			"dependsOn": ["^type:check"]
+		"lint": {},
+		"type:check": {},
+		"clean": {
+			"cache": false
 		}
 	}
 }

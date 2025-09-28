@@ -13,8 +13,9 @@
 		"format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
 		"lint": "turbo run lint",
 		"start": "turbo run start",
-		"test": "turbo test",
-		"type:check": "turbo run type:check"
+		"test": "turbo run test",
+		"type:check": "turbo run type:check",
+		"clean": "turbo run clean && rm -rf .turbo node_modules"
 	},
 	"dependencies": {
 		"@types/node": "^24.5.2",
@@ -22,7 +23,7 @@
 		"@types/react-dom": "^19.1.9"
 	},
 	"devDependencies": {
-		"@faker-js/faker": "^9.8.0",
+		"@faker-js/faker": "^10.0.0",
 		"@ianvs/prettier-plugin-sort-imports": "^4.7.0",
 		"@workspace/eslint-config": "workspace:*",
 		"@workspace/typescript-config": "workspace:*",

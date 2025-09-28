@@ -19,7 +19,8 @@ export const baseConfig = [
 			turbo: turboPlugin,
 		},
 		rules: {
-			'turbo/no-undeclared-env-vars': 'warn',
+			// usefull if you dont use .env file
+			// 'turbo/no-undeclared-env-vars': 'warn',
 		},
 	},
 	{
@@ -38,7 +39,7 @@ export const baseConfig = [
 			'no-unreachable-loop': 'error', // Disallow loops with a body that allows only one iteration
 
 			// Code Quality and Safety
-			'no-console': 'warn', // Disallow console statements (warn in dev, can be overridden)
+			// 'no-console': 'warn', // Disallow console statements
 			'no-var': 'error', // Require let or const instead of var
 			'prefer-const': 'warn', // Require const declarations for variables that are never reassigned
 			'no-duplicate-imports': 'error', // Disallow duplicate imports
