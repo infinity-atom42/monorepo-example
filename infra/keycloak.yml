@@ -17,7 +17,7 @@ services:
       KC_HEALTH_ENABLED: true
       KC_METRICS_ENABLED: true
     ports:
-      - '8080:8080' # HTTP port
+      - '8083:8080' # HTTP port
       - '9000:9000' # Health/metrics port
     volumes:
       - keycloak_data:/opt/keycloak/data
