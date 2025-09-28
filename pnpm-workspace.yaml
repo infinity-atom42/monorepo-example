@@ -1,8 +1,11 @@
 packages:
   - apps/*
   - packages/*
+  - jobs/*
+  - cron/*
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - core-js-pure
+  - puppeteer
   - sharp

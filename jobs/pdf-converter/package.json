@@ -1,0 +1,31 @@
+{
+	"name": "pdf-converter",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"module": "src/index.ts",
+	"scripts": {
+		"build": "bun build --compile --minify --target bun --outfile ./dist/server src/index.ts",
+		"build:linux": "bun build --compile --minify --target bun-linux-x64 --outfile ./dist/server src/index.ts",
+		"dev": "bun run --watch src/index.ts",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"start": "./dist/server",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"type:check": "tsc --noEmit",
+		"clean": "rm -rf dist .turbo node_modules"
+	},
+	"dependencies": {
+		"github-markdown-css": "^5.8.1",
+		"puppeteer": "^24.22.0",
+		"rehype-pretty-code": "^0.14.1",
+		"rehype-sanitize": "^6.0.0",
+		"rehype-stringify": "^10.0.1",
+		"remark": "^15.0.1",
+		"remark-gfm": "^4.0.1",
+		"remark-rehype": "^11.1.2"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	}
+}

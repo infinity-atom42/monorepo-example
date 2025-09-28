@@ -1,12 +1,12 @@
 {
-	"name": "server-example",
+	"name": "job-example",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
 	"module": "src/index.ts",
 	"scripts": {
-		"build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
-		"build:linux": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/server src/index.ts",
+		"build": "bun build --compile --minify --target bun --outfile ./dist/server src/index.ts",
+		"build:linux": "bun build --compile --minify --target bun-linux-x64 --outfile ./dist/server src/index.ts",
 		"dev": "bun run --watch src/index.ts",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
@@ -14,9 +14,6 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"type:check": "tsc --noEmit",
 		"clean": "rm -rf dist .turbo node_modules"
-	},
-	"dependencies": {
-		"elysia": "latest"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"
