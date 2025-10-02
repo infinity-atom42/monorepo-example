@@ -1,29 +1,29 @@
 import process from 'node:process'
-import RabbitMQService from './lib/rabbitmq'
+
+import { EXCHANGE_TYPES, createEventBus, type ExchangeType } from '@workspace/event-bus'
+
 import { eventHandlers } from './events'
-import { EXCHANGE_TYPES, type ExchangeType } from './types/rabbitmq'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 const SERVICE_NAME = process.env['SERVICE_NAME'] || 'job-example'
 const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'order-exchange'
-const EXCHANGE_TYPE =
-	(process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
+const EXCHANGE_TYPE = (process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
 
-// Initialize RabbitMQ service
-const rabbitmqService = new RabbitMQService({
+// Initialize Event Bus
+const bus = createEventBus({
 	url: RABBITMQ_URL,
 	exchangeName: EXCHANGE_NAME,
 	exchangeType: EXCHANGE_TYPE,
-	serviceName: SERVICE_NAME,
+	appId: SERVICE_NAME,
 })
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
 
-		// Close RabbitMQ connection
-		await rabbitmqService.close()
+		// Close Event Bus
+		await bus.close()
 
 		console.log('✅ Cleanup completed')
 		process.exit(0)
@@ -38,7 +38,11 @@ async function startService(): Promise<void> {
 		// Register all event handlers
 		console.log(`\n📋 Registering ${eventHandlers.length} event handlers...`)
 		for (const event of eventHandlers) {
-			await rabbitmqService.subscribe(event)
+			await bus.subscribe({
+				event: event.eventName,
+				queue: `${SERVICE_NAME}.${event.eventName}`,
+				handler: event.handler,
+			})
 		}
 
 		console.log('\n✅ Event listener service is running')

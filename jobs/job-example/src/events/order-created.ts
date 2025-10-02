@@ -1,21 +1,13 @@
-import type { EventHandler } from '../types/rabbitmq'
+import type { EventHandler } from '@workspace/events'
 
 /**
  * Event: Order Created
  * Handles order creation events
  */
 
-interface OrderCreatedPayload {
-	orderId: string
-	userId: string
-	amount: number
-	items: Array<{ productId: string; quantity: number; price: number }>
-	createdAt: string
-}
-
-const event: EventHandler<OrderCreatedPayload> = {
-	eventName: 'order.created',
-	handler: async (payload: OrderCreatedPayload) => {
+const event: EventHandler<'orders.created'> = {
+	eventName: 'orders.created',
+	handler: async (payload) => {
 		console.log('🛒 Processing order created event:', payload.orderId)
 
 		// Your business logic here

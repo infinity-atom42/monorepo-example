@@ -16,6 +16,8 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
+		"@workspace/event-bus": "workspace:*",
+		"@workspace/events": "workspace:*",
 		"amqp-connection-manager": "^5.0.0",
 		"amqplib": "^0.10.9"
 	},

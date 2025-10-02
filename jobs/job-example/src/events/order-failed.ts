@@ -1,21 +1,13 @@
-import type { EventHandler } from '../types/rabbitmq'
+import type { EventHandler } from '@workspace/events'
 
 /**
  * Event: Order Failed
  * Handles order failure events
  */
 
-interface OrderFailedPayload {
-	orderId: string
-	userId: string
-	reason: string
-	errorCode: string
-	timestamp: string
-}
-
-const event: EventHandler<OrderFailedPayload> = {
-	eventName: 'order.failed',
-	handler: async (payload: OrderFailedPayload) => {
+const event: EventHandler<'orders.failed'> = {
+	eventName: 'orders.failed',
+	handler: async (payload) => {
 		console.log('⚠️ Processing order failed event:', payload.orderId)
 
 		// Your business logic here

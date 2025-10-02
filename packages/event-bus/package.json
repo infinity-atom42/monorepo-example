@@ -1,0 +1,27 @@
+{
+	"name": "@workspace/event-bus",
+	"version": "0.1.0",
+	"private": false,
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"type:check": "tsc -p tsconfig.json --noEmit"
+	},
+	"dependencies": {
+		"@workspace/events": "workspace:*",
+		"amqp-connection-manager": "^5.0.0",
+		"amqplib": "^0.10.9"
+	},
+	"devDependencies": {
+		"@types/amqplib": "^0.10.7"
+	},
+	"peerDependencies": {
+		"@workspace/events": "*",
+		"typescript": "*"
+	}
+}
