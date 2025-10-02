@@ -16,19 +16,11 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"amqplib": "^0.10.9",
-		"github-markdown-css": "^5.8.1",
-		"puppeteer": "^24.22.0",
-		"rehype-pretty-code": "^0.14.1",
-		"rehype-sanitize": "^6.0.0",
-		"rehype-stringify": "^10.0.1",
-		"remark": "^15.0.1",
-		"remark-gfm": "^4.0.1",
-		"remark-rehype": "^11.1.2"
+		"amqp-connection-manager": "^5.0.0",
+		"amqplib": "^0.10.9"
 	},
 	"devDependencies": {
 		"@types/amqplib": "^0.10.7",
-		"@types/bun": "latest",
-		"amqp-connection-manager": "^5.0.0"
+		"@types/bun": "latest"
 	}
 }
