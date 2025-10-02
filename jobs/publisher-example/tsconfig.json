@@ -5,8 +5,7 @@
 		"noEmit": true,
 		"baseUrl": ".",
 		"paths": {
-			"@workspace/events": ["../../packages/events/src"],
-			"@workspace/event-bus": ["../../packages/event-bus/src"]
+			"@workspace/pub-sub": ["../../packages/pub-sub/src"]
 		}
 	},
 	"include": ["src"],

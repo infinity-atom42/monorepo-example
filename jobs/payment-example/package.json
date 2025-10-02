@@ -16,8 +16,7 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"@workspace/event-bus": "workspace:*",
-		"@workspace/events": "workspace:*"
+		"@workspace/pub-sub": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

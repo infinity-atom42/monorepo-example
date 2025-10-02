@@ -3,12 +3,11 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"noEmit": true,
-        "allowImportingTsExtensions": true,
-        "baseUrl": ".",
-        "paths": {
-            "@workspace/events": ["../../packages/events/src"],
-            "@workspace/event-bus": ["../../packages/event-bus/src"]
-        }
+		"allowImportingTsExtensions": true,
+		"baseUrl": ".",
+		"paths": {
+			"@workspace/pub-sub": ["../../packages/pub-sub/src"]
+		}
 	},
 	"include": ["src"],
 	"exclude": ["dist"]

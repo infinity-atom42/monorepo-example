@@ -1,29 +1,27 @@
 import process from 'node:process'
 
-import { EXCHANGE_TYPES, createEventBus, type ExchangeType } from '@workspace/event-bus'
+import { EXCHANGE_TYPES, PubSub, type ExchangeType } from '@workspace/pub-sub'
 
-import { eventHandlers } from './events'
+import { subscribers } from './subs'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-const SERVICE_NAME = process.env['SERVICE_NAME'] || 'order-example'
-const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'order-exchange'
+const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'orders'
 const EXCHANGE_TYPE = (process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
 
-// Initialize Event Bus
-const bus = createEventBus({
+// Initialize PubSub
+const pubSub = new PubSub({
 	url: RABBITMQ_URL,
 	exchangeName: EXCHANGE_NAME,
 	exchangeType: EXCHANGE_TYPE,
-	appId: SERVICE_NAME,
 })
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
 
-		// Close Event Bus
-		await bus.close()
+		// Close PubSub
+		await pubSub.close()
 
 		console.log('✅ Cleanup completed')
 		process.exit(0)
@@ -35,18 +33,13 @@ async function gracefulShutdown(): Promise<void> {
 
 async function startService(): Promise<void> {
 	try {
-		// Register all event handlers
-		console.log(`\n📋 Registering ${eventHandlers.length} event handlers...`)
-		for (const event of eventHandlers) {
-			await bus.subscribe({
-				event: event.eventName,
-				queue: `${SERVICE_NAME}.${event.eventName}`,
-				handler: event.handler,
-			})
+		// Register all subscribers
+		console.log(`\n📋 Registering ${subscribers.length} subscribers ...`)
+		for (const sub of subscribers) {
+			await pubSub.subscribe(sub)
 		}
 
-		console.log('\n✅ Event listener service is running')
-		console.log('   Press Ctrl+C to stop\n')
+		console.log('\n✅ Subscriber service is running')
 	} catch (error) {
 		console.error('❌ Failed to start service:', error)
 		process.exit(1)

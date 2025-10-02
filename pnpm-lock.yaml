@@ -108,14 +108,31 @@ importers:
         specifier: 19.1.9
         version: 19.1.9(@types/react@19.1.14)
 
-  jobs/job-example:
+  jobs/notification-example:
     dependencies:
-      '@workspace/event-bus':
+      '@workspace/pub-sub':
         specifier: workspace:*
-        version: link:../../packages/event-bus
-      '@workspace/events':
+        version: link:../../packages/pub-sub
+    devDependencies:
+      '@types/bun':
+        specifier: latest
+        version: 1.2.23(@types/react@19.1.14)
+
+  jobs/order-example:
+    dependencies:
+      '@workspace/pub-sub':
         specifier: workspace:*
-        version: link:../../packages/events
+        version: link:../../packages/pub-sub
+    devDependencies:
+      '@types/bun':
+        specifier: latest
+        version: 1.2.23(@types/react@19.1.14)
+
+  jobs/payment-example:
+    dependencies:
+      '@workspace/pub-sub':
+        specifier: workspace:*
+        version: link:../../packages/pub-sub
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -123,12 +140,9 @@ importers:
 
   jobs/publisher-example:
     dependencies:
-      '@workspace/event-bus':
+      '@workspace/pub-sub':
         specifier: workspace:*
-        version: link:../../packages/event-bus
-      '@workspace/events':
-        specifier: workspace:*
-        version: link:../../packages/events
+        version: link:../../packages/pub-sub
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -164,11 +178,8 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
 
-  packages/event-bus:
+  packages/pub-sub:
     dependencies:
-      '@workspace/events':
-        specifier: workspace:*
-        version: link:../events
       amqp-connection-manager:
         specifier: ^5.0.0
         version: 5.0.0(amqplib@0.10.9)
@@ -182,12 +193,6 @@ importers:
       '@types/amqplib':
         specifier: ^0.10.7
         version: 0.10.7
-
-  packages/events:
-    dependencies:
-      typescript:
-        specifier: '*'
-        version: 5.9.2
 
   packages/temp:
     dependencies:

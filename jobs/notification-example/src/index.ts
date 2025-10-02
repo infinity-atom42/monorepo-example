@@ -1,20 +1,15 @@
 import process from 'node:process'
 
-import { PubSub, EXCHANGE_TYPES, type ExchangeType } from '@workspace/pub-sub'
+import { PubSub } from '@workspace/pub-sub'
 
 import { subscribers } from './subs'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'payments'
-const EXCHANGE_TYPE = (process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
-
 // Initialize PubSub
-const pubSub = new PubSub(
-	RABBITMQ_URL,
-	EXCHANGE_NAME,
-	EXCHANGE_TYPE,
-)
+const pubSub = new PubSub({
+	url: RABBITMQ_URL,
+})
 
 async function gracefulShutdown(): Promise<void> {
 	try {
@@ -39,7 +34,7 @@ async function startService(): Promise<void> {
 			await pubSub.subscribe(sub)
 		}
 
-		console.log('\n✅ Payment service is running')
+		console.log('\n✅ Notification service is running')
 	} catch (error) {
 		console.error('❌ Failed to start service:', error)
 		process.exit(1)
