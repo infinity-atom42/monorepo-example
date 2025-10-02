@@ -3,32 +3,17 @@
  * Automatically imports and registers all event handlers
  */
 
-import * as orderCreated from './order-created'
-import * as orderFailed from './order-failed'
-import * as paymentSucceeded from './payment-succeeded'
-
-export interface EventHandler<T = unknown> {
-	eventName: string
-	queueName: string
-	routingKey: string
-	handler: (payload: T) => Promise<void>
-}
+import type { EventHandler } from '../types/rabbitmq'
+import orderCreated from './order-created'
+import orderFailed from './order-failed'
+import paymentSucceeded from './payment-succeeded'
 
 /**
  * List of all event handlers
  * Add new event handlers here
  */
-export const eventHandlers: EventHandler<unknown>[] = [
-	orderCreated as EventHandler<unknown>,
-	orderFailed as EventHandler<unknown>,
-	paymentSucceeded as EventHandler<unknown>,
+export const eventHandlers: Array<EventHandler> = [
+	orderCreated,
+	orderFailed,
+	paymentSucceeded,
 ]
-
-/**
- * Get an event handler by name
- */
-export function getEventHandler(
-	eventName: string
-): EventHandler<unknown> | undefined {
-	return eventHandlers.find((handler) => handler.eventName === eventName)
-}

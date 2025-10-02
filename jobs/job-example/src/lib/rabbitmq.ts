@@ -3,20 +3,24 @@ import amqp, {
 	type ChannelWrapper,
 } from 'amqp-connection-manager'
 import type { Channel, ConsumeMessage } from 'amqplib'
+import type { EventHandler, ExchangeType } from '../types/rabbitmq'
 
 interface RabbitMQConfig {
 	url: string
 	exchangeName: string
-	exchangeType: 'direct' | 'topic' | 'headers' | 'fanout' | 'match'
+	exchangeType: ExchangeType
+	serviceName: string
 }
 
 class RabbitMQService {
 	private connection: AmqpConnectionManager
 	private channel: ChannelWrapper
 	private exchangeName: string
+	private serviceName: string
 
 	constructor(config: RabbitMQConfig) {
 		this.exchangeName = config.exchangeName
+		this.serviceName = config.serviceName
 		console.log('📡 Initializing RabbitMQ connection...')
 
 		// Create connection manager (returns immediately, connects in background)
@@ -61,11 +65,11 @@ class RabbitMQService {
 		})
 	}
 
-	async subscribe(
-		queueName: string,
-		routingKey: string,
-		handler: (message: unknown) => Promise<void>
-	): Promise<void> {
+	async subscribe<TPayload>(event: EventHandler<TPayload>): Promise<void> {
+		const routingKey = event.eventName
+		const queueName = `${this.serviceName}.${event.eventName}`
+		const { handler } = event
+
 		// Use addSetup to register this subscription
 		// It will be called immediately AND on every reconnect
 		await this.channel.addSetup(async (channel: Channel) => {
@@ -74,7 +78,7 @@ class RabbitMQService {
 				durable: true,
 			})
 
-			// Bind queue to exchange with routing key
+			// Bind queue to exchange with routing key (derived from event name)
 			await channel.bindQueue(queueName, this.exchangeName, routingKey)
 
 			console.log(`🎧 Listening to queue: ${queueName} (routing key: ${routingKey})`)
@@ -84,7 +88,7 @@ class RabbitMQService {
 				if (!msg) return
 
 				try {
-					const content = JSON.parse(msg.content.toString())
+					const content = JSON.parse(msg.content.toString()) as TPayload
 					console.log(`📨 Received message on ${queueName}:`, content)
 
 					await handler(content)

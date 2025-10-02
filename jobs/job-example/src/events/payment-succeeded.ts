@@ -1,3 +1,5 @@
+import type { EventHandler } from '../types/rabbitmq'
+
 /**
  * Event: Payment Succeeded
  * Handles successful payment events
@@ -13,15 +15,16 @@ interface PaymentSucceededPayload {
 	timestamp: string
 }
 
-export const eventName = 'payment.succeeded'
-export const queueName = 'payment.succeeded.queue'
-export const routingKey = 'payment.succeeded'
+const event: EventHandler<PaymentSucceededPayload> = {
+	eventName: 'payment.succeeded',
+	handler: async (payload: PaymentSucceededPayload) => {
+		console.log('💰 Processing payment succeeded event:', payload.paymentId)
 
-export async function handler(payload: PaymentSucceededPayload): Promise<void> {
-	console.log('💰 Processing payment succeeded event:', payload.paymentId)
+		// Your business logic here
+		// Example: Update order status, trigger fulfillment, etc.
 
-	// Your business logic here
-	// Example: Update order status, trigger fulfillment, etc.
-
-	console.log(`✅ Payment ${payload.paymentId} processed successfully`)
+		console.log(`✅ Payment ${payload.paymentId} processed successfully`)
+	},
 }
+
+export default event
