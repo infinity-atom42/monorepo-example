@@ -26,6 +26,15 @@ export interface EventCatalog {
 		method: string
 		timestamp: string
 	}
+	'payments.created': {
+		paymentId: string
+		orderId: string
+		userId: string
+		amount: number
+		currency: string
+		method: string
+		timestamp: string
+	}
 }
 
 export type EventName = keyof EventCatalog

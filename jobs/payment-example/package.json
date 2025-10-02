@@ -1,5 +1,5 @@
 {
-	"name": "job-example",
+	"name": "payment-example",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
@@ -17,12 +17,9 @@
 	},
 	"dependencies": {
 		"@workspace/event-bus": "workspace:*",
-		"@workspace/events": "workspace:*",
-		"amqp-connection-manager": "^5.0.0",
-		"amqplib": "^0.10.9"
+		"@workspace/events": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/amqplib": "^0.10.7",
 		"@types/bun": "latest"
 	}
 }

@@ -1,0 +1,15 @@
+{
+	"extends": "@workspace/typescript-config/base.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"noEmit": true,
+        "allowImportingTsExtensions": true,
+        "baseUrl": ".",
+        "paths": {
+            "@workspace/events": ["../../packages/events/src"],
+            "@workspace/event-bus": ["../../packages/event-bus/src"]
+        }
+	},
+	"include": ["src"],
+	"exclude": ["dist"]
+}

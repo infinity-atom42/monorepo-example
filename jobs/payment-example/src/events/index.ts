@@ -5,12 +5,11 @@
 
 import type { EventHandler } from '@workspace/events'
 
-import orderCreated from './order-created'
-import orderFailed from './order-failed'
 import paymentSucceeded from './payment-succeeded'
+import paymentCreated from './payment-created'
 
 /**
  * List of all event handlers
  * Add new event handlers here
  */
-export const eventHandlers: Array<EventHandler> = [orderCreated, orderFailed, paymentSucceeded]
+export const eventHandlers: Array<EventHandler> = [paymentCreated, paymentSucceeded]

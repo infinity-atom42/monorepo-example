@@ -6,7 +6,7 @@ import { eventHandlers } from './events'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-const SERVICE_NAME = process.env['SERVICE_NAME'] || 'job-example'
+const SERVICE_NAME = process.env['SERVICE_NAME'] || 'order-example'
 const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'order-exchange'
 const EXCHANGE_TYPE = (process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
 

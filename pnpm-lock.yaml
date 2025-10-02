@@ -116,16 +116,20 @@ importers:
       '@workspace/events':
         specifier: workspace:*
         version: link:../../packages/events
-      amqp-connection-manager:
-        specifier: ^5.0.0
-        version: 5.0.0(amqplib@0.10.9)
-      amqplib:
-        specifier: ^0.10.9
-        version: 0.10.9
     devDependencies:
-      '@types/amqplib':
-        specifier: ^0.10.7
-        version: 0.10.7
+      '@types/bun':
+        specifier: latest
+        version: 1.2.23(@types/react@19.1.14)
+
+  jobs/publisher-example:
+    dependencies:
+      '@workspace/event-bus':
+        specifier: workspace:*
+        version: link:../../packages/event-bus
+      '@workspace/events':
+        specifier: workspace:*
+        version: link:../../packages/events
+    devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
