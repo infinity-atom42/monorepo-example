@@ -1,24 +1,13 @@
 import process from 'node:process'
 
-import { PubSub } from '@workspace/pub-sub'
-
 import { events } from './events'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
-// Initialize PubSub
-const pubSub = new PubSub({
-	url: RABBITMQ_URL,
-	queueName: 'email',
-})
-
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-
-		// Close PubSub
-		await pubSub.close()
 
 		console.log('✅ Cleanup completed')
 		process.exit(0)
@@ -33,4 +22,4 @@ async function gracefulShutdown(): Promise<void> {
 process.on('SIGINT', gracefulShutdown)
 process.on('SIGTERM', gracefulShutdown)
 
-console.log('\n✅ Email service is running')
+console.log('\n✅ Notifications service is running')

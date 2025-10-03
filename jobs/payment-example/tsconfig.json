@@ -6,7 +6,7 @@
 		"allowImportingTsExtensions": true,
 		"baseUrl": ".",
 		"paths": {
-			"@workspace/pub-sub": ["../../packages/pub-sub/src"]
+			"@workspace/rabbitmq-helper": ["../../packages/rabbitmq-helper/src"]
 		}
 	},
 	"include": ["src"],

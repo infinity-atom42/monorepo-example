@@ -1,5 +1,5 @@
 {
-	"name": "@workspace/pub-sub",
+	"name": "@workspace/rabbitmq-helper",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",

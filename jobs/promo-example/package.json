@@ -1,5 +1,5 @@
 {
-	"name": "email-example",
+	"name": "promo-example",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
@@ -16,7 +16,7 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"@workspace/pub-sub": "workspace:*"
+		"@workspace/rabbitmq-helper": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

@@ -1,7 +1,5 @@
 import process from 'node:process'
 
-import { events } from './events'
-
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
@@ -22,4 +20,4 @@ async function gracefulShutdown(): Promise<void> {
 process.on('SIGINT', gracefulShutdown)
 process.on('SIGTERM', gracefulShutdown)
 
-console.log('\n✅ Payment service is running')
+console.log('\n✅ Promo service is running')

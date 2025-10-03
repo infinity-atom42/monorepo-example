@@ -11,11 +11,9 @@ flowchart TD
     %% Order Domain
     %% =========================
     OX([order-exchange<br/>topic])
-    OCrea[order.created.queue]
-    OFail[order.failed.queue]
+    OQue[order.queue]
 
-    OX -->|order.created| OCrea
-    OX -->|order.failed| OFail
+    OX -->|order.*| OQue
 
     %% =========================
     %% Critical Notifications
@@ -46,18 +44,16 @@ flowchart TD
     %% Payment Domain
     %% =========================
     PX([payment-exchange<br/>topic])
-    PCreated[payment.created.queue]
-    PSucceeded[payment.succeeded.queue]
+    PQue[payment.queue]
 
-    PX -->|payment.created| PCreated
-    PX -->|payment.succeeded| PSucceeded
+    PX -->|payment.*| PQue
 
     %% =========================
     %% Publisher connections
     %% =========================
-    PubService -->|order.*| OX
-    PubService -->|payment*| PX
-    PubService -->|billing<br>security| AX
+    PubService --> OX
+    PubService --> PX
+    PubService --> AX
 
     %% =========================
     %% Direct: Audit Example
