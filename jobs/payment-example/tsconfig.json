@@ -6,7 +6,7 @@
 		"allowImportingTsExtensions": true,
 		"baseUrl": ".",
 		"paths": {
-			"@workspace/rabbitmq-helper": ["../../packages/rabbitmq-helper/src"]
+			"@workspace/amqp-orm": ["../../packages/amqp-orm/src"]
 		}
 	},
 	"include": ["src"],

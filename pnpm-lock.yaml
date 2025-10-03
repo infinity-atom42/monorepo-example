@@ -110,9 +110,9 @@ importers:
 
   jobs/notifications-example:
     dependencies:
-      '@workspace/rabbitmq-helper':
+      '@workspace/amqp-orm':
         specifier: workspace:*
-        version: link:../../packages/rabbitmq-helper
+        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -123,9 +123,9 @@ importers:
 
   jobs/order-example:
     dependencies:
-      '@workspace/rabbitmq-helper':
+      '@workspace/amqp-orm':
         specifier: workspace:*
-        version: link:../../packages/rabbitmq-helper
+        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -136,9 +136,9 @@ importers:
 
   jobs/payment-example:
     dependencies:
-      '@workspace/rabbitmq-helper':
+      '@workspace/amqp-orm':
         specifier: workspace:*
-        version: link:../../packages/rabbitmq-helper
+        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -149,9 +149,9 @@ importers:
 
   jobs/promo-example:
     dependencies:
-      '@workspace/rabbitmq-helper':
+      '@workspace/amqp-orm':
         specifier: workspace:*
-        version: link:../../packages/rabbitmq-helper
+        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -162,9 +162,9 @@ importers:
 
   jobs/publisher-example:
     dependencies:
-      '@workspace/rabbitmq-helper':
+      '@workspace/amqp-orm':
         specifier: workspace:*
-        version: link:../../packages/rabbitmq-helper
+        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -172,6 +172,22 @@ importers:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
+
+  packages/amqp-orm:
+    dependencies:
+      amqp-connection-manager:
+        specifier: ^5.0.0
+        version: 5.0.0(amqplib@0.10.9)
+      amqplib:
+        specifier: ^0.10.9
+        version: 0.10.9
+      typescript:
+        specifier: '*'
+        version: 5.9.2
+    devDependencies:
+      '@types/amqplib':
+        specifier: ^0.10.7
+        version: 0.10.7
 
   packages/eslint-config:
     devDependencies:
@@ -202,22 +218,6 @@ importers:
       typescript-eslint:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
-
-  packages/rabbitmq-helper:
-    dependencies:
-      amqp-connection-manager:
-        specifier: ^5.0.0
-        version: 5.0.0(amqplib@0.10.9)
-      amqplib:
-        specifier: ^0.10.9
-        version: 0.10.9
-      typescript:
-        specifier: '*'
-        version: 5.9.2
-    devDependencies:
-      '@types/amqplib':
-        specifier: ^0.10.7
-        version: 0.10.7
 
   packages/shared: {}
 

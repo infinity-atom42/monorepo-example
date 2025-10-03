@@ -1,4 +1,6 @@
-CONTRACT = {
+import type { AmqpContract } from '@workspace/amqp-orm'
+
+export const CONTRACT: AmqpContract = {
 	exchanges: {
 		'order-exchange': {
 			type: 'topic',
