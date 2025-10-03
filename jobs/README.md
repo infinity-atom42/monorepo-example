@@ -6,38 +6,45 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 
 ## ⚙️ Recommended Settings
 
-| Concept           | Node.js Recommendation                                |
-| ----------------- | ----------------------------------------------------- |
-| **Connection**    | 1 per service / worker                                |
-| **Channel**       | 1 per connection is usually sufficient                |
-| **Exchange**      | 1 per service (rarely more)                           |
-| **Queue**         | 1 per event / stream                                  |
-| **Publishing**    | Always publish to exchange → routed to queues         |
+| Concept               | Node.js Recommendation                                |
+| --------------------- | ----------------------------------------------------- |
+| **Connection**        | 1 per service / worker                                |
+| **Channel**           | 1 per connection                                      |
+| **Exchange**          | 0 or 1 per service                                    |
+| **Queue**             | 1 per service                                         |
+| **Publishing**        | Always publish to exchange → routed to queues         |
 | **Multiple Channels** | Only if you have separate workloads needing isolation |
 
 ---
 
 ## 📤 Publishing Messages
 
-- Always publish **to an exchange**, never directly to a queue.  
+- Always publish **to an exchange**, never directly to a queue.
 - The exchange will **route the message** to one or more queues based on its type and bindings.
+
+---
+
+## 📡 Exchanges
+
+- A service creates it's own exchange if needs one.
+- In some cause like a notification service, just binds it's own notification queue to another exchange like payment exchange listening for a topic
 
 ---
 
 ## 📡 Channels
 
-- Node.js servers are **single-threaded**, so usually **1 channel per service is enough**.  
+- Node.js servers are **single-threaded**, so usually **1 channel per service is enough**.
 - In multithreaded apps (e.g., Java, C#):
   - Each process opens **1 connection** and uses multiple channels (1 per thread).
-- Multiple channels may be useful to **isolate workloads**:  
-  - **Channel 1** → Critical order processing (reliable delivery, publisher confirms).  
-  - **Channel 2** → Analytics (high-throughput, fire-and-forget, shouldn’t block orders).  
+- Multiple channels may be useful to **isolate workloads**:
+  - **Channel 1** → Critical order processing (reliable delivery, publisher confirms).
+  - **Channel 2** → Analytics (high-throughput, fire-and-forget, shouldn’t block orders).
 
 ---
 
 ## 🛠️ Migration Script
 
-- **Not required** in most cases.  
-- Queues/exchanges are **idempotent** and only disappear if defined as **auto-delete** or **non-durable**.  
+- **Not required** in most cases.
+- Queues/exchanges are **idempotent** and only disappear if defined as **auto-delete** or **non-durable**.
 
 ---

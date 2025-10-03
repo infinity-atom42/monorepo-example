@@ -1,20 +1,19 @@
 import process from 'node:process'
 
-import { PubSub, EXCHANGE_TYPES, type ExchangeType } from '@workspace/pub-sub'
+import { PubSub } from '@workspace/pub-sub'
 
-import { subscribers } from './subs'
+import { events } from './events'
 
 // Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-const EXCHANGE_NAME = process.env['EXCHANGE_NAME'] || 'payments'
-const EXCHANGE_TYPE = (process.env['EXCHANGE_TYPE'] as ExchangeType) || EXCHANGE_TYPES.TOPIC
 
 // Initialize PubSub
-const pubSub = new PubSub(
-	RABBITMQ_URL,
-	EXCHANGE_NAME,
-	EXCHANGE_TYPE,
-)
+const pubSub = new PubSub({
+	url: RABBITMQ_URL,
+	queueName: 'payment',
+	exchangeName: 'payment',
+	exchangeType: 'topic', // topic is the default
+})
 
 async function gracefulShutdown(): Promise<void> {
 	try {
@@ -31,25 +30,9 @@ async function gracefulShutdown(): Promise<void> {
 	}
 }
 
-async function startService(): Promise<void> {
-	try {
-		// Register all subscribers
-		console.log(`\n📋 Registering ${subscribers.length} subscribers...`)
-		for (const sub of subscribers) {
-			await pubSub.subscribe(sub)
-		}
-
-		console.log('\n✅ Payment service is running')
-	} catch (error) {
-		console.error('❌ Failed to start service:', error)
-		process.exit(1)
-	}
-}
-
 // Handle SIGINT (Ctrl+C in terminal)
 // Handle SIGTERM (kill command, Docker stop, etc.)
 process.on('SIGINT', gracefulShutdown)
 process.on('SIGTERM', gracefulShutdown)
 
-// Start the service
-startService()
+console.log('\n✅ Payment service is running')
