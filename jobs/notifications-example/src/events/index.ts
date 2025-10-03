@@ -1,5 +1,6 @@
 import type { MessageFor, QueueBindingsMap } from '@workspace/rabbitmq-helper'
-import { onOrderFailed, onPaymentFailed } from './notification-failed'
+import { onPaymentFailed } from './payment-failed'
+import { onOrderFailed } from './order-failed'
 
 type Handler = (msg: MessageFor<QueueBindingsMap['notifications.queue']>) => Promise<void>
 
