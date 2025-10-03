@@ -1,12 +1,21 @@
 import process from 'node:process'
+import { createConnection, assertTopology, consumeQueue } from '@workspace/rabbitmq-helper'
+import { consumers } from './events'
 
-// Configuration
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
+
+const connection = createConnection(RABBITMQ_URL)
+
+await assertTopology(connection)
+
+for (const c of consumers) {
+	consumeQueue(connection, c.queue, c.handler)
+}
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-
+		await connection.close()
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {
@@ -15,9 +24,7 @@ async function gracefulShutdown(): Promise<void> {
 	}
 }
 
-// Handle SIGINT (Ctrl+C in terminal)
-// Handle SIGTERM (kill command, Docker stop, etc.)
 process.on('SIGINT', gracefulShutdown)
 process.on('SIGTERM', gracefulShutdown)
 
-console.log('\n✅ Promo service is running')
+console.log('\n✅ Promo service is running and listening to email/push/analytics queues')

@@ -11,7 +11,8 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 | **Connection**        | 1 per service / worker                                |
 | **Channel**           | 1 per connection                                      |
 | **Exchange**          | 0 or 1 per service                                    |
-| **Queue**             | 1 per service                                         |
+| **Queue**             | 1 per service ( with some exceptions)                 |
+| **Events**            | Are the same as messages (but type safe)              |
 | **Publishing**        | Always publish to exchange → routed to queues         |
 | **Multiple Channels** | Only if you have separate workloads needing isolation |
 
@@ -39,6 +40,12 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 - Multiple channels may be useful to **isolate workloads**:
   - **Channel 1** → Critical order processing (reliable delivery, publisher confirms).
   - **Channel 2** → Analytics (high-throughput, fire-and-forget, shouldn’t block orders).
+
+---
+
+## Events
+
+- Events name and payload should be in the shared library
 
 ---
 

@@ -53,15 +53,4 @@ flowchart TD
     %% =========================
     PubService --> OX
     PubService --> PX
-    PubService --> AX
-
-    %% =========================
-    %% Direct: Audit Example
-    %% =========================
-    AX([audit-exchange<br/>direct])
-    ABill[audit.billing.queue]
-    ASec[audit.security.queue]
-
-    AX -->|billing| ABill
-    AX -->|security| ASec
 ```
