@@ -1,21 +1,22 @@
 import process from 'node:process'
-import { createConnection, assertTopology, consumeQueue } from '@workspace/rabbitmq-helper'
-import { consumers } from './events'
+
+import AmqpConnectionManager from '@workspace/rabbitmq-helper'
+import { contract } from '@workspace/shared'
+
+import { queues } from './queues'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
-const connection = createConnection(RABBITMQ_URL)
+const broker = new AmqpConnectionManager(RABBITMQ_URL, contract)
 
-await assertTopology(connection)
-
-for (const c of consumers) {
-	consumeQueue(connection, c.queue, c.handler)
+for (const queue of queues) {
+	broker.consumeQueue(queue)
 }
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-		await connection.close()
+		await broker.close()
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {

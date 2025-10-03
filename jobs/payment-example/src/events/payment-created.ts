@@ -1,5 +1,4 @@
-import type { EventMap } from '@workspace/rabbitmq-helper'
-
-export async function onPaymentCreated(payload: EventMap['payment-exchange']['payment.created']): Promise<void> {
+// payment-exchange -> payment.queue -> payment.created
+export async function onPaymentCreated(payload: unknown): Promise<void> {
 	console.log('📥 payment.created', payload)
 }

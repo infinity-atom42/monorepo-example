@@ -108,11 +108,14 @@ importers:
         specifier: 19.1.9
         version: 19.1.9(@types/react@19.1.14)
 
-  jobs/email-example:
+  jobs/notifications-example:
     dependencies:
-      '@workspace/pub-sub':
+      '@workspace/rabbitmq-helper':
         specifier: workspace:*
-        version: link:../../packages/pub-sub
+        version: link:../../packages/rabbitmq-helper
+      '@workspace/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -120,9 +123,12 @@ importers:
 
   jobs/order-example:
     dependencies:
-      '@workspace/pub-sub':
+      '@workspace/rabbitmq-helper':
         specifier: workspace:*
-        version: link:../../packages/pub-sub
+        version: link:../../packages/rabbitmq-helper
+      '@workspace/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -130,9 +136,25 @@ importers:
 
   jobs/payment-example:
     dependencies:
-      '@workspace/pub-sub':
+      '@workspace/rabbitmq-helper':
         specifier: workspace:*
-        version: link:../../packages/pub-sub
+        version: link:../../packages/rabbitmq-helper
+      '@workspace/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+    devDependencies:
+      '@types/bun':
+        specifier: latest
+        version: 1.2.23(@types/react@19.1.14)
+
+  jobs/promo-example:
+    dependencies:
+      '@workspace/rabbitmq-helper':
+        specifier: workspace:*
+        version: link:../../packages/rabbitmq-helper
+      '@workspace/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -140,9 +162,12 @@ importers:
 
   jobs/publisher-example:
     dependencies:
-      '@workspace/pub-sub':
+      '@workspace/rabbitmq-helper':
         specifier: workspace:*
-        version: link:../../packages/pub-sub
+        version: link:../../packages/rabbitmq-helper
+      '@workspace/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@types/bun':
         specifier: latest
@@ -178,7 +203,7 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
 
-  packages/pub-sub:
+  packages/rabbitmq-helper:
     dependencies:
       amqp-connection-manager:
         specifier: ^5.0.0
@@ -193,6 +218,8 @@ importers:
       '@types/amqplib':
         specifier: ^0.10.7
         version: 0.10.7
+
+  packages/shared: {}
 
   packages/temp:
     dependencies:

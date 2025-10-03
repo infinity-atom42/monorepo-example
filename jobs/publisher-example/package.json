@@ -16,7 +16,8 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"@workspace/rabbitmq-helper": "workspace:*"
+		"@workspace/rabbitmq-helper": "workspace:*",
+		"@workspace/shared": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"
