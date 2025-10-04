@@ -17,10 +17,11 @@
 	},
 	"dependencies": {
 		"@workspace/shared": "workspace:*",
-		"rascal": "^20.1.1"
+		"amqp-connection-manager": "^5.0.0",
+		"amqplib": "^0.10.9"
 	},
 	"devDependencies": {
-		"@types/rascal": "^10.2.1",
+		"@types/amqplib": "^0.10.7",
 		"@types/bun": "latest"
 	}
 }
