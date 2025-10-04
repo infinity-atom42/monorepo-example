@@ -219,7 +219,11 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
 
-  packages/shared: {}
+  packages/shared:
+    dependencies:
+      '@workspace/amqp-orm':
+        specifier: workspace:*
+        version: link:../amqp-orm
 
   packages/temp:
     dependencies:

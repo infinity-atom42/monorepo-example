@@ -1,22 +1,20 @@
 import process from 'node:process'
 
-import { amqp } from '@workspace/amqp-orm'
-import { contract } from '@workspace/shared'
+import { paymentCreated, paymentFailed, paymentQueue, paymentSucceeded } from '@workspace/shared/amqp-contract'
 
-import { events } from './events'
+import { broker } from './broker'
+import { onPaymentCreated } from './events/payment-created'
+import { onPaymentFailed } from './events/payment-failed'
+import { onPaymentSucceeded } from './events/payment-succeeded'
 
-const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-
-const broker = amqp(RABBITMQ_URL, contract)
-
-for (const event of events) {
-	broker.consumeEvent(event)
-}
+broker.subscribe(paymentQueue).event(paymentCreated).handle(onPaymentCreated)
+broker.subscribe(paymentQueue).event(paymentSucceeded).handle(onPaymentSucceeded)
+broker.subscribe(paymentQueue).event(paymentFailed).handle(onPaymentFailed)
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-		await broker.close()
+		await broker.disconnect()
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {

@@ -1,10 +1,10 @@
 import process from 'node:process'
 import { amqp } from '@workspace/amqp-orm'
-import { contract } from '@workspace/shared'
+import * as contract from '@workspace/shared/amqp-contract'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
-const broker = amqp(RABBITMQ_URL, contract)
+const broker = amqp({ url: RABBITMQ_URL, contract, heartbeatIntervalInSeconds: 5 })
 
 await broker.publish('order-exchange', 'order.created', { orderId: 'o1', userId: 'u1', total: 123 })
 await broker.publish('order-exchange', 'order.failed', { orderId: 'o2', reason: 'out_of_stock' })

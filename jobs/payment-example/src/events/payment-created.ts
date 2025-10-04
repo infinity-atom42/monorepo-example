@@ -1,4 +1,6 @@
 // payment-exchange -> payment.queue -> payment.created
-export async function onPaymentCreated(payload: unknown): Promise<void> {
+import { type PaymentCreated } from '@workspace/shared/amqp-contract'
+
+export async function onPaymentCreated(payload: PaymentCreated): Promise<void> {
 	console.log('📥 payment.created', payload)
 }

@@ -1,22 +1,20 @@
 import process from 'node:process'
 
-import { amqp } from '@workspace/amqp-orm'
-import { contract } from '@workspace/shared'
+import { analyticsQueue, emailQueue, pushQueue } from '@workspace/shared/amqp-contract'
 
-import { queues } from './queues'
+import { broker } from './broker'
+import { onAnalytics } from './queues/analytics'
+import { onEmail } from './queues/email'
+import { onPush } from './queues/push'
 
-const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
-
-const broker = amqp(RABBITMQ_URL, contract)
-
-for (const queue of queues) {
-	broker.consumeQueue(queue)
-}
+broker.subscribe(emailQueue).handle(onEmail)
+broker.subscribe(pushQueue).handle(onPush)
+broker.subscribe(analyticsQueue).handle(onAnalytics)
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-		await broker.close()
+		await broker.disconnect()
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {

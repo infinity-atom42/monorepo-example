@@ -1,41 +1,70 @@
-import type { AmqpContract } from '@workspace/amqp-orm'
+import { topic, fanout, pipe, queue, bind, event } from '@workspace/amqp-orm'
 
-export const CONTRACT: AmqpContract = {
-	exchanges: {
-		'order-exchange': {
-			type: 'topic',
-			routes: {
-				'order.created': { orderId: string; userId: string; total: number },
-				'order.failed': { orderId: string; reason: string; code?: string },
-			},
-		},
-		'payment-exchange': {
-			type: 'topic',
-			routes: {
-				'payment.created': { paymentId: string; orderId: string; amount: number; currency: string },
-				'payment.succeeded': PaymePaymentCreated & { method?: string }ntSucceeded,
-				'payment.failed': { paymentId: string; orderId: string; reason: string; code?: string },
-			},
-		},
-		'promo-exchange': { type: 'fanout', routes: {} },
-	},
-	// Exchange -> Exchange pipes
-	pipes: [
-		{ from: 'order-exchange', to: 'promo-exchange', pattern: 'order.created' },
-		{ from: 'payment-exchange', to: 'promo-exchange', pattern: 'payment.succeeded' },
-	],
-	// Queue bindings
-	queues: {
-		'order.queue': { binds: [{ exchange: 'order-exchange', pattern: 'order.*' }] },
-		'payment.queue': { binds: [{ exchange: 'payment-exchange', pattern: 'payment.*' }] },
-		'notifications.queue': {
-			binds: [
-				{ exchange: 'order-exchange', pattern: 'order.failed' },
-				{ exchange: 'payment-exchange', pattern: 'payment.failed' },
-			],
-		},
-		'email.queue': { binds: [{ exchange: 'promo-exchange', pattern: '' }] },
-		'push.queue': { binds: [{ exchange: 'promo-exchange', pattern: '' }] },
-		'analytics.queue': { binds: [{ exchange: 'promo-exchange', pattern: '' }] },
-	},
+// Schema (Drizzle-like style)
+
+export type OrderCreated = {
+	orderId: string,
+	userId: string,
+	total: number,
 }
+export const orderCreated = event('order.created', ???)
+
+export type OrderFailed = {
+	orderId: string,
+	reason: string,
+	code?: string,
+}
+export const orderFailed = event('order.failed', ???)
+
+export type PaymentCreated = {
+	paymentId: string,
+	orderId: string,
+	amount: number,
+	currency: string,
+	method?: string,
+}
+export const paymentCreated = event('payment.created', ???)
+
+export type PaymentSucceeded = {
+	paymentId: string,
+	orderId: string,
+	amount: number,
+	currency: string,
+	method?: string,
+}
+export const paymentSucceeded = event('payment.succeeded', ???)
+
+export type PaymentFailed = {
+	paymentId: string,
+	orderId: string,
+	reason: string,
+	code?: string,
+}
+export const paymentFailed = event('payment.failed', ???)
+
+export const orderExchange = topic('order-exchange', {
+	events: {
+		orderCreated,
+		orderFailed,
+	},
+})
+
+export const paymentExchange = topic('payment-exchange', {
+	events: {
+		paymentCreated,
+		paymentSucceeded,
+		paymentFailed,
+	},
+})
+
+export const promoExchange = fanout('promo-exchange')
+
+export const orderQueue         = queue('order.queue', [bind(orderExchange, 'order.*')])
+export const paymentQueue       = queue('payment.queue', [bind(paymentExchange, 'payment.*')])
+export const notificationsQueue = queue('notifications.queue', [bind(orderExchange, orderFailed), bind(paymentExchange, paymentFailed)])
+export const emailQueue         = queue('email.queue', [bind(promoExchange, '')])
+export const pushQueue          = queue('push.queue', [bind(promoExchange, '')])
+export const analyticsQueue     = queue('analytics.queue', [bind(promoExchange, '')])
+
+export const orderPipe = pipe(orderExchange, promoExchange, orderCreated)
+export const paymentPipe = pipe(paymentExchange, promoExchange, paymentSucceeded)
