@@ -1,15 +1,13 @@
 import process from 'node:process'
 
-import { analyticsQueue, emailQueue, pushQueue } from '@workspace/shared/amqp-contract'
-
 import { broker } from './broker'
 import { onAnalytics } from './queues/analytics'
 import { onEmail } from './queues/email'
 import { onPush } from './queues/push'
 
-broker.subscribe(emailQueue).handle(onEmail)
-broker.subscribe(pushQueue).handle(onPush)
-broker.subscribe(analyticsQueue).handle(onAnalytics)
+broker.subscribe['emailQueue'].handle(onEmail)
+broker.subscribe['pushQueue'].handle(onPush)
+broker.subscribe['analyticsQueue'].handle(onAnalytics)
 
 async function gracefulShutdown(): Promise<void> {
 	try {

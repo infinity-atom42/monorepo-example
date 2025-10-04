@@ -184,6 +184,9 @@ importers:
       typescript:
         specifier: '*'
         version: 5.9.2
+      zod:
+        specifier: ^4.1.11
+        version: 4.1.11
     devDependencies:
       '@types/amqplib':
         specifier: ^0.10.7
@@ -224,6 +227,9 @@ importers:
       '@workspace/amqp-orm':
         specifier: workspace:*
         version: link:../amqp-orm
+      zod:
+        specifier: ^4.1.11
+        version: 4.1.11
 
   packages/temp:
     dependencies:

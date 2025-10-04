@@ -1,70 +1,76 @@
-import { topic, fanout, pipe, queue, bind, event } from '@workspace/amqp-orm'
+import { z } from 'zod'
 
-// Schema (Drizzle-like style)
+import { bind, event, fanout, pipe, queue, topic } from '@workspace/amqp-orm'
 
-export type OrderCreated = {
-	orderId: string,
-	userId: string,
-	total: number,
-}
-export const orderCreated = event('order.created', ???)
+// Zod schemas + inferred types
 
-export type OrderFailed = {
-	orderId: string,
-	reason: string,
-	code?: string,
-}
-export const orderFailed = event('order.failed', ???)
+export const orderCreatedSchema = z.object({
+	orderId: z.string(),
+	userId: z.string(),
+	total: z.number(),
+})
+export type OrderCreated = z.infer<typeof orderCreatedSchema>
+export const orderCreated = event('order.created', orderCreatedSchema)
 
-export type PaymentCreated = {
-	paymentId: string,
-	orderId: string,
-	amount: number,
-	currency: string,
-	method?: string,
-}
-export const paymentCreated = event('payment.created', ???)
+export const orderFailedSchema = z.object({
+	orderId: z.string(),
+	reason: z.string(),
+	code: z.string().optional(),
+})
+export type OrderFailed = z.infer<typeof orderFailedSchema>
+export const orderFailed = event('order.failed', orderFailedSchema)
 
-export type PaymentSucceeded = {
-	paymentId: string,
-	orderId: string,
-	amount: number,
-	currency: string,
-	method?: string,
-}
-export const paymentSucceeded = event('payment.succeeded', ???)
+export const paymentCreatedSchema = z.object({
+	paymentId: z.string(),
+	orderId: z.string(),
+	amount: z.number(),
+	currency: z.string(),
+	method: z.string().optional(),
+})
+export type PaymentCreated = z.infer<typeof paymentCreatedSchema>
+export const paymentCreated = event('payment.created', paymentCreatedSchema)
 
-export type PaymentFailed = {
-	paymentId: string,
-	orderId: string,
-	reason: string,
-	code?: string,
-}
-export const paymentFailed = event('payment.failed', ???)
+export const paymentSucceededSchema = z.object({
+	paymentId: z.string(),
+	orderId: z.string(),
+	amount: z.number(),
+	currency: z.string(),
+	method: z.string().optional(),
+})
+export type PaymentSucceeded = z.infer<typeof paymentSucceededSchema>
+export const paymentSucceeded = event('payment.succeeded', paymentSucceededSchema)
+
+export const paymentFailedSchema = z.object({
+	paymentId: z.string(),
+	orderId: z.string(),
+	reason: z.string(),
+	code: z.string().optional(),
+})
+export type PaymentFailed = z.infer<typeof paymentFailedSchema>
+export const paymentFailed = event('payment.failed', paymentFailedSchema)
 
 export const orderExchange = topic('order-exchange', {
-	events: {
-		orderCreated,
-		orderFailed,
-	},
+	orderCreated,
+	orderFailed,
 })
 
 export const paymentExchange = topic('payment-exchange', {
-	events: {
-		paymentCreated,
-		paymentSucceeded,
-		paymentFailed,
-	},
+	paymentCreated,
+	paymentSucceeded,
+	paymentFailed,
 })
 
 export const promoExchange = fanout('promo-exchange')
 
-export const orderQueue         = queue('order.queue', [bind(orderExchange, 'order.*')])
-export const paymentQueue       = queue('payment.queue', [bind(paymentExchange, 'payment.*')])
-export const notificationsQueue = queue('notifications.queue', [bind(orderExchange, orderFailed), bind(paymentExchange, paymentFailed)])
-export const emailQueue         = queue('email.queue', [bind(promoExchange, '')])
-export const pushQueue          = queue('push.queue', [bind(promoExchange, '')])
-export const analyticsQueue     = queue('analytics.queue', [bind(promoExchange, '')])
+export const orderQueue = queue('order.queue', [bind(orderExchange, 'order.*')])
+export const paymentQueue = queue('payment.queue', [bind(paymentExchange, 'payment.*')])
+export const notificationsQueue = queue('notifications.queue', [
+	bind(orderExchange, orderFailed),
+	bind(paymentExchange, paymentFailed),
+])
+export const emailQueue = queue('email.queue', [bind(promoExchange, '')])
+export const pushQueue = queue('push.queue', [bind(promoExchange, '')])
+export const analyticsQueue = queue('analytics.queue', [bind(promoExchange, '')])
 
 export const orderPipe = pipe(orderExchange, promoExchange, orderCreated)
 export const paymentPipe = pipe(paymentExchange, promoExchange, paymentSucceeded)

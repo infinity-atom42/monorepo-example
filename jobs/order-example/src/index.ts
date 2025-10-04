@@ -1,13 +1,11 @@
 import process from 'node:process'
 
-import { orderCreated, orderFailed, orderQueue } from '@workspace/shared/amqp-contract'
-
 import { broker } from './broker'
 import { onOrderCreated } from './events/order-created'
 import { onOrderFailed } from './events/order-failed'
 
-broker.subscribe(orderQueue).event(orderCreated).handle(onOrderCreated)
-broker.subscribe(orderQueue).event(orderFailed).handle(onOrderFailed)
+broker.subscribe['orderQueue'].event['orderCreated'].handle(onOrderCreated)
+broker.subscribe['orderQueue'].event['orderFailed'].handle(onOrderFailed)
 
 async function gracefulShutdown(): Promise<void> {
 	try {

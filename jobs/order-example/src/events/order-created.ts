@@ -1,6 +1,5 @@
-// order-exchange -> order.queue -> order.created
 import { type OrderCreated } from '@workspace/shared/amqp-contract'
 
-export async function onOrderCreated (payload: OrderCreated): Promise<void> {
+export async function onOrderCreated(payload: OrderCreated): Promise<void> {
 	console.log('📥 order.created', payload)
 }
