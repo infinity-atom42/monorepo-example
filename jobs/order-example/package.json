@@ -16,10 +16,11 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"@workspace/amqp-orm": "workspace:*",
-		"@workspace/shared": "workspace:*"
+		"@workspace/shared": "workspace:*",
+		"rascal": "^20.1.1"
 	},
 	"devDependencies": {
+		"@types/rascal": "^10.2.1",
 		"@types/bun": "latest"
 	}
 }

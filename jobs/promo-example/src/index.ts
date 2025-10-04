@@ -1,18 +1,11 @@
 import process from 'node:process'
 
-import { broker } from './broker'
-import { onAnalytics } from './queues/analytics'
-import { onEmail } from './queues/email'
-import { onPush } from './queues/push'
-
-broker.subscribe['email.queue'].handle(onEmail)
-broker.subscribe['push.queue'].handle(onPush)
-broker.subscribe['analytics.queue'].handle(onAnalytics)
+const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-		await broker.disconnect()
+
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {

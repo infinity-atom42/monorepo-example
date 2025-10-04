@@ -1,16 +1,11 @@
 import process from 'node:process'
 
-import { broker } from './broker'
-import { onOrderCreated } from './events/order-created'
-import { onOrderFailed } from './events/order-failed'
-
-broker.subscribe['order.queue'].event['order.created'].handle(onOrderCreated)
-broker.subscribe['order.queue'].event['order.failed'].handle(onOrderFailed)
+const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
 
 async function gracefulShutdown(): Promise<void> {
 	try {
 		console.log('\n🧹 Starting cleanup...')
-		await broker.disconnect()
+
 		console.log('✅ Cleanup completed')
 		process.exit(0)
 	} catch (error) {

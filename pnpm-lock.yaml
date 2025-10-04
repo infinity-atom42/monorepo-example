@@ -110,87 +110,83 @@ importers:
 
   jobs/notifications-example:
     dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      rascal:
+        specifier: ^20.1.1
+        version: 20.1.1(amqplib@0.10.9)
     devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
+      '@types/rascal':
+        specifier: ^10.2.1
+        version: 10.2.1
 
   jobs/order-example:
     dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      rascal:
+        specifier: ^20.1.1
+        version: 20.1.1(amqplib@0.10.9)
     devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
+      '@types/rascal':
+        specifier: ^10.2.1
+        version: 10.2.1
 
   jobs/payment-example:
     dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      rascal:
+        specifier: ^20.1.1
+        version: 20.1.1(amqplib@0.10.9)
     devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
+      '@types/rascal':
+        specifier: ^10.2.1
+        version: 10.2.1
 
   jobs/promo-example:
     dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      rascal:
+        specifier: ^20.1.1
+        version: 20.1.1(amqplib@0.10.9)
     devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
+      '@types/rascal':
+        specifier: ^10.2.1
+        version: 10.2.1
 
   jobs/publisher-example:
     dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../../packages/amqp-orm
       '@workspace/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      rascal:
+        specifier: ^20.1.1
+        version: 20.1.1(amqplib@0.10.9)
     devDependencies:
       '@types/bun':
         specifier: latest
         version: 1.2.23(@types/react@19.1.14)
-
-  packages/amqp-orm:
-    dependencies:
-      amqp-connection-manager:
-        specifier: ^5.0.0
-        version: 5.0.0(amqplib@0.10.9)
-      amqplib:
-        specifier: ^0.10.9
-        version: 0.10.9
-      typescript:
-        specifier: '*'
-        version: 5.9.2
-      zod:
-        specifier: ^4.1.11
-        version: 4.1.11
-    devDependencies:
-      '@types/amqplib':
-        specifier: ^0.10.7
-        version: 0.10.7
+      '@types/rascal':
+        specifier: ^10.2.1
+        version: 10.2.1
 
   packages/eslint-config:
     devDependencies:
@@ -222,14 +218,7 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
 
-  packages/shared:
-    dependencies:
-      '@workspace/amqp-orm':
-        specifier: workspace:*
-        version: link:../amqp-orm
-      zod:
-        specifier: ^4.1.11
-        version: 4.1.11
+  packages/shared: {}
 
   packages/temp:
     dependencies:
@@ -881,6 +870,9 @@ packages:
   '@types/pegjs@0.10.6':
     resolution: {integrity: sha512-eLYXDbZWXh2uxf+w8sXS8d6KSoXTswfps6fvCUuVAGN8eRpfe7h9eSRydxiSJvo9Bf+GzifsDOr9TMQlmJdmkw==}
 
+  '@types/rascal@10.2.1':
+    resolution: {integrity: sha512-q9hxMIzsryvDYODmbeKzh2uGWQtjLxy6Kc5J483uEdx7CW56Qz1j6JpNVJb5FB/ji2HRPiWUPCnjTxPYtN5IkQ==}
+
   '@types/react-dom@19.1.9':
     resolution: {integrity: sha512-qXRuZaOsAdXKFyOhRBg6Lqqc0yay13vN7KrIg4L7N4aaHN68ma9OK3NE1BoDFgFOTfM7zg+3/8+2n8rLUH3OKQ==}
     peerDependencies:
@@ -1059,6 +1051,9 @@ packages:
   async-function@1.0.0:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
+
+  async@3.2.6:
+    resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
 
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -1659,6 +1654,9 @@ packages:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
 
+  forward-emitter@0.1.1:
+    resolution: {integrity: sha512-2B/uPHDqPIVRieu2XJ3RsoDaIN87uqpe3qJjRdWj31leDtDEQ2wLOoJN09UeVQGi/Z79Z5fR9su3OXabASyYqw==}
+
   fs-extra@10.1.0:
     resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
     engines: {node: '>=12'}
@@ -1675,6 +1673,10 @@ packages:
 
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  generic-pool@3.9.0:
+    resolution: {integrity: sha512-hymDOu5B53XvN4QT9dBmZxPX4CWhBPPLguTZ9MMFeFa/Kg0xWVfylOVNlJji/E7yTZWFd/q9GO5TxDLq156D7g==}
+    engines: {node: '>= 4'}
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -1861,6 +1863,9 @@ packages:
   indent-string@4.0.0:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
+
+  individual@2.0.0:
+    resolution: {integrity: sha512-pWt8hBCqJsUWI/HtcfWod7+N9SgAqyPEaF7JQjwzjn5vGrpg6aQ5qeAFQ7dx//UH4J1O+7xqew+gCeeFt6xN/g==}
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
@@ -2736,6 +2741,12 @@ packages:
     resolution: {integrity: sha512-80WNmd9DA0tmZrw9qQa62GPPWfuXJknrmVmLcxvq4uZBdYqb1wYoKTmnlGUchvVWe0XiLupYkBoXVOxz3C8DYQ==}
     engines: {node: '>=0.12'}
 
+  rascal@20.1.1:
+    resolution: {integrity: sha512-7seygN1P9tHSNQRAEzJbwrFpByH5KAzqV50WxrcfVBkyQW80WeSk8P4mpoGDn7c61q98mCKW8XjfthkcQHFJAg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      amqplib: '>=0.5.5'
+
   rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
@@ -2854,6 +2865,9 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
+  rust-result@1.0.0:
+    resolution: {integrity: sha512-6cJzSBU+J/RJCF063onnQf0cDUOHs9uZI1oroSGnHOph+CQTIJ5Pp2hK5kEQq1+7yE/EEWfulSNXAQ2jikPthA==}
+
   rxjs@6.6.7:
     resolution: {integrity: sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==}
     engines: {npm: '>=2.0.0'}
@@ -2867,6 +2881,9 @@ packages:
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
+
+  safe-json-parse@4.0.0:
+    resolution: {integrity: sha512-RjZPPHugjK0TOzFrLZ8inw44s9bKox99/0AZW9o/BEQVrJfhI+fIHMErnPyRa89/yRXUUr93q+tiN6zhoVV4wQ==}
 
   safe-push-apply@1.0.0:
     resolution: {integrity: sha512-iKE9w/Z7xCzUMIZqdBsp6pEQvwuEebH4vdpjcDWnyzaI6yl6O9FHvVpmGelvEHNsoY6wGblkxR6Zty/h00WiSA==}
@@ -2990,6 +3007,10 @@ packages:
   sql-formatter@15.6.9:
     resolution: {integrity: sha512-r9VKnkRfKW7jbhTgytwbM+JqmFclQYN9L58Z3UTktuy9V1f1Y+rGK3t70Truh2wIOJzvZkzobAQ2PwGjjXsr6Q==}
     hasBin: true
+
+  stashback@2.0.1:
+    resolution: {integrity: sha512-NYYD9VxxtEF4YPJjcAm1irb/2kNLG1AYgSQp0bvogzCK6JGW3iNFOILu0jmkM8YsU27SdX93VFkktiqAAHW63w==}
+    engines: {node: '>=10.0.0'}
 
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
@@ -3282,6 +3303,10 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  uuid@8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
@@ -3357,6 +3382,9 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+
+  xregexp@5.1.2:
+    resolution: {integrity: sha512-6hGgEMCGhqCTFEJbqmWrNIPqfpdirdGWkqshu7fFZddmTSfgv5Sn9D2SaKloR79s5VUiUlpwzg3CM3G6D3VIlw==}
 
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
@@ -3928,6 +3956,11 @@ snapshots:
 
   '@types/pegjs@0.10.6': {}
 
+  '@types/rascal@10.2.1':
+    dependencies:
+      '@types/amqplib': 0.10.7
+      '@types/node': 24.5.2
+
   '@types/react-dom@19.1.9(@types/react@19.1.14)':
     dependencies:
       '@types/react': 19.1.14
@@ -4160,6 +4193,8 @@ snapshots:
       tslib: 2.8.1
 
   async-function@1.0.0: {}
+
+  async@3.2.6: {}
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -4864,6 +4899,8 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
+  forward-emitter@0.1.1: {}
+
   fs-extra@10.1.0:
     dependencies:
       graceful-fs: 4.2.11
@@ -4884,6 +4921,8 @@ snapshots:
       is-callable: 1.2.7
 
   functions-have-names@1.2.3: {}
+
+  generic-pool@3.9.0: {}
 
   get-caller-file@2.0.5: {}
 
@@ -5115,6 +5154,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   indent-string@4.0.0: {}
+
+  individual@2.0.0: {}
 
   inflight@1.0.6:
     dependencies:
@@ -6163,6 +6204,22 @@ snapshots:
       discontinuous-range: 1.0.0
       ret: 0.1.15
 
+  rascal@20.1.1(amqplib@0.10.9):
+    dependencies:
+      amqplib: 0.10.9
+      async: 3.2.6
+      debug: 4.4.3
+      forward-emitter: 0.1.1
+      generic-pool: 3.9.0
+      lodash: 4.17.21
+      lru-cache: 7.18.3
+      safe-json-parse: 4.0.0
+      stashback: 2.0.1
+      uuid: 8.3.2
+      xregexp: 5.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   rc@1.2.8:
     dependencies:
       deep-extend: 0.6.0
@@ -6331,6 +6388,10 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  rust-result@1.0.0:
+    dependencies:
+      individual: 2.0.0
+
   rxjs@6.6.7:
     dependencies:
       tslib: 1.14.1
@@ -6348,6 +6409,10 @@ snapshots:
       isarray: 2.0.5
 
   safe-buffer@5.2.1: {}
+
+  safe-json-parse@4.0.0:
+    dependencies:
+      rust-result: 1.0.0
 
   safe-push-apply@1.0.0:
     dependencies:
@@ -6521,6 +6586,12 @@ snapshots:
     dependencies:
       argparse: 2.0.1
       nearley: 2.20.1
+
+  stashback@2.0.1:
+    dependencies:
+      debug: 4.4.3
+    transitivePeerDependencies:
+      - supports-color
 
   stop-iteration-iterator@1.1.0:
     dependencies:
@@ -6876,6 +6947,8 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  uuid@8.3.2: {}
+
   v8-compile-cache-lib@3.0.1: {}
 
   validate-npm-package-name@5.0.1: {}
@@ -6967,6 +7040,10 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.18.3: {}
+
+  xregexp@5.1.2:
+    dependencies:
+      '@babel/runtime-corejs3': 7.28.4
 
   y18n@5.0.8: {}
 

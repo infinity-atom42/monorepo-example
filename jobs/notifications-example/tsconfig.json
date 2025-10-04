@@ -5,9 +5,6 @@
 		"noEmit": true,
 		"allowImportingTsExtensions": true,
 		"baseUrl": ".",
-		"paths": {
-			"@workspace/amqp-orm": ["../../packages/amqp-orm/src"]
-		}
 	},
 	"include": ["src"],
 	"exclude": ["dist"]

@@ -12,7 +12,7 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 | **Channel**           | 1 per connection                                      |
 | **Exchange**          | 0 or 1 per service                                    |
 | **Queue**             | 1 per service ( with some exceptions)                 |
-| **Events**            | Are the same as messages (but type safe)              |
+| **Events**            | Are the same as route key (but type safe)             |
 | **Publishing**        | Always publish to exchange → routed to queues         |
 | **Multiple Channels** | Only if you have separate workloads needing isolation |
 
