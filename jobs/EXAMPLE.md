@@ -21,24 +21,10 @@ flowchart TD
     NQ[notifications.queue]
 
     %% =========================
-    %% Fanout: Promotions Example
-    %% =========================
-    FX([promo-exchange<br/>fanout])
-    FEmail[email.queue]
-    FPush[push.queue]
-    FAnalytics[analytics.queue]
-
-    FX --> FEmail
-    FX --> FPush
-    FX --> FAnalytics
-
-    %% =========================
     %% Critical bindings & fanout bindings
     %% =========================
-    OX --->|order.created| FX
     OX -->|order.failed| NQ
     PX -->|payment.failed| NQ
-    PX --->|payment.succeeded| FX
 
     %% =========================
     %% Payment Domain

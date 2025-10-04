@@ -11,7 +11,6 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 | **Connection**        | 1 per service / worker                                |
 | **Channel**           | 1 per connection                                      |
 | **Exchange**          | 0 or 1 per service                                    |
-| **Queue**             | 1 per service ( with some exceptions)                 |
 | **Events**            | Are the same as route key (but type safe)             |
 | **Publishing**        | Always publish to exchange → routed to queues         |
 | **Multiple Channels** | Only if you have separate workloads needing isolation |
@@ -28,7 +27,7 @@ This document outlines the recommended settings and usage patterns for RabbitMQ 
 ## 📡 Exchanges
 
 - A service creates it's own exchange if needs one.
-- In some cause like a notification service, just binds it's own notification queue to another exchange like payment exchange listening for a topic
+- In some cases like a notification service, just binds it's own notification queue to another exchange like payment exchange listening for a topic so it doesn't need an exchange created
 
 ---
 

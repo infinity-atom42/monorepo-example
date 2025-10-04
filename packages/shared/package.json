@@ -4,7 +4,14 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts"
+		".": "./src/index.ts",
+		"./events": "./src/events.ts"
+	},
+	"peerDependencies": {
+		"zod": "^4.1.11"
+	},
+	"devDependencies": {
+		"zod": "^4.1.11"
 	},
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
