@@ -2,15 +2,13 @@ import { z } from 'zod'
 
 import { bind, event, fanout, pipe, queue, topic } from '@workspace/amqp-orm'
 
-// Zod schemas + inferred types
-
 export const orderCreatedSchema = z.object({
 	orderId: z.string(),
 	userId: z.string(),
 	total: z.number(),
 })
 export type OrderCreated = z.infer<typeof orderCreatedSchema>
-export const orderCreated = event('order.created', orderCreatedSchema)
+export const orderCreated = event('order.created', OrderCreated)
 
 export const orderFailedSchema = z.object({
 	orderId: z.string(),
@@ -18,7 +16,7 @@ export const orderFailedSchema = z.object({
 	code: z.string().optional(),
 })
 export type OrderFailed = z.infer<typeof orderFailedSchema>
-export const orderFailed = event('order.failed', orderFailedSchema)
+export const orderFailed = event('order.failed', OrderFailed)
 
 export const paymentCreatedSchema = z.object({
 	paymentId: z.string(),
@@ -28,7 +26,7 @@ export const paymentCreatedSchema = z.object({
 	method: z.string().optional(),
 })
 export type PaymentCreated = z.infer<typeof paymentCreatedSchema>
-export const paymentCreated = event('payment.created', paymentCreatedSchema)
+export const paymentCreated = event('payment.created', PaymentCreated)
 
 export const paymentSucceededSchema = z.object({
 	paymentId: z.string(),
@@ -38,7 +36,7 @@ export const paymentSucceededSchema = z.object({
 	method: z.string().optional(),
 })
 export type PaymentSucceeded = z.infer<typeof paymentSucceededSchema>
-export const paymentSucceeded = event('payment.succeeded', paymentSucceededSchema)
+export const paymentSucceeded = event('payment.succeeded', PaymentSucceeded)
 
 export const paymentFailedSchema = z.object({
 	paymentId: z.string(),
@@ -47,7 +45,7 @@ export const paymentFailedSchema = z.object({
 	code: z.string().optional(),
 })
 export type PaymentFailed = z.infer<typeof paymentFailedSchema>
-export const paymentFailed = event('payment.failed', paymentFailedSchema)
+export const paymentFailed = event('payment.failed', PaymentFailed)
 
 export const orderExchange = topic('order-exchange', {
 	orderCreated,

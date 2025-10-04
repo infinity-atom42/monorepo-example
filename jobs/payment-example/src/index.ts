@@ -5,9 +5,9 @@ import { onPaymentCreated } from './events/payment-created'
 import { onPaymentFailed } from './events/payment-failed'
 import { onPaymentSucceeded } from './events/payment-succeeded'
 
-broker.subscribe['paymentQueue'].event['paymentCreated'].handle(onPaymentCreated)
-broker.subscribe['paymentQueue'].event['paymentSucceeded'].handle(onPaymentSucceeded)
-broker.subscribe['paymentQueue'].event['paymentFailed'].handle(onPaymentFailed)
+broker.subscribe['payment.queue'].event['payment.created'].handle(onPaymentCreated)
+broker.subscribe['payment.queue'].event['payment.succeeded'].handle(onPaymentSucceeded)
+broker.subscribe['payment.queue'].event['payment.failed'].handle(onPaymentFailed)
 
 async function gracefulShutdown(): Promise<void> {
 	try {

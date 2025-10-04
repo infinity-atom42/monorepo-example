@@ -4,8 +4,8 @@ import { broker } from './broker'
 import { onOrderCreated } from './events/order-created'
 import { onOrderFailed } from './events/order-failed'
 
-broker.subscribe['orderQueue'].event['orderCreated'].handle(onOrderCreated)
-broker.subscribe['orderQueue'].event['orderFailed'].handle(onOrderFailed)
+broker.subscribe['order.queue'].event['order.created'].handle(onOrderCreated)
+broker.subscribe['order.queue'].event['order.failed'].handle(onOrderFailed)
 
 async function gracefulShutdown(): Promise<void> {
 	try {

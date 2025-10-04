@@ -5,9 +5,9 @@ import { onAnalytics } from './queues/analytics'
 import { onEmail } from './queues/email'
 import { onPush } from './queues/push'
 
-broker.subscribe['emailQueue'].handle(onEmail)
-broker.subscribe['pushQueue'].handle(onPush)
-broker.subscribe['analyticsQueue'].handle(onAnalytics)
+broker.subscribe['email.queue'].handle(onEmail)
+broker.subscribe['push.queue'].handle(onPush)
+broker.subscribe['analytics.queue'].handle(onAnalytics)
 
 async function gracefulShutdown(): Promise<void> {
 	try {
