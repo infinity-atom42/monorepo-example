@@ -17,12 +17,12 @@
 	},
 	"dependencies": {
 		"@workspace/shared": "workspace:*",
-		"amqp-connection-manager": "^5.0.0",
-		"amqplib": "^0.10.9",
-		"zod": "^4.1.11"
+		"amqp-connection-manager": "catalog:",
+		"amqplib": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@types/amqplib": "^0.10.7",
-		"@types/bun": "latest"
+		"@types/amqplib": "catalog:",
+		"@types/bun": "catalog:"
 	}
 }

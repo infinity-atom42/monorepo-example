@@ -16,12 +16,9 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"amqplib": "^0.10.9",
-		"elysia": "latest"
+		"elysia": "catalog:"
 	},
 	"devDependencies": {
-		"@types/amqplib": "^0.10.7",
-		"@types/bun": "latest",
-		"amqp-connection-manager": "^5.0.0"
+		"@types/bun": "catalog:"
 	}
 }
