@@ -33,6 +33,29 @@ pnpx @better-auth/cli@latest secret
 
 This generates a cryptographically secure random string to use as `BETTER_AUTH_SECRET` in your `.env.local` files.
 
+#### Generate Better Auth Schema
+
+Generate the Better Auth database schema:
+
+```bash
+pnpx @better-auth/cli generate
+```
+
+#### Database Management
+
+Manage your database schema with Drizzle Kit:
+
+```bash
+# Generate migrations from schema
+pnpx drizzle-kit generate
+
+# Run pending migrations
+pnpx drizzle-kit migrate
+
+# Push schema changes directly to database (development only)
+pnpx drizzle-kit push
+```
+
 ## Infrastructure Services
 
 This project includes Docker Compose infrastructure services that can be started independently.

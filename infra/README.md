@@ -63,9 +63,10 @@ docker compose logs -f [service-name]
 
 ### PostgreSQL
 
-- **Databases**: `postgres`, `server_example`, `keycloak`, `openfga`
+- **Databases**: `postgres`, `web_example`, `server_example`, `keycloak`, `openfga`
 - **Users**:
   - `admin` / `admin_password` (superuser)
+  - `web_example` / `web_example_password`
   - `server_example` / `server_example_password`
   - `keycloak` / `keycloak_password`
   - `openfga` / `openfga_password`

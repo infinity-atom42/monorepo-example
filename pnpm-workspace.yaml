@@ -4,22 +4,23 @@ packages:
   - jobs/*
   - cron/*
 
-onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - core-js-pure
-  - puppeteer
-  - sharp
-
 catalog:
-  zod: 4.1.11
+  '@types/amqplib': 0.10.7
   '@types/bun': 1.2.23
   '@types/node': 24.5.2
+  '@types/react': 19.2.0
+  '@types/react-dom': 19.2.0
   amqp-connection-manager: 5.0.0
   amqplib: 0.10.9
-  '@types/amqplib': 0.10.7
+  elysia: 1.4.9
   next: 15.5.4
   react: 19.2.0
   react-dom: 19.2.0
-  '@types/react': 19.2.0
-  '@types/react-dom': 19.2.0
-  elysia: 1.4.9
+  zod: 4.1.11
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - core-js-pure
+  - esbuild
+  - puppeteer
+  - sharp
