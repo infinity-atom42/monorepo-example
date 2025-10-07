@@ -9,11 +9,11 @@
 		"dev": {
 			"cache": false,
 			"persistent": true,
-			"inputs": ["$TURBO_DEFAULT$", ".env"]
+			"inputs": ["$TURBO_DEFAULT$", ".env", ".env.*"]
 		},
 		"build": {
 			"dependsOn": ["^build"],
-			"inputs": ["$TURBO_DEFAULT$", ".env"],
+			"inputs": ["$TURBO_DEFAULT$", ".env", ".env.*"],
 			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
 		},
 		"start": {
