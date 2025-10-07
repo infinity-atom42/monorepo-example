@@ -13,8 +13,8 @@ services:
       - ./postgresql/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U admin"]
-      interval: 30s
-      timeout: 10s
+      interval: 5s
+      timeout: 5s
       retries: 5
     restart: unless-stopped
 

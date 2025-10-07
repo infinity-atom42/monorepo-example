@@ -4,11 +4,18 @@ import type { ConfirmChannel } from 'amqplib'
 
 import { ORDER_CREATED, ORDER_FAILED, PAYMENT_FAILED, PAYMENT_SUCCEEDED } from '@workspace/shared/events'
 
-const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'
+const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'
 
 const connection = connect([RABBITMQ_URL])
 connection.on('connect', () => console.log('✅ AMQP connected'))
-connection.on('disconnect', ({ err }) => console.error('❌ AMQP disconnected', err.stack || err))
+connection.on('disconnect', ({ err }) => console.error('❌ AMQP disconnected:', err.message || err))
+connection.on('connectFailed', ({ err }) => {
+	if (err.message.includes('ACCESS-REFUSED')) {
+		console.error('Attempt to connect to', RABBITMQ_URL, 'was rejected')
+	} else {
+		console.error('❌ AMQP connection failed:', err.message || err)
+	}
+})
 
 const channel = connection.createChannel({
 	json: true,
@@ -38,20 +45,8 @@ await channel.publish(
 
 console.log('✅ Demo events published')
 
-async function gracefulShutdown(): Promise<void> {
-	try {
-		console.log('\n🧹 Starting cleanup...')
-		await channel.close()
-		await connection.close()
-		console.log('✅ Cleanup completed')
-		process.exit(0)
-	} catch (error) {
-		console.error('❌ Error during cleanup:', error)
-		process.exit(1)
-	}
-}
-
-process.on('SIGINT', gracefulShutdown)
-process.on('SIGTERM', gracefulShutdown)
-
-console.log('\n✅ Publisher service is running')
+// Close connections and exit
+await channel.close()
+await connection.close()
+console.log('✅ Connections closed, exiting...')
+process.exit(0)
