@@ -63,10 +63,10 @@ importers:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.7.0
         version: 4.7.0(prettier@3.6.2)
-      '@workspace/eslint-config':
+      '@packages/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@workspace/typescript-config':
+      '@packages/typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
       eslint:
@@ -176,9 +176,9 @@ importers:
 
   jobs/notifications-example:
     dependencies:
-      '@workspace/shared':
+      '@packages/shared':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/events
       amqp-connection-manager:
         specifier: 'catalog:'
         version: 5.0.0(amqplib@0.10.9)
@@ -198,9 +198,9 @@ importers:
 
   jobs/order-example:
     dependencies:
-      '@workspace/shared':
+      '@packages/shared':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/events
       amqp-connection-manager:
         specifier: 'catalog:'
         version: 5.0.0(amqplib@0.10.9)
@@ -220,9 +220,9 @@ importers:
 
   jobs/payment-example:
     dependencies:
-      '@workspace/shared':
+      '@packages/shared':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/events
       amqp-connection-manager:
         specifier: 'catalog:'
         version: 5.0.0(amqplib@0.10.9)
@@ -242,9 +242,9 @@ importers:
 
   jobs/publisher-example:
     dependencies:
-      '@workspace/shared':
+      '@packages/shared':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/events
       amqp-connection-manager:
         specifier: 'catalog:'
         version: 5.0.0(amqplib@0.10.9)
@@ -295,7 +295,7 @@ importers:
         specifier: ^8.44.1
         version: 8.44.1(eslint@9.36.0(jiti@2.6.1))(typescript@5.9.2)
 
-  packages/shared:
+  packages/events:
     devDependencies:
       zod:
         specifier: 'catalog:'
@@ -366,6 +366,12 @@ importers:
         specifier: 'catalog:'
         version: 4.1.11
     devDependencies:
+      '@packages/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@packages/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       '@tailwindcss/postcss':
         specifier: ^4.1.13
         version: 4.1.13
@@ -381,12 +387,6 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.0(@types/react@19.2.0)
-      '@workspace/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
       tailwindcss:
         specifier: ^4.1.13
         version: 4.1.13

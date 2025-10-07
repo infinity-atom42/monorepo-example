@@ -1,6 +1,6 @@
 import type { ConfirmChannel, ConsumeMessage } from 'amqplib'
 
-import { ORDER_CREATED, ORDER_FAILED, OrderCreatedSchema, OrderFailedSchema } from '@workspace/shared/events'
+import { ORDER_CREATED, ORDER_FAILED, OrderCreatedSchema, OrderFailedSchema } from '@packages/shared/events'
 
 import { orderCreated } from './order-created'
 import { orderFailed } from './order-failed'

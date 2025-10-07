@@ -5,7 +5,7 @@ import {
 	PAYMENT_SUCCEEDED,
 	PaymentFailedSchema,
 	PaymentSucceededSchema,
-} from '@workspace/shared/events'
+} from '@packages/shared/events'
 
 import { paymentFailed } from './payment-failed'
 import { paymentSucceeded } from './payment-succeeded'

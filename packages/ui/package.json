@@ -35,8 +35,8 @@
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
-		"@workspace/eslint-config": "workspace:*",
-		"@workspace/typescript-config": "workspace:*",
+		"@packages/eslint-config": "workspace:*",
+		"@packages/typescript-config": "workspace:*",
 		"tailwindcss": "^4.1.13"
 	}
 }

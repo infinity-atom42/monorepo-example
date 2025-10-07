@@ -2,7 +2,7 @@ import process from 'node:process'
 import { connect } from 'amqp-connection-manager'
 import type { ConfirmChannel } from 'amqplib'
 
-import { ORDER_FAILED, PAYMENT_FAILED } from '@workspace/shared/events'
+import { ORDER_FAILED, PAYMENT_FAILED } from '@packages/shared/events'
 import { onMessage } from './events'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'

@@ -16,7 +16,7 @@
 		"clean": "rm -rf dist .turbo node_modules"
 	},
 	"dependencies": {
-		"@workspace/shared": "workspace:*",
+		"@packages/shared": "workspace:*",
 		"amqp-connection-manager": "catalog:",
 		"amqplib": "catalog:",
 		"zod": "catalog:"

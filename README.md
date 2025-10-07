@@ -81,6 +81,16 @@ pnpx drizzle-kit migrate
 pnpx drizzle-kit push
 ```
 
+### Production Deployment
+
+#### Docker / Bare Metal Deployments
+
+For Docker or bare metal deployments, you need to enable standalone output mode in `next.config.ts` file. This optimizes the build by:
+
+- Creating a minimal standalone build
+- Reducing the Docker image size
+- Including only necessary dependencies
+
 ## Infrastructure Services
 
 This project includes Docker Compose infrastructure services that can be started independently.
