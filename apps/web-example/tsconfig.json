@@ -3,9 +3,10 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
+			"/*": ["../../*"],
 			"~/*": ["./*"],
 			"@/*": ["./src/*"],
-			"@workspace/ui/*": ["../packages/ui/src/*"]
+			"@workspace/ui/*": ["../../packages/ui/src/*"]
 		},
 		"plugins": [
 			{

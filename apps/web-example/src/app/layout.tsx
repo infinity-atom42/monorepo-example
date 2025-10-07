@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import { ThemeProvider } from '@workspace/ui/components/theme-provider'
 
 import { QueryClientProvider } from '@/components/query-client-provider'
+import { Toaster } from '@workspace/ui/components/sonner'
 
 const fontSans = Geist({
 	subsets: ['latin'],
@@ -36,7 +37,7 @@ export default function RootLayout({
 				<ThemeProvider>
 					<QueryClientProvider>
 						{children}
-						{/* <Toaster /> */}
+						<Toaster />
 					</QueryClientProvider>
 				</ThemeProvider>
 			</body>
