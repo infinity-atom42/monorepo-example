@@ -1,14 +1,16 @@
 import { betterAuth, type Auth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
-import { jwt, openAPI } from 'better-auth/plugins'
+import { openAPI } from 'better-auth/plugins'
 
 import db from './db'
+import { serverEnv } from '@/env.server'
+import { clientEnv } from '@/env.client'
 
 import * as schema from '~/auth-schema'
 
 export const auth: Auth = betterAuth({
-	appName: process.env['APP_NAME']!,
+	appName: clientEnv.NEXT_PUBLIC_APP_NAME,
 	// disabledPaths: ['/token'],
 	plugins: [
 		openAPI(),
@@ -27,8 +29,8 @@ export const auth: Auth = betterAuth({
 	},
 	socialProviders: {
 		github: {
-			clientId: process.env['GITHUB_CLIENT_ID']!,
-			clientSecret: process.env['GITHUB_CLIENT_SECRET']!,
+			clientId: serverEnv.GITHUB_CLIENT_ID,
+			clientSecret: serverEnv.GITHUB_CLIENT_SECRET,
 		},
 	},
 })

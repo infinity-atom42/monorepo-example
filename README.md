@@ -9,6 +9,31 @@ A modern monorepo setup with infrastructure services and development tools.
 
 ## Development
 
+### Getting Started
+
+1. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+2. **Set up environment variables**
+
+   Some apps require `.env.local` files (look for `.env.local.example` files in each app).
+
+3. **Start infrastructure services** (optional, see [Infrastructure Services](#infrastructure-services))
+
+   ```bash
+   cd infra
+   docker compose up -d
+   ```
+
+4. **Start development**
+
+   ```bash
+   pnpm dev
+   ```
+
 ### Useful Commands
 
 #### Adding UI Components

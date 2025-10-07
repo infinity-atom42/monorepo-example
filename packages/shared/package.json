@@ -4,18 +4,15 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts",
-		"./events": "./src/events.ts"
+		".": "./src/**/*"
 	},
-	"peerDependencies": {
-		"zod": "catalog:"
+	"scripts": {
+		"type:check": "tsc -p tsconfig.json --noEmit"
 	},
 	"devDependencies": {
 		"zod": "catalog:"
 	},
-	"scripts": {
-		"build": "tsc -p tsconfig.json",
-		"type:check": "tsc -p tsconfig.json --noEmit",
-		"clean": "rm -rf .turbo node_modules dist"
+	"peerDependencies": {
+		"zod": "catalog:"
 	}
 }
