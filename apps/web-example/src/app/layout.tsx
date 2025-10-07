@@ -6,6 +6,8 @@ import type { Metadata } from 'next'
 
 import { ThemeProvider } from '@workspace/ui/components/theme-provider'
 
+import { QueryClientProvider } from '@/components/query-client-provider'
+
 const fontSans = Geist({
 	subsets: ['latin'],
 	variable: '--font-sans',
@@ -31,7 +33,12 @@ export default function RootLayout({
 			lang="en"
 			suppressHydrationWarning>
 			<body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}>
-				<ThemeProvider>{children}</ThemeProvider>
+				<ThemeProvider>
+					<QueryClientProvider>
+						{children}
+						{/* <Toaster /> */}
+					</QueryClientProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	)

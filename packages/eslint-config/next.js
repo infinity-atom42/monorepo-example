@@ -1,4 +1,5 @@
 import pluginNext from '@next/eslint-plugin-next'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 
 import { reactInternalConfig } from './react-internal.js'
 
@@ -9,6 +10,7 @@ import { reactInternalConfig } from './react-internal.js'
  * */
 export const nextJsConfig = [
 	...reactInternalConfig,
+	...pluginQuery.configs['flat/recommended'],
 	{
 		plugins: {
 			'@next/next': pluginNext,
