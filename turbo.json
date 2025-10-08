@@ -36,12 +36,14 @@
 			"outputs": ["migrations/**"]
 		},
 		"db:migrate": {
+			"dependsOn": ["^db:generate"],
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"]
 		},
 		"db:push": {
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"]
 		},
 		"db:seed": {
+			"dependsOn": ["^db:migrate"],
 			"inputs": ["src/scripts/seed.ts", "src/scripts/seed/**", "src/db/schema.ts", ".env*", "!.env*.example"]
 		}
 	}
