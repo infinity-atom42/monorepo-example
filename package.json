@@ -9,6 +9,10 @@
 	"scripts": {
 		"build": "turbo run build",
 		"clean": "turbo run clean && rm -rf .turbo node_modules",
+		"db:generate": "turbo run db:generate",
+		"db:migrate": "turbo run db:migrate",
+		"db:push": "turbo run db:push",
+		"db:seed": "turbo run db:seed",
 		"dev": "turbo run dev",
 		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
 		"format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
