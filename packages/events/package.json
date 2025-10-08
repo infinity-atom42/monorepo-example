@@ -1,12 +1,13 @@
 {
-	"name": "@packages/shared",
+	"name": "@packages/events",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/**/*"
+		".": "./src/index.ts"
 	},
 	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
 		"type:check": "tsc -p tsconfig.json --noEmit"
 	},
 	"devDependencies": {

@@ -4,10 +4,7 @@
 		"outDir": "dist",
 		"noEmit": true,
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
-		"paths": {
-			"": ["../../packages/amqp-orm/src"]
-		}
+		"baseUrl": "."
 	},
 	"include": ["src"],
 	"exclude": ["dist"]

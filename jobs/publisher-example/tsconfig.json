@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"noEmit": true,
-		"baseUrl": ".",
+		"allowImportingTsExtensions": true,
+		"baseUrl": "."
 	},
 	"include": ["src"],
 	"exclude": ["dist"]

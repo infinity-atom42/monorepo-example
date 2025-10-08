@@ -1,4 +1,17 @@
+import drizzlePlugin from 'eslint-plugin-drizzle'
+
 import { baseConfig } from '@packages/eslint-config/base'
 
 /** @type {import("eslint").Linter.Config} */
-export default baseConfig
+export default [
+	...baseConfig,
+	{
+		plugins: {
+			drizzle: drizzlePlugin,
+		},
+		rules: {
+			'drizzle/enforce-delete-with-where': ['error', { drizzleObjectName: ['db'] }],
+			'drizzle/enforce-update-with-where': ['error', { drizzleObjectName: ['db'] }],
+		},
+	},
+]

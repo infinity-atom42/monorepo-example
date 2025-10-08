@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
-import { join } from "path";
-import puppeteer from "puppeteer";
+import { readFileSync } from 'fs'
+import { join } from 'path'
+import puppeteer from 'puppeteer'
 
 // Function to generate PDF from HTML using Puppeteer
 export async function htmlToPdf(html: string): Promise<Blob> {

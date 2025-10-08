@@ -11,10 +11,10 @@
 		"./hooks/*": "./src/hooks/*.ts"
 	},
 	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"type:check": "tsc --noEmit",
-		"clean": "rm -rf .turbo node_modules"
+		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.2.3",
@@ -30,13 +30,13 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
+		"@packages/eslint-config": "workspace:*",
+		"@packages/typescript-config": "workspace:*",
 		"@tailwindcss/postcss": "^4.1.13",
 		"@turbo/gen": "^2.5.8",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
-		"@packages/eslint-config": "workspace:*",
-		"@packages/typescript-config": "workspace:*",
 		"tailwindcss": "^4.1.13"
 	}
 }

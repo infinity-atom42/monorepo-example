@@ -8,14 +8,14 @@
 	],
 	"scripts": {
 		"build": "turbo run build",
+		"clean": "turbo run clean && rm -rf .turbo node_modules",
 		"dev": "turbo run dev",
 		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
 		"format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
 		"lint": "turbo run lint",
 		"start": "turbo run start",
 		"test": "turbo run test",
-		"type:check": "turbo run type:check",
-		"clean": "turbo run clean && rm -rf .turbo node_modules"
+		"type:check": "turbo run type:check"
 	},
 	"dependencies": {
 		"@types/node": "catalog:",

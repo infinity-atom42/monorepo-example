@@ -4,7 +4,7 @@
 		"outDir": "dist",
 		"noEmit": true,
 		"allowImportingTsExtensions": true,
-		"baseUrl": ".",
+		"baseUrl": "."
 	},
 	"include": ["src"],
 	"exclude": ["dist"]

@@ -1,8 +1,7 @@
 import type { NextConfig } from 'next'
 
 // Import env files here to validate during build
-import './src/env.server'
-import './src/env.client'
+import './src/env'
 
 /**
  * For docker or bare metal deployments, we need to transpile the packages

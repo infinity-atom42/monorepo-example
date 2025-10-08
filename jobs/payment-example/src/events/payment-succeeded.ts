@@ -1,4 +1,4 @@
-import type { PaymentSucceeded } from '@packages/shared/events'
+import type { PaymentSucceeded } from '@packages/events'
 
 export function paymentSucceeded(payload: PaymentSucceeded): void {
 	console.log('💳 handle payment succeeded event', payload)

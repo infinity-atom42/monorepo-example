@@ -7,21 +7,31 @@
 	"scripts": {
 		"build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
 		"build:linux": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/server src/index.ts",
+		"clean": "rm -rf dist .turbo node_modules",
+		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",
+		"db:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/drizzle.config.ts",
+		"db:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/drizzle.config.ts",
+		"db:seed": "dotenvx run --convention=nextjs -- bun run src/scripts/seed.ts",
 		"dev": "bun run --watch src/index.ts",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"start": "./dist/server",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"type:check": "tsc --noEmit",
-		"clean": "rm -rf dist .turbo node_modules"
+		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@t3-oss/env-core": "^0.13.8",
-		"better-auth": "^1.3.27",
+		"drizzle-orm": "^0.44.6",
 		"elysia": "catalog:",
+		"pg": "^8.16.3",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@types/bun": "catalog:"
+		"@dotenvx/dotenvx": "^1.51.0",
+		"@types/bun": "catalog:",
+		"@types/pg": "^8.15.5",
+		"drizzle-kit": "^0.31.5",
+		"drizzle-seed": "^0.3.1",
+		"eslint-plugin-drizzle": "^0.2.3"
 	}
 }

@@ -1,9 +1,9 @@
-import { remark } from "remark";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSanitize from "rehype-sanitize";
-import rehypeStringify from "rehype-stringify";
+import rehypePrettyCode from 'rehype-pretty-code'
+import rehypeSanitize from 'rehype-sanitize'
+import rehypeStringify from 'rehype-stringify'
+import { remark } from 'remark'
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype'
 
 // Create remark processor for sanitization and styling
 const processor = remark()

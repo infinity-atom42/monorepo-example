@@ -5,13 +5,17 @@
 	"type": "module",
 	"scripts": {
 		"build": "next build",
+		"clean": "rm -rf .next .turbo node_modules",
+		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",
+		"db:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/drizzle.config.ts",
+		"db:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/drizzle.config.ts",
+		"db:seed": "dotenvx run --convention=nextjs -- bun run src/scripts/seed.ts",
 		"dev": "next dev --turbopack -p 3001",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"start": "next start -p 3001",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"type:check": "tsc --noEmit",
-		"clean": "rm -rf .next .turbo node_modules"
+		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@packages/ui": "workspace:*",
@@ -28,11 +32,13 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
+		"@dotenvx/dotenvx": "^1.51.0",
 		"@types/node": "catalog:",
 		"@types/pg": "^8.15.5",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"drizzle-kit": "^0.31.5",
-		"jiti": "^2.6.1"
+		"drizzle-seed": "^0.3.1",
+		"eslint-plugin-drizzle": "^0.2.3"
 	}
 }

@@ -1,9 +1,10 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import { serverEnv } from '@/env.server'
+
+import { env } from '@/env'
 
 const pool = new Pool({
-	connectionString: serverEnv.DATABASE_URL,
+	connectionString: env.DATABASE_URL,
 })
 const db = drizzle({ client: pool })
 

@@ -6,15 +6,15 @@ This monorepo uses **`.env` files** to manage configuration for different enviro
 
 ## 📋 `.env` Files Overview
 
-| File | Purpose | Committed to Git? |
-|------|---------|-------------------|
-| `.env` | Default variables used in all environments (non-secret) | ✅ Yes |
-| `.env.development` | Development environment variables shared across the team | ✅ Yes |
-| `.env.test` | Test environment variables | ✅ Yes |
-| `.env.production` | Production defaults (non-secret, safe to commit) | ✅ Yes |
-| `.env.local` | Local secrets (API keys, DB passwords) | ❌ **No** |
-| `.env.development.local` | Overrides development variables on your machine | ❌ **No** |
-| `.env.production.local` | Production secrets for deployment (e.g., server keys) | ❌ **No** |
+| File                     | Purpose                                                  | Committed to Git? |
+| ------------------------ | -------------------------------------------------------- | ----------------- |
+| `.env`                   | Default variables used in all environments (non-secret)  | ✅ Yes            |
+| `.env.development`       | Development environment variables shared across the team | ✅ Yes            |
+| `.env.test`              | Test environment variables                               | ✅ Yes            |
+| `.env.production`        | Production defaults (non-secret, safe to commit)         | ✅ Yes            |
+| `.env.local`             | Local secrets (API keys, DB passwords)                   | ❌ **No**         |
+| `.env.development.local` | Overrides development variables on your machine          | ❌ **No**         |
+| `.env.production.local`  | Production secrets for deployment (e.g., server keys)    | ❌ **No**         |
 
 > ⚠️ **Important:** `.local` files are **never committed** to Git. Use them for secrets or machine-specific overrides.
 
@@ -24,10 +24,10 @@ This monorepo uses **`.env` files** to manage configuration for different enviro
 
 ✨ **Best Practices:**
 
-- Each package/app can have its own set of `.env` files  
-- Shared defaults (committed `.env` files) should be placed at the **root of each package**  
-- Local secrets (`.local`) should be created by each developer for their machine  
-- **Never commit `.local` files to Git** — add them to `.gitignore`  
+- Each package/app can have its own set of `.env` files
+- Shared defaults (committed `.env` files) should be placed at the **root of each package**
+- Local secrets (`.local`) should be created by each developer for their machine
+- **Never commit `.local` files to Git** — add them to `.gitignore`
 
 ---
 
@@ -41,4 +41,4 @@ This monorepo uses **`.env` files** to manage configuration for different enviro
 
 🔒 **Always keep secrets in `.local` files**  
 🚫 **Never commit sensitive data** (API keys, passwords, tokens)  
-✅ **Use placeholder values** in committed `.env` files for documentation  
+✅ **Use placeholder values** in committed `.env` files for documentation
