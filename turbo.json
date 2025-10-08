@@ -31,7 +31,12 @@
 		"clean": {
 			"cache": false
 		},
+		"auth:generate": {
+			"inputs": ["src/utils/auth.ts", "src/db/auth-schema.ts", ".env*", "!.env*.example"],
+			"outputs": ["src/db/auth-schema.ts"]
+		},
 		"db:generate": {
+			"dependsOn": ["^auth:generate"],
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"],
 			"outputs": ["migrations/**"]
 		},
@@ -40,7 +45,7 @@
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"]
 		},
 		"db:push": {
-			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"]
+			"cache": false
 		},
 		"db:seed": {
 			"dependsOn": ["^db:migrate"],

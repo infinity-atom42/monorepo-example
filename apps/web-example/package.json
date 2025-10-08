@@ -4,6 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"auth:generate": "dotenvx run --convention=nextjs -- pnpx @better-auth/cli@latest generate --output src/db/auth-schema.ts --config src/utils/auth.ts --yes",
 		"build": "next build",
 		"clean": "rm -rf .next .turbo node_modules",
 		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",

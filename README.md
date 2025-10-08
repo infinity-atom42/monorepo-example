@@ -63,7 +63,7 @@ This generates a cryptographically secure random string to use as `BETTER_AUTH_S
 Generate the Better Auth database schema:
 
 ```bash
-pnpx @better-auth/cli generate
+pnpm auth:generate
 ```
 
 #### Database Management
@@ -72,13 +72,13 @@ Manage your database schema with Drizzle Kit:
 
 ```bash
 # Generate migrations from schema
-pnpx drizzle-kit generate
+pnpm db:generate
 
 # Run pending migrations
-pnpx drizzle-kit migrate
+pnpm db:migrate
 
 # Push schema changes directly to database (development only)
-pnpx drizzle-kit push
+pnpm db:push
 ```
 
 ### Production Deployment
