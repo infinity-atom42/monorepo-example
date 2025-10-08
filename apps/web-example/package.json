@@ -19,6 +19,7 @@
 		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@daveyplate/better-auth-ui": "^3.2.5",
 		"@packages/ui": "workspace:*",
 		"@t3-oss/env-nextjs": "^0.13.8",
 		"@tanstack/react-query": "^5.90.2",

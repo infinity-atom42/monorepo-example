@@ -1,13 +1,13 @@
 import { Geist, Geist_Mono } from 'next/font/google'
 
-import '@packages/ui/globals.css'
+import './globals.css'
 
 import type { Metadata } from 'next'
 
 import { Toaster } from '@packages/ui/components/sonner'
 import { ThemeProvider } from '@packages/ui/components/theme-provider'
 
-import { QueryClientProvider } from '@/components/query-client-provider'
+import { QueryClientProvider, AuthUIProvider } from '@/providers'
 
 const fontSans = Geist({
 	subsets: ['latin'],
@@ -32,12 +32,16 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			suppressHydrationWarning>
-			<body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}>
+			suppressHydrationWarning
+			className="h-full"
+			>
+			<body className={`${fontSans.variable} ${fontMono.variable} flex min-h-full flex-col font-sans antialiased`}>
 				<ThemeProvider>
 					<QueryClientProvider>
-						{children}
-						<Toaster />
+						<AuthUIProvider>
+							{children}
+							<Toaster />
+						</AuthUIProvider>
 					</QueryClientProvider>
 				</ThemeProvider>
 			</body>
