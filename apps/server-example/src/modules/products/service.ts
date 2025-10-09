@@ -1,6 +1,6 @@
-import { status } from 'elysia'
 import { mergeWith } from 'lodash-es'
 
+import { InvariantError } from '@/errors/invariant'
 import type * as ProductModel from './model'
 
 const dummyProducts: ProductModel.Product[] = [
@@ -58,7 +58,7 @@ export function createProduct(data: ProductModel.CreateProductBody): ProductMode
 	// Check for duplicate SKU
 	const existingProduct = dummyProducts.find((p) => p.sku === data.sku)
 	if (existingProduct) {
-		throw status(409, 'Product with this SKU already exists')
+		throw new InvariantError('Product with this SKU already exists')
 	}
 
 	const newProduct: ProductModel.Product = {
@@ -82,7 +82,7 @@ export function getProductById(productId: string): ProductModel.Product {
 	const product = dummyProducts.find((p) => p.id === productId)
 
 	if (!product) {
-		throw status(404, 'Product not found')
+		throw new InvariantError('Product not found')
 	}
 
 	return product
@@ -95,7 +95,7 @@ export function updateProduct(
 	const productIndex = dummyProducts.findIndex((p) => p.id === productId)
 
 	if (productIndex === -1) {
-		throw status(404, 'Product not found')
+		throw new InvariantError('Product not found')
 	}
 
 	const product = dummyProducts[productIndex]
@@ -104,7 +104,7 @@ export function updateProduct(
 	if (data.sku && data.sku !== product?.sku) {
 		const existingProduct = dummyProducts.find((p) => p.sku === data.sku)
 		if (existingProduct) {
-			throw status(409, 'Product with this SKU already exists')
+			throw new InvariantError('Product with this SKU already exists')
 		}
 	}
 
@@ -124,7 +124,7 @@ export function deleteProduct(productId: string): void {
 	const productIndex = dummyProducts.findIndex((p) => p.id === productId)
 
 	if (productIndex === -1) {
-		throw status(404, 'Product not found')
+		throw new InvariantError('Product not found')
 	}
 
 	dummyProducts.splice(productIndex, 1)

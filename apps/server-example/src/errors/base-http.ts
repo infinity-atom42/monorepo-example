@@ -14,7 +14,7 @@ export abstract class BaseHttpError extends Error {
 				? {
 						code: this.name,
 						error: this.message,
-						cause: this.cause instanceof Error ? this.cause.message : String(this.cause),
+						cause: this.cause instanceof Error ? this.cause.cause : this.cause,
 					}
 				: { error: this.productionMessage }
 

@@ -1,9 +1,11 @@
 import { Elysia } from 'elysia'
 
+import { auth } from '@/plugins/auth'
 import * as PostModel from './model'
 import * as PostService from './service'
 
 export const postController = new Elysia({ prefix: '/posts' })
+	.use(auth)
 	.get(
 		'/',
 		({ query }) => PostService.listPosts(query),

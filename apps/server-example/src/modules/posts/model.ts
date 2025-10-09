@@ -36,12 +36,9 @@ export type UpdatePostResponse = z.infer<typeof updatePostResponse>
 
 // List posts
 export const listPostsQuery = z.object({
-	page: z.coerce.number().min(1).default(1).optional(),
-	limit: z.coerce.number().min(1).max(100).default(10).optional(),
-	published: z
-		.string()
-		.transform((val) => val === 'true')
-		.optional(),
+	page: z.number().min(1).default(1).optional(),
+	limit: z.number().min(1).max(100).default(10).optional(),
+	published: z.boolean().optional(),
 	authorId: z.string().optional(),
 })
 export type ListPostsQuery = z.infer<typeof listPostsQuery>

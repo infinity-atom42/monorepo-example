@@ -1,6 +1,7 @@
-import { status } from 'elysia'
 import { mergeWith } from 'lodash-es'
 
+import { AuthorizationError } from '@/errors/authorization'
+import { InvariantError } from '@/errors/invariant'
 import type * as PostModel from './model'
 
 const dummyPosts: PostModel.Post[] = [
@@ -57,7 +58,7 @@ export function getPostById(postId: string): PostModel.Post {
 	const post = dummyPosts.find((p) => p.id === postId)
 
 	if (!post) {
-		throw status(404, 'Post not found')
+		throw new InvariantError('Post not found')
 	}
 
 	return post
@@ -71,14 +72,14 @@ export function updatePost(
 	const postIndex = dummyPosts.findIndex((p) => p.id === postId)
 
 	if (postIndex === -1) {
-		throw status(404, 'Post not found')
+		throw new InvariantError('Post not found')
 	}
 
 	const post = dummyPosts[postIndex]
 
 	// Check if user is the author
 	if (post?.authorId !== authorId) {
-		throw status(403, 'You are not authorized to update this post')
+		throw new AuthorizationError('You are not authorized to update this post')
 	}
 
 	const updatedPost = mergeWith(
@@ -97,14 +98,14 @@ export function deletePost(postId: string, authorId: string): void {
 	const postIndex = dummyPosts.findIndex((p) => p.id === postId)
 
 	if (postIndex === -1) {
-		throw status(404, 'Post not found')
+		throw new InvariantError('Post not found')
 	}
 
 	const post = dummyPosts[postIndex]
 
 	// Check if user is the author
 	if (post?.authorId !== authorId) {
-		throw status(403, 'You are not authorized to delete this post')
+		throw new AuthorizationError('You are not authorized to delete this post')
 	}
 
 	dummyPosts.splice(postIndex, 1)

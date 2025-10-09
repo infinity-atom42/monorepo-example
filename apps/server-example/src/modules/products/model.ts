@@ -44,15 +44,12 @@ export type UpdateProductResponse = z.infer<typeof updateProductResponse>
 
 // List products
 export const listProductsQuery = z.object({
-	page: z.coerce.number().min(1).default(1).optional(),
-	limit: z.coerce.number().min(1).max(100).default(10).optional(),
-	inStock: z
-		.string()
-		.transform((val) => val === 'true')
-		.optional(),
+	page: z.number().min(1).default(1).optional(),
+	limit: z.number().min(1).max(100).default(10).optional(),
+	inStock: z.boolean().optional(),
 	category: z.string().optional(),
-	minPrice: z.coerce.number().min(0).optional(),
-	maxPrice: z.coerce.number().min(0).optional(),
+	minPrice: z.number().min(0).optional(),
+	maxPrice: z.number().min(0).optional(),
 })
 export type ListProductsQuery = z.infer<typeof listProductsQuery>
 

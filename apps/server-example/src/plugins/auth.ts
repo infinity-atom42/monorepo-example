@@ -1,15 +1,18 @@
 import { Elysia } from 'elysia'
+import { z } from 'zod'
 
 import { env } from '@/env'
+import { AuthenticationError } from '@/errors/authentication'
 import { bearer } from '@elysiajs/bearer'
 import { jwt } from '@elysiajs/jwt'
 
-export interface User {
-	id: string
-	email: string
-	name: string
-	isSubscribed: boolean
-}
+// Schema for validating JWT token payload
+const userSchema = z.object({
+	id: z.string(),
+	email: z.email(),
+	name: z.string(),
+	isSubscribed: z.boolean(),
+})
 
 export const auth = new Elysia({ name: 'auth' })
 	.use(bearer())
@@ -20,35 +23,32 @@ export const auth = new Elysia({ name: 'auth' })
 			exp: '7d',
 		})
 	)
-	.resolve(async ({ bearer, set, jwt }) => {
+	.derive({ as: 'scoped' }, async ({ bearer, set, jwt }) => {
 		if (!bearer) {
-			set.status = 401
 			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_request"`
-
-			return {
-				status: 'error',
-				message: 'Unauthorized',
-			}
+			throw new AuthenticationError('Bearer token is required')
 		}
 
 		const token = await jwt.verify(bearer)
 
 		if (!token) {
-			set.status = 401
 			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_request"`
-
-			return {
-				status: 'error',
-				message: 'Unauthorized',
-			}
+			throw new AuthenticationError('Invalid or expired token', bearer)
 		}
 
-		return {
-			user: {
-				id: token['id'] as string,
-				email: token['email'] as string,
-				name: token['name'] as string,
-				isSubscribed: token['isSubscribed'] as boolean,
-			} as User,
+		const userPayload = {
+			...token,
+			id: token.sub,
 		}
+
+		// Validate token payload structure
+		const zUser = userSchema.safeParse(userPayload)
+
+		if (!zUser.success) {
+			const errorTree = z.treeifyError(zUser.error)
+			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_token"`
+			throw new AuthenticationError('Invalid token payload structure', errorTree)
+		}
+
+		return { user: zUser.data }
 	})
