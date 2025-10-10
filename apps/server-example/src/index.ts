@@ -1,101 +1,31 @@
-import cluster from 'node:cluster'
-import os from 'node:os'
-import process from 'node:process'
-
+import { startClusteredService } from '@packages/cluster'
 import { env } from '@/env'
 
-const isProduction = env.NODE_ENV === 'production'
-let isShuttingDown = false
-
-if (cluster.isPrimary) {
-	const serverUrl = `http://localhost:${env.PORT}`
-	
-	if (isProduction) {
-		// In production, spawn multiple workers
-		const numWorkers = os.availableParallelism()
-		console.log(`Starting ${numWorkers} workers in production mode`)
-		console.log(`🦊 Elysia is running at ${serverUrl}`)
-		console.log(`🔗 OpenAPI documentation: ${serverUrl}/openapi`)
-
-		for (let i = 0; i < numWorkers; i++) {
-			cluster.fork()
+await startClusteredService({
+	serviceName: 'server-example',
+	isProduction: env.NODE_ENV === 'production',
+	workerModulePath: new URL('./server.ts', import.meta.url).pathname,
+	onPrimaryStartup: ({ workerCount }) => {
+		if (env.NODE_ENV === 'production') {
+			console.log(`Starting ${workerCount} workers in production mode`)
+		} else {
+			console.log('Starting single worker in development mode')
 		}
-
-		cluster.on('exit', (worker, code, signal) => {
-			// Don't restart workers during shutdown
-			if (!isShuttingDown) {
-				console.log(`Worker ${worker.process.pid} died with code ${code} and signal ${signal}. Restarting...`)
-				cluster.fork()
-			}
-		})
-	} else {
-		// In development, run single worker
-		console.log('Starting single worker in development mode')
+		const serverUrl = `http://localhost:${env.PORT}`
 		console.log(`🦊 Elysia is running at ${serverUrl}`)
 		console.log(`🔗 OpenAPI documentation: ${serverUrl}/openapi`)
-		cluster.fork()
-	}
-
-	// Graceful shutdown handler for primary process
-	const shutdownPrimary = (signal: string) => {
+	},
+	onPrimaryShutdown: ({ signal }) => {
 		console.log(`\n${signal} received in primary process. Shutting down gracefully...`)
-		isShuttingDown = true
-
-		// Send shutdown signal to all workers
-		for (const id in cluster.workers) {
-			cluster.workers[id]?.kill('SIGTERM')
-		}
-
-		// Force exit if workers don't shut down within timeout
-		const timeout = setTimeout(() => {
-			console.log('Forcefully shutting down workers')
-			for (const id in cluster.workers) {
-				cluster.workers[id]?.kill('SIGKILL')
-			}
-			console.log('Forcefully shutting down primary process')
-			process.exit(1)
-		}, 10000) // 10 second timeout
-
-		// Wait for all workers to exit
-		let workersAlive = Object.keys(cluster.workers || {}).length
-		cluster.on('exit', () => {
-			workersAlive--
-			if (workersAlive === 0) {
-				clearTimeout(timeout)
-				console.log('All workers shut down successfully')
-				process.exit(0)
-			}
-		})
-	}
-
-	process.on('SIGTERM', () => shutdownPrimary('SIGTERM'))
-	process.on('SIGINT', () => shutdownPrimary('SIGINT'))
-} else {
-	// Worker process
-	const { app } = await import('./server.ts')
-	const { pool } = await import('./db/db.ts')
-	console.log(`Worker ${process.pid} started`)
-
-	// Graceful shutdown handler for worker process
-	const shutdownWorker = async () => {
-		if (isShuttingDown) return
-		isShuttingDown = true
-
-		try {
-			// Stop accepting new connections
-			await app.server?.stop()
-
-			// Close database connections
-			await pool.end()
-
-			console.log(`Worker ${process.pid} shut down successfully`)
-			process.exit(0)
-		} catch (error) {
-			console.error(`Worker ${process.pid} shutdown error:`, error)
-			process.exit(1)
-		}
-	}
-
-	process.on('SIGTERM', () => shutdownWorker())
-	process.on('SIGINT', () => shutdownWorker())
-}
+	},
+	onWorkerStartup: ({ pid }) => {
+		console.log(`Worker ${pid} started`)
+	},
+	onWorkerCrashed: ({ pid, code, signal }) => {
+		console.log(`Worker ${pid} died with code ${code} and signal ${signal}. Restarting...`)
+	},
+	onWorkerShutdown: async ({ workerModule }) => {
+		await workerModule.app.server?.stop()
+		await workerModule.pool.end()
+	},
+})

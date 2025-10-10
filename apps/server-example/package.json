@@ -26,6 +26,7 @@
 		"@elysiajs/openapi": "^1.4.11",
 		"@elysiajs/opentelemetry": "^1.4.0",
 		"@elysiajs/static": "^1.4.0",
+		"@packages/cluster": "workspace:*",
 		"@t3-oss/env-core": "^0.13.8",
 		"drizzle-orm": "^0.44.6",
 		"elysia": "catalog:",

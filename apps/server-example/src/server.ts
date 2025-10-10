@@ -43,3 +43,4 @@ const app = new Elysia()
 	.listen(env.PORT)
 
 export { app }
+export { pool } from './db/db.ts'
