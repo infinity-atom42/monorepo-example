@@ -230,6 +230,9 @@ importers:
 
   jobs/notifications-example:
     dependencies:
+      '@packages/cluster':
+        specifier: workspace:*
+        version: link:../../packages/cluster
       '@packages/events':
         specifier: workspace:*
         version: link:../../packages/events
@@ -277,6 +280,9 @@ importers:
 
   jobs/payment-example:
     dependencies:
+      '@packages/cluster':
+        specifier: workspace:*
+        version: link:../../packages/cluster
       '@packages/events':
         specifier: workspace:*
         version: link:../../packages/events

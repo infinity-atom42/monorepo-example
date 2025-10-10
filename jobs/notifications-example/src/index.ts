@@ -1,51 +1,31 @@
-import process from 'node:process'
-import { connect } from 'amqp-connection-manager'
-import type { ConfirmChannel } from 'amqplib'
-
-import { ORDER_FAILED, PAYMENT_FAILED } from '@packages/events'
-
-import { onMessage } from './events'
+import { startClusteredService } from '@packages/cluster'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'
 
-const connection = connect([RABBITMQ_URL])
-connection.on('connect', () => console.log('✅ AMQP connected'))
-connection.on('disconnect', ({ err }) => console.error('❌ AMQP disconnected:', err.message || err))
-connection.on('connectFailed', ({ err }) => {
-	if (err.message.includes('ACCESS-REFUSED')) {
-		console.error('Attempt to connect to', RABBITMQ_URL, 'was rejected')
-	} else {
-		console.error('❌ AMQP connection failed:', err.message || err)
-	}
-})
-
-const channel = connection.createChannel({
-	json: true,
-	setup: async (ch: ConfirmChannel) => {
-		await ch.assertExchange('order-exchange', 'topic', { durable: true })
-		await ch.assertExchange('payment-exchange', 'topic', { durable: true })
-		await ch.assertQueue('notifications.queue', { durable: true })
-		await ch.bindQueue('notifications.queue', 'order-exchange', ORDER_FAILED)
-		await ch.bindQueue('notifications.queue', 'payment-exchange', PAYMENT_FAILED)
-		await ch.prefetch(10)
-		await ch.consume('notifications.queue', (msg) => onMessage(msg, ch))
+await startClusteredService<typeof import('./worker')>({
+	serviceName: 'notifications-example',
+	isProduction: process.env['NODE_ENV'] === 'production',
+	workerModulePath: new URL('./worker.ts', import.meta.url).pathname,
+	onPrimaryStartup: ({ workerCount }) => {
+		console.log(`\n🚀 Notifications service is starting...`)
+		console.log(`📡 RabbitMQ URL: ${RABBITMQ_URL}`)
+		if (process.env['NODE_ENV'] === 'production') {
+			console.log(`Starting ${workerCount} workers in production mode`)
+		} else {
+			console.log('Starting single worker in development mode')
+		}
+	},
+	onPrimaryShutdown: ({ signal }) => {
+		console.log(`\n${signal} received in primary process. Shutting down gracefully...`)
+	},
+	onWorkerStartup: ({ pid }) => {
+		console.log(`Worker ${pid} started`)
+	},
+	onWorkerCrashed: ({ pid, code, signal }) => {
+		console.log(`Worker ${pid} died with code ${code} and signal ${signal}. Restarting...`)
+	},
+	onWorkerShutdown: async ({ workerModule }) => {
+		await workerModule.channel.close()
+		await workerModule.connection.close()
 	},
 })
-
-async function gracefulShutdown(): Promise<void> {
-	try {
-		console.log('\n🧹 Starting cleanup...')
-		await channel.close()
-		await connection.close()
-		console.log('✅ Cleanup completed')
-		process.exit(0)
-	} catch (error) {
-		console.error('❌ Error during cleanup:', error)
-		process.exit(1)
-	}
-}
-
-process.on('SIGINT', gracefulShutdown)
-process.on('SIGTERM', gracefulShutdown)
-
-console.log('\n🚀 Notifications service is starting...')
