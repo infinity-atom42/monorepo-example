@@ -42,5 +42,4 @@ const app = new Elysia()
 	.group('/api/v1', (app) => app.use(postController).use(productController))
 	.listen(env.PORT)
 
-console.log(`🦊 Elysia is running at ${app.server?.url}`)
-console.log(`🔗 OpenAPI documentation: ${app.server?.url}openapi`)
+export { app }
