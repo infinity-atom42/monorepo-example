@@ -1,7 +1,7 @@
 import { startClusteredService } from '@packages/cluster'
 import { env } from '@/env'
 
-await startClusteredService({
+await startClusteredService<typeof import('./server')>({
 	serviceName: 'server-example',
 	isProduction: env.NODE_ENV === 'production',
 	workerModulePath: new URL('./server.ts', import.meta.url).pathname,

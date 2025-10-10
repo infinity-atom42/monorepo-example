@@ -2,7 +2,7 @@ import { startClusteredService } from '@packages/cluster'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'
 
-await startClusteredService({
+await startClusteredService<typeof import('./worker')>({
 	serviceName: 'order-example',
 	isProduction: process.env['NODE_ENV'] === 'production',
 	workerModulePath: new URL('./worker.ts', import.meta.url).pathname,
