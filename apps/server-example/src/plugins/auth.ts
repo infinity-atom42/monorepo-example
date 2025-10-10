@@ -1,54 +1,58 @@
 import { Elysia } from 'elysia'
 import { z } from 'zod'
+import { createRemoteJWKSet, jwtVerify } from 'jose'
 
 import { env } from '@/env'
 import { AuthenticationError } from '@/errors/authentication'
 import { bearer } from '@elysiajs/bearer'
-import { jwt } from '@elysiajs/jwt'
+
+// Get Better Auth JWKS URL from environment
+const JWKS_URL = `${env.API_CLIENT_BASE_URL}/api/auth/jwks`
+
+// Create remote JWKS - this will be cached automatically by jose
+const JWKS = createRemoteJWKSet(new URL(JWKS_URL))
 
 // Schema for validating JWT token payload
 const userSchema = z.object({
 	id: z.string(),
 	email: z.email(),
 	name: z.string(),
-	isSubscribed: z.boolean(),
 })
 
 export const auth = new Elysia({ name: 'auth' })
 	.use(bearer())
-	.use(
-		jwt({
-			name: 'jwt',
-			secret: env.JWT_SECRET,
-			exp: '7d',
-		})
-	)
-	.derive({ as: 'scoped' }, async ({ bearer, set, jwt }) => {
+	.derive({ as: 'scoped' }, async ({ bearer, set }) => {
 		if (!bearer) {
 			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_request"`
 			throw new AuthenticationError('Bearer token is required')
 		}
 
-		const token = await jwt.verify(bearer)
+		try {
+			// Verify JWT using Better Auth's JWKS
+			const { payload } = await jwtVerify(bearer, JWKS, {
+				issuer: env.API_CLIENT_BASE_URL, // Trust tokens from Next.js app
+				audience: env.API_BASE_URL, // Verify token is for THIS API
+			})
 
-		if (!token) {
-			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_request"`
-			throw new AuthenticationError('Invalid or expired token', bearer)
-		}
+			// Extract user data from JWT payload
+			const userPayload = {
+				id: payload.sub,
+				email: payload['email'],
+				name: payload['name'],
+			}
 
-		const userPayload = {
-			...token,
-			id: token.sub,
-		}
+			// Validate token payload structure
+			const zUser = userSchema.safeParse(userPayload)
 
-		// Validate token payload structure
-		const zUser = userSchema.safeParse(userPayload)
+			if (!zUser.success) {
+				const errorTree = z.treeifyError(zUser.error)
+				set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_token"`
+				throw new AuthenticationError('Invalid token payload structure', errorTree)
+			}
 
-		if (!zUser.success) {
-			const errorTree = z.treeifyError(zUser.error)
+			return { user: zUser.data }
+		} catch (error) {
 			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_token"`
-			throw new AuthenticationError('Invalid token payload structure', errorTree)
+			throw new AuthenticationError('Invalid or expired token', error)
 		}
-
-		return { user: zUser.data }
 	})

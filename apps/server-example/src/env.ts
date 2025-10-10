@@ -7,7 +7,8 @@ export const env = createEnv({
 		PORT: z.coerce.number().int().positive(),
 		NODE_ENV: z.enum(['development', 'production', 'test']),
 		DATABASE_URL: z.url(),
-		JWT_SECRET: z.string().min(32),
+		API_CLIENT_BASE_URL: z.url(),
+		API_BASE_URL: z.url(),
 	},
 
 	runtimeEnv: process.env,

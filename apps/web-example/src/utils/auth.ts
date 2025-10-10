@@ -1,7 +1,7 @@
 import { betterAuth, type Auth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
-import { openAPI } from 'better-auth/plugins'
+import { bearer, jwt, openAPI } from 'better-auth/plugins'
 
 import db from '@/db'
 import * as schema from '@/db/auth-schema'
@@ -9,13 +9,16 @@ import { clientEnv, serverEnv } from '@/env'
 
 export const auth: Auth = betterAuth({
 	appName: clientEnv.NEXT_PUBLIC_APP_NAME,
-	// disabledPaths: ['/token'],
 	plugins: [
 		openAPI(),
 		nextCookies(),
-		// jwt({
-		// 	disableSettingJwtHeader: true,
-		// }),
+		jwt({
+			jwt: {
+				issuer: clientEnv.NEXT_PUBLIC_BASE_URL, // Issued by Next.js app
+				audience: serverEnv.SERVER_API_URL, // Intended for Elysia API
+			},
+		}),
+		bearer(),
 	],
 	database: drizzleAdapter(db, {
 		provider: 'pg',
