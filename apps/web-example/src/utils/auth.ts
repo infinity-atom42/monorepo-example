@@ -15,7 +15,7 @@ export const auth: Auth = betterAuth({
 		jwt({
 			jwt: {
 				issuer: clientEnv.NEXT_PUBLIC_BASE_URL, // Issued by Next.js app
-				audience: serverEnv.SERVER_API_URL, // Intended for Elysia API
+				audience: clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL, // Intended for Elysia API
 			},
 		}),
 		bearer(),

@@ -1,6 +1,6 @@
 import { mergeWith } from 'lodash-es'
 
-import { InvariantError } from '@/errors/invariant'
+import { InvariantError } from '@se/errors/invariant'
 import type * as ProductModel from './model'
 
 const dummyProducts: ProductModel.Product[] = [

@@ -1,7 +1,7 @@
 import { mergeWith } from 'lodash-es'
 
-import { AuthorizationError } from '@/errors/authorization'
-import { InvariantError } from '@/errors/invariant'
+import { AuthorizationError } from '@se/errors/authorization'
+import { InvariantError } from '@se/errors/invariant'
 import type * as PostModel from './model'
 
 const dummyPosts: PostModel.Post[] = [

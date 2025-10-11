@@ -2,8 +2,8 @@ import { Elysia } from 'elysia'
 import { z } from 'zod'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
 
-import { env } from '@/env'
-import { AuthenticationError } from '@/errors/authentication'
+import { env } from '@se/env'
+import { AuthenticationError } from '@se/errors/authentication'
 import { bearer } from '@elysiajs/bearer'
 
 // Get Better Auth JWKS URL from environment

@@ -23,5 +23,6 @@ onlyBuiltDependencies:
   - core-js
   - core-js-pure
   - esbuild
+  - protobufjs
   - puppeteer
   - sharp

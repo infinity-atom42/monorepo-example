@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
 import * as z from 'zod'
 
-import { env } from '@/env'
+import { env } from '@se/env'
 import { cors } from '@elysiajs/cors'
 import { openapi } from '@elysiajs/openapi'
 
@@ -44,3 +44,4 @@ const app = new Elysia()
 
 export { app }
 export { pool } from './db/db.ts'
+export type App = typeof app

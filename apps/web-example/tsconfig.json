@@ -1,9 +1,10 @@
 {
 	"extends": "@packages/typescript-config/nextjs.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
+			"@se": ["../server-example/src/server"],
+			"@se/*": ["../server-example/src/*"]
 		}
 	},
 	"include": ["src", "next-env.d.ts", "next.config.ts", ".next/types/**/*.ts"],

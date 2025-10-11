@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 
-import { env } from '@/env'
+import { env } from '@se/env'
 
 import { AuthenticationError } from './authentication'
 import { AuthorizationError } from './authorization'

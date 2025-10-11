@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 
-import { auth } from '@/plugins/auth'
+import { auth } from '@se/plugins/auth'
 import * as PostModel from './model'
 import * as PostService from './service'
 

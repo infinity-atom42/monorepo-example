@@ -1,9 +1,8 @@
 {
 	"extends": "@packages/typescript-config/app.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@se/*": ["./src/*"]
 		}
 	},
 	"include": ["src"],
