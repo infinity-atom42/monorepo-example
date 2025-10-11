@@ -1,24 +1,29 @@
-import { betterAuth, type Auth } from 'better-auth'
+import { betterAuth, type Auth as BetterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
-import { bearer, jwt, openAPI } from 'better-auth/plugins'
+import { openAPI } from 'better-auth/plugins'
 
 import db from '@/db'
 import * as schema from '@/db/auth-schema'
 import { clientEnv, serverEnv } from '@/env'
 
-export const auth: Auth = betterAuth({
+export const auth: BetterAuth = betterAuth({
 	appName: clientEnv.NEXT_PUBLIC_APP_NAME,
+	baseURL: clientEnv.NEXT_PUBLIC_BASE_URL,
+	secret: serverEnv.BETTER_AUTH_SECRET,
+	// For localhost with different ports, we need SameSite=None
+	// In production with subdomains, use crossSubDomainCookies instead
+	advanced: {
+		crossSubDomainCookies: {
+			enabled: true,
+			domain: clientEnv.NEXT_PUBLIC_BASE_URL, // your domain
+		},
+		useSecureCookies: true,
+	},
+	trustedOrigins: [clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL],
 	plugins: [
 		openAPI(),
 		nextCookies(),
-		jwt({
-			jwt: {
-				issuer: clientEnv.NEXT_PUBLIC_BASE_URL, // Issued by Next.js app
-				audience: clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL, // Intended for Elysia API
-			},
-		}),
-		bearer(),
 	],
 	database: drizzleAdapter(db, {
 		provider: 'pg',
@@ -35,3 +40,5 @@ export const auth: Auth = betterAuth({
 		},
 	},
 })
+
+export type Auth = typeof auth

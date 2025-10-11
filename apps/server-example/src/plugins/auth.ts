@@ -1,58 +1,45 @@
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { drizzle } from 'drizzle-orm/node-postgres'
 import { Elysia } from 'elysia'
-import { z } from 'zod'
-import { createRemoteJWKSet, jwtVerify } from 'jose'
 
+import { pool } from '@se/db/db'
 import { env } from '@se/env'
-import { AuthenticationError } from '@se/errors/authentication'
-import { bearer } from '@elysiajs/bearer'
 
-// Get Better Auth JWKS URL from environment
-const JWKS_URL = `${env.API_CLIENT_BASE_URL}/api/auth/jwks`
+import * as authSchema from '../../../web-example/src/db/auth-schema'
 
-// Create remote JWKS - this will be cached automatically by jose
-const JWKS = createRemoteJWKSet(new URL(JWKS_URL))
+// Connect to the SAME database where sessions are stored (web_example)
+const authDb = drizzle(pool, { schema: authSchema })
 
-// Schema for validating JWT token payload
-const userSchema = z.object({
-	id: z.string(),
-	email: z.email(),
-	name: z.string(),
+// Backend auth instance ONLY for session validation (not for handling auth endpoints)
+const auth = betterAuth({
+	appName: env.APP_NAME,
+	secret: env.BETTER_AUTH_SECRET,
+	baseURL: env.API_BASE_URL, // Where THIS backend is running (http://localhost:3101)
+	advanced: {
+		crossSubDomainCookies: {
+			enabled: true,
+			domain: env.API_BASE_URL, // your backend domain
+		},
+		useSecureCookies: true,
+	},
+	trustedOrigins: [env.API_CLIENT_BASE_URL], // Trust requests from backend
+	database: drizzleAdapter(authDb, {
+		provider: 'pg',
+		usePlural: true,
+		schema: authSchema,
+	}),
 })
 
-export const auth = new Elysia({ name: 'auth' })
-	.use(bearer())
-	.derive({ as: 'scoped' }, async ({ bearer, set }) => {
-		if (!bearer) {
-			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_request"`
-			throw new AuthenticationError('Bearer token is required')
-		}
+const authPlugin = new Elysia({ name: 'auth' })
+	// Don't mount auth.handler - we only validate sessions, not handle auth endpoints
+	.derive({ as: 'scoped' }, async ({ status, request: { headers } }) => {
+		const session = await auth.api.getSession({ headers })
 
-		try {
-			// Verify JWT using Better Auth's JWKS
-			const { payload } = await jwtVerify(bearer, JWKS, {
-				issuer: env.API_CLIENT_BASE_URL, // Trust tokens from Next.js app
-				audience: env.API_BASE_URL, // Verify token is for THIS API
-			})
+		if (!session) return status(401)
 
-			// Extract user data from JWT payload
-			const userPayload = {
-				id: payload.sub,
-				email: payload['email'],
-				name: payload['name'],
-			}
-
-			// Validate token payload structure
-			const zUser = userSchema.safeParse(userPayload)
-
-			if (!zUser.success) {
-				const errorTree = z.treeifyError(zUser.error)
-				set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_token"`
-				throw new AuthenticationError('Invalid token payload structure', errorTree)
-			}
-
-			return { user: zUser.data }
-		} catch (error) {
-			set.headers['WWW-Authenticate'] = `Bearer realm='sign', error="invalid_token"`
-			throw new AuthenticationError('Invalid or expired token', error)
-		}
+		return { user: session.user }
 	})
+	.as('scoped')
+
+export { authPlugin as auth }
