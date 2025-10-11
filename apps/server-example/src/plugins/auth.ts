@@ -21,7 +21,7 @@ const auth = betterAuth({
 			enabled: true,
 			domain: env.API_BASE_URL, // your backend domain
 		},
-		useSecureCookies: true,
+		// useSecureCookies: true, // TODO: how to make this work?
 	},
 	trustedOrigins: [env.API_CLIENT_BASE_URL], // Trust requests from backend
 	database: drizzleAdapter(authDb, {

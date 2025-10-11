@@ -18,7 +18,7 @@ export const auth: BetterAuth = betterAuth({
 			enabled: true,
 			domain: clientEnv.NEXT_PUBLIC_BASE_URL, // your domain
 		},
-		useSecureCookies: true,
+		// useSecureCookies: true, // TODO: how to make this work?
 	},
 	trustedOrigins: [clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL],
 	plugins: [
