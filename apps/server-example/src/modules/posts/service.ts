@@ -1,21 +1,58 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NotImplementedError } from '@se/errors'
+import { eq } from 'drizzle-orm'
+
+import { db } from '@se/db/db'
+import { posts } from '@se/db/schema'
+import { NotFoundError, NotImplementedError } from '@se/errors'
+
 import type * as PostModel from './model'
 
-export function createPost(_authorId: string, _data: PostModel.CreatePostBody): PostModel.CreatePostResponse {
-	throw new NotImplementedError('createPost')
+export async function createPost(authorId: string, data: PostModel.CreatePostBody): Promise<PostModel.CreatePostResponse> {
+	const [post] = await db
+		.insert(posts)
+		.values({
+			...data,
+			authorId,
+		})
+		.returning()
+
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	return post!
 }
 
-export function getPostById(_postId: PostModel.PostId): PostModel.Post {
-	throw new NotImplementedError('getPostById')
+export async function getPostById(postId: PostModel.PostId): Promise<PostModel.Post> {
+	const [post] = await db.select().from(posts).where(eq(posts.id, postId))
+
+	if (!post) {
+		throw new NotFoundError('Post not found')
+	}
+
+	return post
 }
 
-export function updatePost(_postId: PostModel.PostId, _data: PostModel.UpdatePostBody): PostModel.UpdatePostResponse {
-	throw new NotImplementedError('updatePost')
+export async function updatePost(postId: PostModel.PostId, data: PostModel.UpdatePostBody): Promise<PostModel.UpdatePostResponse> {
+	const [post] = await db
+		.update(posts)
+		.set(data)
+		.where(eq(posts.id, postId))
+		.returning()
+
+	if (!post) {
+		throw new NotFoundError('Post not found')
+	}
+
+	return post
 }
 
-export function deletePost(_postId: PostModel.PostId): void {
-	throw new NotImplementedError('deletePost')
+export async function deletePost(postId: PostModel.PostId): Promise<void> {
+	const [post] = await db
+		.delete(posts)
+		.where(eq(posts.id, postId))
+		.returning()
+
+	if (!post) {
+		throw new NotFoundError('Post not found')
+	}
 }
 
 export function listPosts(_query: PostModel.ListPostsQuery): PostModel.ListPostsResponse {

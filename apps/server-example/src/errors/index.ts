@@ -4,16 +4,20 @@ import { env } from '@se/env'
 
 import { AuthenticationError } from './authentication'
 import { AuthorizationError } from './authorization'
+import { ConflictError } from './conflict'
 import { InvariantError } from './invariant'
+import { NotFoundError } from './not-found'
 import { NotImplementedError } from './not-implemented'
 
 // Export error classes for use in other modules
-export { AuthenticationError, AuthorizationError, InvariantError, NotImplementedError }
+export { AuthenticationError, AuthorizationError, ConflictError, InvariantError, NotFoundError, NotImplementedError }
 
 export const errorHandling = new Elysia({ name: 'errorHandling' })
 	.error('AUTHENTICATION_ERROR', AuthenticationError)
 	.error('AUTHORIZATION_ERROR', AuthorizationError)
+	.error('CONFLICT_ERROR', ConflictError)
 	.error('INVARIANT_ERROR', InvariantError)
+	.error('NOT_FOUND_ERROR', NotFoundError)
 	.error('NOT_IMPLEMENTED_ERROR', NotImplementedError)
 	.onError(({ code, error, set }) => {
 		/**
@@ -22,7 +26,9 @@ export const errorHandling = new Elysia({ name: 'errorHandling' })
 		switch (code) {
 			case 'AUTHENTICATION_ERROR':
 			case 'AUTHORIZATION_ERROR':
+			case 'CONFLICT_ERROR':
 			case 'INVARIANT_ERROR':
+			case 'NOT_FOUND_ERROR':
 			case 'NOT_IMPLEMENTED_ERROR':
 			case 'VALIDATION':
 			case 'INVALID_FILE_TYPE':
