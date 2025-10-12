@@ -16,7 +16,7 @@
 		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@packages/events": "workspace:*",
+		"@packages/schemas": "workspace:*",
 		"amqp-connection-manager": "catalog:",
 		"amqplib": "catalog:",
 		"zod": "catalog:"

@@ -16,12 +16,12 @@ const auth = betterAuth({
 	appName: env.APP_NAME,
 	secret: env.BETTER_AUTH_SECRET,
 	baseURL: env.API_BASE_URL, // Where THIS backend is running (http://localhost:3101)
-	advanced: {
-		crossSubDomainCookies: {
-			enabled: true,
-			domain: env.API_BASE_URL, // your backend domain
-		},
-	},
+	// advanced: {
+	// 	crossSubDomainCookies: {
+	// 		enabled: true,
+	// 		domain: env.API_BASE_URL, // your backend domain
+	// 	},
+	// },
 	trustedOrigins: [env.API_CLIENT_BASE_URL], // Trust requests from backend
 	database: drizzleAdapter(authDb, {
 		provider: 'pg',

@@ -1,12 +1,19 @@
 import { z } from 'zod'
 
-// Routing key constants
+/**
+ * Event routing keys for message bus
+ * 
+ * @example
+ * await publishEvent(ORDER_CREATED, { orderId: '123', total: 100 })
+ */
 export const ORDER_CREATED = 'order.created' as const
 export const ORDER_FAILED = 'order.failed' as const
 export const PAYMENT_SUCCEEDED = 'payment.succeeded' as const
 export const PAYMENT_FAILED = 'payment.failed' as const
 
-// Order domain payloads
+/**
+ * Order domain event schemas
+ */
 export const OrderCreatedSchema = z.object({
 	orderId: z.string(),
 	total: z.number(),
@@ -18,7 +25,9 @@ export const OrderFailedSchema = z.object({
 	code: z.string().optional(),
 })
 
-// Payment domain payloads
+/**
+ * Payment domain event schemas
+ */
 export const PaymentSucceededSchema = z.object({
 	paymentId: z.string(),
 	orderId: z.string(),

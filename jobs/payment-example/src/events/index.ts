@@ -1,6 +1,6 @@
 import type { ConfirmChannel, ConsumeMessage } from 'amqplib'
 
-import { PAYMENT_FAILED, PAYMENT_SUCCEEDED, PaymentFailedSchema, PaymentSucceededSchema } from '@packages/events'
+import { PAYMENT_FAILED, PAYMENT_SUCCEEDED, PaymentFailedSchema, PaymentSucceededSchema } from '@packages/schemas/events'
 
 import { paymentFailed } from './payment-failed'
 import { paymentSucceeded } from './payment-succeeded'

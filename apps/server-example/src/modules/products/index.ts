@@ -20,8 +20,8 @@ export const productController = new Elysia({ prefix: '/products' })
 		}
 	)
 	.get(
-		'/:id',
-		({ params }) => ProductService.getProductById(params.id),
+		'/:productId',
+		({ params }) => ProductService.getProductById(params.productId),
 		{
 			params: ProductModel.productIdParam,
 			response: {
@@ -52,8 +52,8 @@ export const productController = new Elysia({ prefix: '/products' })
 		}
 	)
 	.put(
-		'/:id',
-		({ params, body }) => ProductService.updateProduct(params.id, body),
+		'/:productId',
+		({ params, body }) => ProductService.updateProduct(params.productId, body),
 		{
 			params: ProductModel.productIdParam,
 			body: ProductModel.updateProductBody,
@@ -70,9 +70,9 @@ export const productController = new Elysia({ prefix: '/products' })
 		}
 	)
 	.delete(
-		'/:id',
+		'/:productId',
 		({ params }) => {
-			ProductService.deleteProduct(params.id)
+			ProductService.deleteProduct(params.productId)
 			return { message: 'Product deleted successfully' }
 		},
 		{

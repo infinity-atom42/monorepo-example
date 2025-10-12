@@ -22,8 +22,8 @@ export const postController = new Elysia({ prefix: '/posts' })
 		}
 	)
 	.get(
-		'/:id',
-		({ params }) => PostService.getPostById(params.id),
+		'/:postId',
+		({ params }) => PostService.getPostById(params.postId),
 		{
 			params: PostModel.postIdParam,
 			response: {
@@ -55,9 +55,9 @@ export const postController = new Elysia({ prefix: '/posts' })
 		}
 	)
 	.put(
-		'/:id',
-		({ params, body, user }) => {
-			return PostService.updatePost(params.id, user.id, body)
+		'/:postId',
+		({ params, body }) => {
+			return PostService.updatePost(params.postId, body)
 		},
 		{
 			params: PostModel.postIdParam,
@@ -65,7 +65,6 @@ export const postController = new Elysia({ prefix: '/posts' })
 			response: {
 				200: PostModel.updatePostResponse,
 				404: PostModel.errorNotFound,
-				403: PostModel.errorUnauthorized,
 			},
 			detail: {
 				tags: ['Posts'],
@@ -75,9 +74,9 @@ export const postController = new Elysia({ prefix: '/posts' })
 		}
 	)
 	.delete(
-		'/:id',
-		({ params, user }) => {
-			PostService.deletePost(params.id, user.id)
+		'/:postId',
+		({ params }) => {
+			PostService.deletePost(params.postId)
 			return { message: 'Post deleted successfully' }
 		},
 		{
@@ -85,7 +84,6 @@ export const postController = new Elysia({ prefix: '/posts' })
 			response: {
 				200: PostModel.successMessage,
 				404: PostModel.errorNotFound,
-				403: PostModel.errorUnauthorized,
 			},
 			detail: {
 				tags: ['Posts'],

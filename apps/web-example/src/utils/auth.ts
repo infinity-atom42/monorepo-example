@@ -13,12 +13,12 @@ export const auth: BetterAuth = betterAuth({
 	secret: serverEnv.BETTER_AUTH_SECRET,
 	// For localhost with different ports, we need SameSite=None
 	// In production with subdomains, use crossSubDomainCookies instead
-	advanced: {
-		crossSubDomainCookies: {
-			enabled: true,
-			domain: clientEnv.NEXT_PUBLIC_BASE_URL, // your domain
-		},
-	},
+	// advanced: {
+	// 	crossSubDomainCookies: {
+	// 		enabled: true,
+	// 		domain: clientEnv.NEXT_PUBLIC_BASE_URL, // your domain
+	// 	},
+	// },
 	trustedOrigins: [clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL],
 	plugins: [
 		openAPI(),

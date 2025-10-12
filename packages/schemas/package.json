@@ -1,10 +1,12 @@
 {
-	"name": "@packages/events",
+	"name": "@packages/schemas",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts"
+		"./pagination": "./src/pagination/index.ts",
+		"./pagination/cursor": "./src/pagination/cursor.ts",
+		"./events": "./src/events/index.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",

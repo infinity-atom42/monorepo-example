@@ -1,7 +1,7 @@
 import { connect } from 'amqp-connection-manager'
 import type { ConfirmChannel } from 'amqplib'
 
-import { ORDER_FAILED, PAYMENT_FAILED } from '@packages/events'
+import { ORDER_FAILED, PAYMENT_FAILED } from '@packages/schemas/events'
 
 import { onMessage } from './events'
 
