@@ -1,6 +1,8 @@
 import { connect } from 'amqp-connection-manager'
 import type { ConfirmChannel } from 'amqplib'
 
+import { exchange, queue } from '@packages/schemas/events'
+
 import { onMessage } from './events'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'
@@ -19,11 +21,11 @@ connection.on('connectFailed', ({ err }) => {
 const channel = connection.createChannel({
 	json: true,
 	setup: async (ch: ConfirmChannel) => {
-		await ch.assertExchange('payment-exchange', 'topic', { durable: true })
-		await ch.assertQueue('payment.queue', { durable: true })
-		await ch.bindQueue('payment.queue', 'payment-exchange', 'payment.*')
+		await ch.assertExchange(exchange.PAYMENT, 'topic', { durable: true })
+		await ch.assertQueue(queue.PAYMENT, { durable: true })
+		await ch.bindQueue(queue.PAYMENT, exchange.PAYMENT, 'payment.*')
 		await ch.prefetch(10)
-		await ch.consume('payment.queue', (msg) => onMessage(msg, ch))
+		await ch.consume(queue.PAYMENT, (msg) => onMessage(msg, ch))
 	},
 })
 

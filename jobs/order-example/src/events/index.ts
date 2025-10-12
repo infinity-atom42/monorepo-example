@@ -1,6 +1,6 @@
 import type { ConfirmChannel, ConsumeMessage } from 'amqplib'
 
-import { ORDER_CREATED, ORDER_FAILED, OrderCreatedSchema, OrderFailedSchema } from '@packages/schemas/events'
+import { event } from '@packages/schemas/events'
 
 import { orderCreated } from './order-created'
 import { orderFailed } from './order-failed'
@@ -13,13 +13,13 @@ export const onMessage = (msg: ConsumeMessage | null, ch: ConfirmChannel) => {
 	try {
 		const raw = JSON.parse(msg.content.toString())
 		switch (msg.fields.routingKey) {
-			case ORDER_CREATED: {
-				const parsed = OrderCreatedSchema.parse(raw)
+			case event.ORDER_CREATED.key: {
+				const parsed = event.ORDER_CREATED.payload.parse(raw)
 				orderCreated(parsed)
 				break
 			}
-			case ORDER_FAILED: {
-				const parsed = OrderFailedSchema.parse(raw)
+			case event.ORDER_FAILED.key: {
+				const parsed = event.ORDER_FAILED.payload.parse(raw)
 				orderFailed(parsed)
 				break
 			}

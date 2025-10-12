@@ -1,48 +1,73 @@
 import { z } from 'zod'
 
 /**
- * Event routing keys for message bus
- * 
- * @example
- * await publishEvent(ORDER_CREATED, { orderId: '123', total: 100 })
+ * RabbitMQ exchanges
  */
-export const ORDER_CREATED = 'order.created' as const
-export const ORDER_FAILED = 'order.failed' as const
-export const PAYMENT_SUCCEEDED = 'payment.succeeded' as const
-export const PAYMENT_FAILED = 'payment.failed' as const
+export const exchange = {
+	ORDER: 'order-exchange' as const,
+	PAYMENT: 'payment-exchange' as const,
+} as const
 
 /**
- * Order domain event schemas
+ * RabbitMQ queues
  */
-export const OrderCreatedSchema = z.object({
-	orderId: z.string(),
-	total: z.number(),
-})
-
-export const OrderFailedSchema = z.object({
-	orderId: z.string(),
-	reason: z.string(),
-	code: z.string().optional(),
-})
+export const queue = {
+	ORDER: 'order.queue' as const,
+	PAYMENT: 'payment.queue' as const,
+	NOTIFICATIONS: 'notifications.queue' as const,
+} as const
 
 /**
- * Payment domain event schemas
+ * Events with routing keys and payload schemas
  */
-export const PaymentSucceededSchema = z.object({
-	paymentId: z.string(),
-	orderId: z.string(),
-	amount: z.number(),
-	currency: z.string().length(3),
-})
+export const event = {
+	ORDER_CREATED: {
+		key: 'order.created' as const,
+		payload: z.object({
+			orderId: z.string(),
+			total: z.number(),
+		}),
+	},
+	ORDER_FAILED: {
+		key: 'order.failed' as const,
+		payload: z.object({
+			orderId: z.string(),
+			reason: z.string(),
+			code: z.string().optional(),
+		}),
+	},
+	PAYMENT_SUCCEEDED: {
+		key: 'payment.succeeded' as const,
+		payload: z.object({
+			paymentId: z.string(),
+			orderId: z.string(),
+			amount: z.number(),
+			currency: z.string().length(3),
+		}),
+	},
+	PAYMENT_FAILED: {
+		key: 'payment.failed' as const,
+		payload: z.object({
+			paymentId: z.string(),
+			orderId: z.string(),
+			reason: z.string(),
+			code: z.string().optional(),
+		}),
+	},
+} as const
 
-export const PaymentFailedSchema = z.object({
-	paymentId: z.string(),
-	orderId: z.string(),
-	reason: z.string(),
-	code: z.string().optional(),
-})
+/**
+ * Organized event payload types
+ */
+export type EventPayload = {
+	OrderCreated: z.infer<typeof event.ORDER_CREATED.payload>
+	OrderFailed: z.infer<typeof event.ORDER_FAILED.payload>
+	PaymentSucceeded: z.infer<typeof event.PAYMENT_SUCCEEDED.payload>
+	PaymentFailed: z.infer<typeof event.PAYMENT_FAILED.payload>
+}
 
-export type OrderCreated = z.infer<typeof OrderCreatedSchema>
-export type OrderFailed = z.infer<typeof OrderFailedSchema>
-export type PaymentSucceeded = z.infer<typeof PaymentSucceededSchema>
-export type PaymentFailed = z.infer<typeof PaymentFailedSchema>
+// Individual type exports
+export type OrderCreated = EventPayload['OrderCreated']
+export type OrderFailed = EventPayload['OrderFailed']
+export type PaymentSucceeded = EventPayload['PaymentSucceeded']
+export type PaymentFailed = EventPayload['PaymentFailed']

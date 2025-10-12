@@ -1,50 +1,35 @@
 # Events
 
-Event schemas and routing keys for message bus communication.
+Type-safe message bus event contracts for RabbitMQ.
 
 ## Purpose
 
-Defines the contract for events published and consumed across different services via message bus (RabbitMQ).
+Ensures all services publish and consume events with the same structure.
 
-Ensures all services publish and consume events with the same structure and routing keys.
+Provides type-safe constants for:
 
-## Available Events
+- RabbitMQ exchanges and queues
+- Event routing keys
+- Event payload validation schemas
 
-### Order Events
-
-- `ORDER_CREATED` - Triggered when a new order is created
-- `ORDER_FAILED` - Triggered when order processing fails
-
-### Payment Events
-
-- `PAYMENT_SUCCEEDED` - Triggered when payment is processed successfully
-- `PAYMENT_FAILED` - Triggered when payment processing fails
+No more typos in queue names, no mismatched event payloads across services.
 
 ## Usage
 
 ```typescript
-import { 
-  ORDER_CREATED, 
-  OrderCreatedSchema,
-  type OrderCreated 
-} from '@packages/schemas/events'
+import { event, exchange, queue, type OrderCreated } from '@packages/schemas/events'
 
-// Publishing an event
-const payload: OrderCreated = { orderId: '123', total: 99.99 }
-await publishEvent(ORDER_CREATED, payload)
+// Setup: Type-safe infrastructure
+await ch.assertExchange(exchange.ORDER, 'topic', { durable: true })
+await ch.assertQueue(queue.ORDER, { durable: true })
 
-// Consuming an event
-function handleMessage(msg: ConsumeMessage) {
-  if (msg.properties.type === ORDER_CREATED) {
-    const payload = OrderCreatedSchema.parse(JSON.parse(msg.content.toString()))
-    // payload is now type-safe: OrderCreated
-  }
+// Publish: Type-safe routing key and validated payload
+const data: OrderCreated = { orderId: '123', total: 99.99 }
+await channel.publish(exchange.ORDER, event.ORDER_CREATED.key, data)
+
+// Consume: Type-safe routing and parsing
+switch (msg.fields.routingKey) {
+  case event.ORDER_CREATED.key:
+    const data = event.ORDER_CREATED.payload.parse(json)
 }
 ```
-
-## Adding New Events
-
-1. Add routing key constant: `export const EVENT_NAME = 'domain.action' as const`
-2. Add Zod schema: `export const EventNameSchema = z.object({ ... })`
-3. Export type: `export type EventName = z.infer<typeof EventNameSchema>`
-4. Update this README with the new event

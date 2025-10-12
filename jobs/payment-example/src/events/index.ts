@@ -1,6 +1,6 @@
 import type { ConfirmChannel, ConsumeMessage } from 'amqplib'
 
-import { PAYMENT_FAILED, PAYMENT_SUCCEEDED, PaymentFailedSchema, PaymentSucceededSchema } from '@packages/schemas/events'
+import { event } from '@packages/schemas/events'
 
 import { paymentFailed } from './payment-failed'
 import { paymentSucceeded } from './payment-succeeded'
@@ -13,13 +13,13 @@ export const onMessage = (msg: ConsumeMessage | null, ch: ConfirmChannel) => {
 	try {
 		const raw = JSON.parse(msg.content.toString())
 		switch (msg.fields.routingKey) {
-			case PAYMENT_SUCCEEDED: {
-				const parsed = PaymentSucceededSchema.parse(raw)
+			case event.PAYMENT_SUCCEEDED.key: {
+				const parsed = event.PAYMENT_SUCCEEDED.payload.parse(raw)
 				paymentSucceeded(parsed)
 				break
 			}
-			case PAYMENT_FAILED: {
-				const parsed = PaymentFailedSchema.parse(raw)
+			case event.PAYMENT_FAILED.key: {
+				const parsed = event.PAYMENT_FAILED.payload.parse(raw)
 				paymentFailed(parsed)
 				break
 			}

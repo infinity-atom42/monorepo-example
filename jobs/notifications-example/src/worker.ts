@@ -1,7 +1,7 @@
 import { connect } from 'amqp-connection-manager'
 import type { ConfirmChannel } from 'amqplib'
 
-import { ORDER_FAILED, PAYMENT_FAILED } from '@packages/schemas/events'
+import { event, exchange, queue } from '@packages/schemas/events'
 
 import { onMessage } from './events'
 
@@ -21,13 +21,13 @@ connection.on('connectFailed', ({ err }) => {
 const channel = connection.createChannel({
 	json: true,
 	setup: async (ch: ConfirmChannel) => {
-		await ch.assertExchange('order-exchange', 'topic', { durable: true })
-		await ch.assertExchange('payment-exchange', 'topic', { durable: true })
-		await ch.assertQueue('notifications.queue', { durable: true })
-		await ch.bindQueue('notifications.queue', 'order-exchange', ORDER_FAILED)
-		await ch.bindQueue('notifications.queue', 'payment-exchange', PAYMENT_FAILED)
+		await ch.assertExchange(exchange.ORDER, 'topic', { durable: true })
+		await ch.assertExchange(exchange.PAYMENT, 'topic', { durable: true })
+		await ch.assertQueue(queue.NOTIFICATIONS, { durable: true })
+		await ch.bindQueue(queue.NOTIFICATIONS, exchange.ORDER, event.ORDER_FAILED.key)
+		await ch.bindQueue(queue.NOTIFICATIONS, exchange.PAYMENT, event.PAYMENT_FAILED.key)
 		await ch.prefetch(10)
-		await ch.consume('notifications.queue', (msg) => onMessage(msg, ch))
+		await ch.consume(queue.NOTIFICATIONS, (msg) => onMessage(msg, ch))
 	},
 })
 

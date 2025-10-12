@@ -3,6 +3,8 @@ import process from 'node:process'
 import { connect } from 'amqp-connection-manager'
 import type { ConfirmChannel } from 'amqplib'
 
+import { exchange, queue } from '@packages/schemas/events'
+
 import { onMessage } from './events'
 
 const RABBITMQ_URL = process.env['RABBITMQ_URL'] || 'amqp://admin:admin@localhost:5672'
@@ -33,11 +35,11 @@ connection.on('connectFailed', ({ err }) => {
 export const channel = connection.createChannel({
 	json: true,
 	setup: async (ch: ConfirmChannel) => {
-		await ch.assertExchange('order-exchange', 'topic', { durable: true })
-		await ch.assertQueue('order.queue', { durable: true })
-		await ch.bindQueue('order.queue', 'order-exchange', 'order.*')
+		await ch.assertExchange(exchange.ORDER, 'topic', { durable: true })
+		await ch.assertQueue(queue.ORDER, { durable: true })
+		await ch.bindQueue(queue.ORDER, exchange.ORDER, 'order.*')
 		await ch.prefetch(10)
 
-		await ch.consume('order.queue', (msg) => onMessage(msg, ch))
+		await ch.consume(queue.ORDER, (msg) => onMessage(msg, ch))
 	},
 })
