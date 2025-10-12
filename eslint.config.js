@@ -1,4 +1,4 @@
-import { baseConfig } from '@packages/eslint-config/base'
+import { baseConfig } from '@packages/config/eslint/base'
 
 /**
  * Root ESLint configuration for the monorepo.

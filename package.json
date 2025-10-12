@@ -30,8 +30,7 @@
 	"devDependencies": {
 		"@faker-js/faker": "^10.0.0",
 		"@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-		"@packages/eslint-config": "workspace:*",
-		"@packages/typescript-config": "workspace:*",
+		"@packages/config": "workspace:*",
 		"eslint": "^9.36.0",
 		"prettier": "^3.6.2",
 		"prettier-plugin-nginx": "^1.0.3",

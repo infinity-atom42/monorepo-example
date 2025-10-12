@@ -1,6 +1,6 @@
 import drizzlePlugin from 'eslint-plugin-drizzle'
 
-import { baseConfig } from '@packages/eslint-config/base'
+import { baseConfig } from '@packages/config/eslint/base'
 
 /** @type {import("eslint").Linter.Config} */
 export default [

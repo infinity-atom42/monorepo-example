@@ -1,6 +1,6 @@
 import drizzlePlugin from 'eslint-plugin-drizzle'
 
-import { nextJsConfig } from '@packages/eslint-config/next-js'
+import { nextJsConfig } from '@packages/config/eslint/next'
 
 /** @type {import("eslint").Linter.Config} */
 export default [

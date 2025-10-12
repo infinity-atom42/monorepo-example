@@ -1,13 +1,17 @@
 {
-	"name": "@packages/eslint-config",
+	"name": "@packages/config",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./base": "./base.js",
-		"./next-js": "./next.js",
-		"./react-internal": "./react-internal.js",
-		"./react": "./react.js"
+		"./typescript/base": "./typescript/base.json",
+		"./typescript/app": "./typescript/app.json",
+		"./typescript/nextjs": "./typescript/nextjs.json",
+		"./typescript/react-library": "./typescript/react-library.json",
+		"./eslint/base": "./eslint/base.js",
+		"./eslint/next": "./eslint/next.js",
+		"./eslint/react-internal": "./eslint/react-internal.js",
+		"./eslint/react": "./eslint/react.js"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules"

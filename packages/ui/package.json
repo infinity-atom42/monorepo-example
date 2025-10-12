@@ -30,8 +30,7 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@packages/eslint-config": "workspace:*",
-		"@packages/typescript-config": "workspace:*",
+		"@packages/config": "workspace:*",
 		"@tailwindcss/postcss": "^4.1.13",
 		"@turbo/gen": "^2.5.8",
 		"@types/node": "catalog:",
