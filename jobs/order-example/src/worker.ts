@@ -23,7 +23,7 @@ connection.on('connectFailed', ({ err }) => {
 		return // Skip logging if within throttle period
 	}
 	lastErrorLogTime = now
-	
+
 	const timestamp = new Date(now).toISOString()
 	if (err.message.includes('ACCESS-REFUSED')) {
 		console.error(`[${timestamp}] Worker ${workerId} attempt to connect to`, RABBITMQ_URL, 'was rejected')

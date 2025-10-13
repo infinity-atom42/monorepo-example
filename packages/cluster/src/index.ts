@@ -7,10 +7,10 @@ export type { ClusterConfig, WorkerContext } from './types'
 
 /**
  * Start a clustered Node.js / Bun service
- * 
+ *
  * In production: Spawns workers for each CPU core
  * In development: Runs a single worker
- * 
+ *
  * Handles automatic worker restart on crash and graceful shutdown
  */
 export async function startClusteredService<T = unknown>(config: import('./types').ClusterConfig<T>): Promise<void> {

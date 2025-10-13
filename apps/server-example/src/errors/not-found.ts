@@ -1,11 +1,11 @@
-import { BaseHttpError } from './base-http'
+import BaseHttpError from './base-http-error'
 
 export class NotFoundError extends BaseHttpError {
 	status = 404
-	productionMessage = 'Resource not found'
 
 	constructor(message: string = 'Resource not found', cause?: unknown) {
-		super(message, cause)
+		super(message, { cause })
 		this.name = 'NotFoundError'
 	}
+
 }

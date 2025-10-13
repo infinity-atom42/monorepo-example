@@ -7,7 +7,7 @@ import { env } from '@se/env'
 
 import { errorHandling } from './errors'
 import { postController, productController } from './modules'
-import { requestLogger } from './plugins'
+// import { requestLogger } from './plugins'
 
 const app = new Elysia()
 	.use(
@@ -36,7 +36,7 @@ const app = new Elysia()
 			},
 		})
 	)
-	.use(requestLogger)
+	// .use(requestLogger)
 	.use(errorHandling)
 	.get('/', () => ({
 		message: 'Welcome to ElysiaJS Example API',
@@ -50,5 +50,5 @@ const app = new Elysia()
 	.listen(env.PORT)
 
 export { app }
-export { pool } from './db/db.ts'
+export { pool } from './db'
 export type App = typeof app

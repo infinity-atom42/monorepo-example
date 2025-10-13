@@ -1,8 +1,8 @@
 include:
   - infra/postgresql.yml
   - infra/rabbitmq.yml
-  - infra/keycloak.yml
-  - infra/redis.yml
+  # - infra/keycloak.yml
+  # - infra/redis.yml
   - infra/openfga.yml
 
 # Main application services can be defined here

@@ -1,7 +1,7 @@
 {
 	"extends": "@packages/config/typescript/base",
 	"compilerOptions": {
-		"baseUrl": ".",
+		"baseUrl": "."
 	},
 	"include": ["src"]
 }

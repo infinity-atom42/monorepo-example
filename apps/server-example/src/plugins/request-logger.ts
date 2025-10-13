@@ -4,7 +4,7 @@ export const requestLogger = new Elysia({ name: 'request.logger' })
 	.onRequest(({ request }) => {
 		const url = new URL(request.url)
 		const timestamp = new Date().toISOString()
-		
+
 		console.log('📥 Incoming Request:', {
 			timestamp,
 			method: request.method,
@@ -13,8 +13,8 @@ export const requestLogger = new Elysia({ name: 'request.logger' })
 			headers: {
 				'user-agent': request.headers.get('user-agent'),
 				'content-type': request.headers.get('content-type'),
-				'authorization': request.headers.get('authorization') ? '✓ Present' : '✗ None',
-				'origin': request.headers.get('origin'),
+				authorization: request.headers.get('authorization') ? '✓ Present' : '✗ None',
+				origin: request.headers.get('origin'),
 			},
 			url: request.url,
 		})
@@ -22,7 +22,7 @@ export const requestLogger = new Elysia({ name: 'request.logger' })
 	.onAfterResponse(({ request, set }) => {
 		const url = new URL(request.url)
 		const timestamp = new Date().toISOString()
-		
+
 		console.log('📤 Response:', {
 			timestamp,
 			method: request.method,

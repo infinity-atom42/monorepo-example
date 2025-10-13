@@ -24,7 +24,6 @@ A modern monorepo setup with infrastructure services and development tools.
 3. **Start infrastructure services** (optional, see [Infrastructure Services](#infrastructure-services))
 
    ```bash
-   cd infra
    docker compose up -d
    ```
 

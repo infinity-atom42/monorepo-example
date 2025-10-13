@@ -1,12 +1,13 @@
 {
 	"name": "@packages/schemas",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"exports": {
 		"./pagination": "./src/pagination/index.ts",
 		"./pagination/cursor": "./src/pagination/cursor.ts",
-		"./events": "./src/events/index.ts"
+		"./events": "./src/events/index.ts",
+		"./decimal": "./src/decimal/index.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
@@ -15,9 +16,16 @@
 		"type:check": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"zod": "catalog:"
+		"zod": "catalog:",
+		"decimal.js": "catalog:"
 	},
 	"peerDependencies": {
-		"zod": "catalog:"
+		"zod": "catalog:",
+		"decimal.js": "catalog:"
+	},
+	"peerDependenciesMeta": {
+		"decimal.js": {
+			"optional": true
+		}
 	}
 }

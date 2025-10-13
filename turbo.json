@@ -35,6 +35,13 @@
 			"inputs": ["src/utils/auth.ts", "src/db/auth-schema.ts", ".env*", "!.env*.example"],
 			"outputs": ["src/db/auth-schema.ts"]
 		},
+		"auth:migrate": {
+			"dependsOn": ["^auth:generate"],
+			"inputs": ["src/db/auth-schema.ts", "src/scripts/auth.config.ts", ".env*", "!.env*.example"]
+		},
+		"auth:push": {
+			"cache": false
+		},
 		"db:generate": {
 			"dependsOn": ["^auth:generate"],
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"],

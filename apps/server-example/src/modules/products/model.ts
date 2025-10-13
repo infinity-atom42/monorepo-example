@@ -1,14 +1,16 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
+// import { moneyString } from '@packages/schemas/decimal'
 import { createPaginatedResponse, paginationQuery } from '@packages/schemas/pagination'
+
 import { products } from '@se/db/schema'
 
 // Field validation rules
 const productRefinements = {
 	name: (schema: z.ZodString) => schema.min(1).max(200),
 	description: (schema: z.ZodString) => schema.min(1),
-	price: (schema: z.ZodString) => schema.min(0),
+	// price: () => moneyString,
 	sku: (schema: z.ZodString) => schema.min(1).max(100),
 	category: (schema: z.ZodString) => schema.min(1),
 }
@@ -34,8 +36,8 @@ export const listProductsQuery = z.object({
 	...paginationQuery.shape,
 	inStock: select.shape.inStock.optional(),
 	category: select.shape.category.optional(),
-	minPrice: select.shape.price.min(0).optional(),
-	maxPrice: select.shape.price.min(0).optional(),
+	// minPrice: moneyString.optional(),
+	// maxPrice: moneyString.optional(),
 })
 export const listProductsResponse = createPaginatedResponse(product)
 

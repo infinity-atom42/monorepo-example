@@ -1,42 +1,35 @@
 import { Elysia } from 'elysia'
 
 import { auth } from '@se/plugins/auth'
+
 import * as PostModel from './model'
 import * as PostService from './service'
 
 export const postController = new Elysia({ prefix: '/posts' })
 	.use(auth)
-	.get(
-		'/',
-		({ query }) => PostService.listPosts(query),
-		{
-			query: PostModel.listPostsQuery,
-			response: {
-				200: PostModel.listPostsResponse,
-			},
-			detail: {
-				tags: ['Posts'],
-				summary: 'List posts',
-				description: 'Get a paginated list of posts with optional filters',
-			},
-		}
-	)
-	.get(
-		'/:postId',
-		({ params }) => PostService.getPostById(params.postId),
-		{
-			params: PostModel.postIdParam,
-			response: {
-				200: PostModel.post,
-				404: PostModel.errorNotFound,
-			},
-			detail: {
-				tags: ['Posts'],
-				summary: 'Get post by ID',
-				description: 'Get a specific post by its ID',
-			},
-		}
-	)
+	.get('/', ({ query }) => PostService.listPosts(query), {
+		query: PostModel.listPostsQuery,
+		response: {
+			200: PostModel.listPostsResponse,
+		},
+		detail: {
+			tags: ['Posts'],
+			summary: 'List posts',
+			description: 'Get a paginated list of posts with optional filters',
+		},
+	})
+	.get('/:postId', ({ params }) => PostService.getPostById(params.postId), {
+		params: PostModel.postIdParam,
+		response: {
+			200: PostModel.post,
+			404: PostModel.errorNotFound,
+		},
+		detail: {
+			tags: ['Posts'],
+			summary: 'Get post by ID',
+			description: 'Get a specific post by its ID',
+		},
+	})
 	.post(
 		'/',
 		({ body, user }) => {

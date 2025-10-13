@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import { Toaster } from '@packages/ui/components/sonner'
 import { ThemeProvider } from '@packages/ui/components/theme-provider'
 
-import { QueryClientProvider, AuthUIProvider } from '@/providers'
+import { AuthUIProvider, QueryClientProvider } from '@/providers'
 
 const fontSans = Geist({
 	subsets: ['latin'],
@@ -33,8 +33,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			suppressHydrationWarning
-			className="h-full"
-			>
+			className="h-full">
 			<body className={`${fontSans.variable} ${fontMono.variable} flex min-h-full flex-col font-sans antialiased`}>
 				<ThemeProvider>
 					<QueryClientProvider>

@@ -44,6 +44,9 @@ docker compose down
 
 # Stop and remove volumes (⚠️ deletes data)
 docker compose down -v
+
+# Removes EVERYTHING including images (requires re-download)
+docker compose down -v --rmi all
 ```
 
 ### Monitor Services

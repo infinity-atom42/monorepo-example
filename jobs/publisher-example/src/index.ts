@@ -29,7 +29,12 @@ await channel.waitForConnect()
 console.log('🚀 Publishing demo events')
 
 await channel.publish(exchange.ORDER, event.ORDER_CREATED.key, { orderId: 'o_1', total: 42 }, { persistent: true })
-await channel.publish(exchange.ORDER, event.ORDER_FAILED.key, { orderId: 'o_2', reason: 'inventory_out' }, { persistent: true })
+await channel.publish(
+	exchange.ORDER,
+	event.ORDER_FAILED.key,
+	{ orderId: 'o_2', reason: 'inventory_out' },
+	{ persistent: true }
+)
 await channel.publish(
 	exchange.PAYMENT,
 	event.PAYMENT_SUCCEEDED.key,

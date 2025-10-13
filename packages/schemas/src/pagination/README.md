@@ -18,7 +18,7 @@ Two pagination strategies for different use cases:
 **Example:**
 
 ```typescript
-import { paginationQuery, createPaginatedResponse } from '@packages/schemas'
+import { createPaginatedResponse, paginationQuery } from '@packages/schemas'
 
 export const listProductsQuery = z.object({
   ...paginationQuery.shape,
@@ -52,7 +52,7 @@ const { totalPages, hasNextPage, hasPreviousPage } = getPaginationHelpers(meta)
 **Example:**
 
 ```typescript
-import { cursorPaginationQuery, createCursorPaginatedResponse } from '@packages/schemas'
+import { createCursorPaginatedResponse, cursorPaginationQuery } from '@packages/schemas'
 
 export const listActivityQuery = z.object({
   ...cursorPaginationQuery.shape,
@@ -95,9 +95,9 @@ if (meta.hasPreviousPage) {
 
 ### Comparison
 
-| Feature | Offset | Cursor |
-|---------|--------|--------|
-| Jump to page N | ✅ | ❌ |
-| Performance (large data) | ⚠️ Slow | ✅ Fast |
-| No duplicates on data changes | ❌ | ✅ |
-| Implementation complexity | ✅ Simple | ⚠️ Complex |
+| Feature                       | Offset    | Cursor     |
+| ----------------------------- | --------- | ---------- |
+| Jump to page N                | ✅        | ❌         |
+| Performance (large data)      | ⚠️ Slow   | ✅ Fast    |
+| No duplicates on data changes | ❌        | ✅         |
+| Implementation complexity     | ✅ Simple | ⚠️ Complex |

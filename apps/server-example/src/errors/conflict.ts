@@ -1,11 +1,10 @@
-import { BaseHttpError } from './base-http'
+import BaseHttpError from './base-http-error'
 
 export class ConflictError extends BaseHttpError {
 	status = 409
-	productionMessage = 'Resource conflict'
 
 	constructor(message: string = 'Resource conflict', cause?: unknown) {
-		super(message, cause)
+		super(message, { cause })
 		this.name = 'ConflictError'
 	}
 }

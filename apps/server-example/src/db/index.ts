@@ -6,6 +6,6 @@ import { env } from '@se/env'
 export const pool = new Pool({
 	connectionString: env.DATABASE_URL,
 })
-export const db = drizzle({ client: pool })
+const db = drizzle({ client: pool })
 
 export default db

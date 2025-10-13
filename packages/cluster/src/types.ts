@@ -15,7 +15,7 @@ export interface ClusterConfig<TWorkerModule = unknown> {
 	serviceName: string
 	isProduction: boolean
 	workerModulePath: string // Use: new URL('./module.ts', import.meta.url).pathname
-	
+
 	// Optional configuration
 	shutdownTimeoutMs?: number // Default: 10000ms
 

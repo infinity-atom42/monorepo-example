@@ -8,6 +8,8 @@
 	],
 	"scripts": {
 		"auth:generate": "turbo run auth:generate",
+		"auth:migrate": "turbo run auth:migrate",
+		"auth:push": "turbo run auth:push",
 		"build": "turbo run build",
 		"clean": "turbo run clean && rm -rf .turbo node_modules",
 		"db:generate": "turbo run db:generate",
@@ -15,23 +17,20 @@
 		"db:push": "turbo run db:push",
 		"db:seed": "turbo run db:seed",
 		"dev": "turbo run dev",
-		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore --ignore-pattern \"**/auth-schema.ts\"",
+		"format": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore --ignore-pattern \"**/auth-schema.ts\"",
 		"format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore --ignore-pattern \"**/auth-schema.ts\"",
 		"lint": "turbo run lint",
 		"start": "turbo run start",
 		"test": "turbo run test",
 		"type:check": "turbo run type:check"
 	},
-	"dependencies": {
-		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:"
-	},
 	"devDependencies": {
 		"@faker-js/faker": "^10.0.0",
 		"@ianvs/prettier-plugin-sort-imports": "^4.7.0",
 		"@packages/config": "workspace:*",
-		"eslint": "^9.36.0",
+		"@types/node": "^24.7.2",
+		"eslint": "^9.37.0",
+		"knip": "^5.64.3",
 		"prettier": "^3.6.2",
 		"prettier-plugin-nginx": "^1.0.3",
 		"prettier-plugin-packagejson": "^2.5.19",
@@ -39,9 +38,9 @@
 		"prettier-plugin-sql": "^0.19.2",
 		"prettier-plugin-tailwindcss": "^0.6.14",
 		"turbo": "^2.5.8",
-		"typescript": "5.9.2"
+		"typescript": "5.9.3"
 	},
-	"packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34",
+	"packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd",
 	"engines": {
 		"node": ">=22"
 	},

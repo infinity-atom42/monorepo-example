@@ -2,10 +2,10 @@ import { z } from 'zod'
 
 /**
  * Query parameters for cursor-based pagination
- * 
+ *
  * Use this to extend your API query schemas with cursor pagination support.
  * Best for: Large datasets, infinite scroll, real-time feeds.
- * 
+ *
  * @example
  * export const listActivityQuery = z.object({
  *   ...cursorPaginationQuery.shape,
@@ -13,7 +13,7 @@ import { z } from 'zod'
  * })
  * // First page: GET /activity?limit=10
  * // Next page: GET /activity?cursor=abc123&order=asc&limit=10
- * 
+ *
  * // Note: Cursor is EXCLUSIVE (WHERE id > cursor, not >=)
  */
 export const cursorPaginationQuery = z.object({
@@ -24,9 +24,9 @@ export const cursorPaginationQuery = z.object({
 
 /**
  * Metadata returned by server in cursor-paginated responses
- * 
+ *
  * Server determines if more pages exist based on data availability.
- * 
+ *
  * @example
  * { limit: 10, hasNextPage: true, hasPreviousPage: false }
  */
@@ -38,14 +38,14 @@ export const cursorPaginationMeta = z.object({
 
 /**
  * Creates a complete cursor-paginated response schema
- * 
+ *
  * Wraps your data schema with cursor pagination metadata.
  * Client extracts cursor values directly from data items.
- * 
+ *
  * @example
  * export const listActivityResponse = createCursorPaginatedResponse(activitySchema)
  * // Server returns: { data: Activity[], meta: { limit, hasNextPage, hasPreviousPage } }
- * 
+ *
  * // Client usage:
  * const lastCursor = data.at(-1)?.id
  * if (meta.hasNextPage) fetchNext({ cursor: lastCursor, order: 'asc', limit: 10 })

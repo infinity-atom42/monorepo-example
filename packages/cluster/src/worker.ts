@@ -77,21 +77,21 @@ export async function runWorker<T>(config: ClusterConfig<T>): Promise<void> {
 	// ========================================
 	// Phase 1: Import & Initialize Worker Module
 	// ========================================
-	
+
 	const workerModule = await importWorkerModule()
 	if (!workerModule) return // Import failed, process will exit
 
 	// ========================================
 	// Phase 2: Call Startup Callback
 	// ========================================
-	
+
 	const startupSuccess = await callStartupCallback(workerModule)
 	if (!startupSuccess) return // Startup failed, process will exit
 
 	// ========================================
 	// Phase 3: Register Shutdown Handlers
 	// ========================================
-	
+
 	const shutdownWorker = createShutdownHandler(workerModule)
 	process.on('SIGTERM', shutdownWorker)
 	process.on('SIGINT', shutdownWorker)

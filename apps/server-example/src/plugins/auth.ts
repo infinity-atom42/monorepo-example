@@ -1,15 +1,11 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { drizzle } from 'drizzle-orm/node-postgres'
 import { Elysia } from 'elysia'
 
-import { pool } from '@se/db/db'
+import db from '@se/db/auth-db'
 import { env } from '@se/env'
 
-import * as authSchema from '../../../web-example/src/db/auth-schema'
-
-// Connect to the SAME database where sessions are stored (web_example)
-const authDb = drizzle(pool, { schema: authSchema })
+import * as schema from '../../../web-example/src/db/auth-schema'
 
 // Backend auth instance ONLY for session validation (not for handling auth endpoints)
 const auth = betterAuth({
@@ -23,10 +19,10 @@ const auth = betterAuth({
 	// 	},
 	// },
 	trustedOrigins: [env.API_CLIENT_BASE_URL], // Trust requests from backend
-	database: drizzleAdapter(authDb, {
+	database: drizzleAdapter(db, {
 		provider: 'pg',
 		usePlural: true,
-		schema: authSchema,
+		schema,
 	}),
 })
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { eq } from 'drizzle-orm'
+import { DrizzleQueryError, eq } from 'drizzle-orm'
 
-import { db } from '@se/db/db'
+import db from '@se/db'
 import { products } from '@se/db/schema'
 import { ConflictError, NotFoundError, NotImplementedError } from '@se/errors'
 
@@ -9,17 +9,14 @@ import type * as ProductModel from './model'
 
 export async function createProduct(data: ProductModel.CreateProductBody): Promise<ProductModel.CreateProductResponse> {
 	try {
-		const [product] = await db
-			.insert(products)
-			.values(data)
-			.returning()
+		const [product] = await db.insert(products).values(data).returning()
 
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		return product!
 	} catch (error) {
 		// Handle unique constraint violation for SKU
-		if (error instanceof Error && 'code' in error && error.code === '23505') {
-			throw new ConflictError('Product with this SKU already exists')
+		if (error instanceof DrizzleQueryError && error.cause && 'code' in error.cause && error.cause.code === '23505') {
+			throw new ConflictError('Product with this SKU already exists', error.cause)
 		}
 		throw error
 	}
@@ -35,13 +32,12 @@ export async function getProductById(productId: ProductModel.ProductId): Promise
 	return product
 }
 
-export async function updateProduct(productId: ProductModel.ProductId, data: ProductModel.UpdateProductBody): Promise<ProductModel.UpdateProductResponse> {
+export async function updateProduct(
+	productId: ProductModel.ProductId,
+	data: ProductModel.UpdateProductBody
+): Promise<ProductModel.UpdateProductResponse> {
 	try {
-		const [product] = await db
-			.update(products)
-			.set(data)
-			.where(eq(products.id, productId))
-			.returning()
+		const [product] = await db.update(products).set(data).where(eq(products.id, productId)).returning()
 
 		if (!product) {
 			throw new NotFoundError('Product not found')
@@ -58,10 +54,7 @@ export async function updateProduct(productId: ProductModel.ProductId, data: Pro
 }
 
 export async function deleteProduct(productId: ProductModel.ProductId): Promise<void> {
-	const [product] = await db
-		.delete(products)
-		.where(eq(products.id, productId))
-		.returning()
+	const [product] = await db.delete(products).where(eq(products.id, productId)).returning()
 
 	if (!product) {
 		throw new NotFoundError('Product not found')

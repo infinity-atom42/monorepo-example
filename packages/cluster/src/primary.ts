@@ -72,7 +72,7 @@ export async function runPrimary<T>(config: ClusterConfig<T>, shutdownTimeout: n
 		return (signal: string) => {
 			// Prevent duplicate shutdown calls
 			if (isShuttingDown) return
-			
+
 			// Log shutdown
 			if (config.onPrimaryShutdown) {
 				config.onPrimaryShutdown({ signal })
@@ -102,7 +102,7 @@ export async function runPrimary<T>(config: ClusterConfig<T>, shutdownTimeout: n
 	// ========================================
 	// Phase 1: Spawn Workers
 	// ========================================
-	
+
 	for (let i = 0; i < workerCount; i++) {
 		const worker = cluster.fork()
 		if (worker.process.pid) {
@@ -118,7 +118,7 @@ export async function runPrimary<T>(config: ClusterConfig<T>, shutdownTimeout: n
 	// ========================================
 	// Phase 2: Log Startup
 	// ========================================
-	
+
 	if (config.onPrimaryStartup) {
 		config.onPrimaryStartup({ workerCount })
 	} else {
@@ -129,7 +129,7 @@ export async function runPrimary<T>(config: ClusterConfig<T>, shutdownTimeout: n
 	// ========================================
 	// Phase 3: Handle Worker Exits
 	// ========================================
-	
+
 	cluster.on('exit', (worker, code, signal) => {
 		const pid = worker.process.pid ?? 0
 		const workerId = worker.id
@@ -144,7 +144,7 @@ export async function runPrimary<T>(config: ClusterConfig<T>, shutdownTimeout: n
 	// ========================================
 	// Phase 4: Register Shutdown Handlers
 	// ========================================
-	
+
 	const shutdownPrimary = createShutdownHandler()
 	process.on('SIGTERM', () => shutdownPrimary('SIGTERM'))
 	process.on('SIGINT', () => shutdownPrimary('SIGINT'))
