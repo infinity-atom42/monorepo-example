@@ -26,7 +26,6 @@ export function createSortQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObj
 				}),
 			)
 			.optional()
-			.default([]),
 	})
 }
 

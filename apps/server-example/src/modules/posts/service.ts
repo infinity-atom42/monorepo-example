@@ -7,13 +7,8 @@ import { NotFoundError, NotImplementedError } from '@se/errors'
 
 import type * as PostModel from './model'
 
-export async function createPost(
-	data: PostModel.CreatePostBody
-): Promise<PostModel.CreatePostResponse> {
-	const [post] = await db
-		.insert(posts)
-		.values(data)
-		.returning()
+export async function createPost(data: PostModel.CreatePostBody): Promise<PostModel.CreatePostResponse> {
+	const [post] = await db.insert(posts).values(data).returning()
 
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	return post!
@@ -51,5 +46,23 @@ export async function deletePost(postId: PostModel.PostId): Promise<void> {
 }
 
 export function listPosts(_query: PostModel.ListPostsQuery): PostModel.ListPostsResponse {
-	throw new NotImplementedError('listPosts')
+	return {
+		data: [
+			{
+				id: '46633897-5768-4e72-9039-1858a4bd5bf5',
+				title: 'title',
+				content: 'content',
+				blogId: '46633897-5768-4e72-9039-1858a4bd5bf5',
+				published: true,
+				createdAt: '2021-01-01',
+				updatedAt: '2021-01-01',
+			},
+		],
+
+		meta: {
+			page: 1,
+			limit: 10,
+			total: 100,
+		},
+	}
 }

@@ -25,10 +25,10 @@ catalog:
   '@types/react': 19.2.2
   '@types/react-dom': 19.2.1
   '@zod/core': 0.11.6
-  'decimal.js': 10.6.0
   amqp-connection-manager: 5.0.0
   amqplib: 0.10.9
   better-auth: 1.3.27
+  decimal.js: 10.6.0
   drizzle-kit: 0.31.5
   drizzle-orm: 0.44.6
   drizzle-seed: 0.3.1
