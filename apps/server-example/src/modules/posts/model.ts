@@ -65,45 +65,6 @@ export const listPostsQuery = z.object({
 	...createIncludeQuery(includable).shape,
 })
 
-// Test: don't remove this
-type testListPostsQuery = z.infer<typeof listPostsQuery>
-
-const { success, data: test } = listPostsQuery.safeParse({
-	page: 2,
-	limit: 20,
-	sort: [
-			{ field: 'createdAt', order: 'desc' },
-			{ field: 'title', order: 'asc' },
-		],
-	select: ['id', 'title', 'published', 'published'],
-	include: {
-		blog: {
-			select: ['id', 'name'],
-		},
-	},
-} satisfies testListPostsQuery)
-
-if (!success) {
-	console.log('Parse failed')
-} else {
-	console.log('Data parsed successfully >>>>>>>>>>>>')
-	console.log(JSON.stringify(test, null, 2))
-	console.log('test.include.blog >>>>>>>>>>>>')
-	const blogTest = test.include?.['blog']
-	if (blogTest === undefined) {
-		console.log('blogTest is undefined')
-	} else if (blogTest === true) {
-		// const blogTest: true
-		console.log(blogTest, 'is undefined')
-	} else {
-		const blogSelect = blogTest.select
-		console.log(blogSelect)
-	}
-	console.log(blogTest)
-}
-
-// End test
-
 export const listPostsResponse = createPaginatedResponse(post)
 
 // API responses

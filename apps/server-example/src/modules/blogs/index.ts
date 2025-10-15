@@ -6,7 +6,7 @@ import * as BlogModel from './model'
 import * as BlogService from './service'
 
 export const blogController = new Elysia({ prefix: '/blogs' })
-	.use(auth)
+	// .use(auth)
 	.post('/', ({ body }) => BlogService.createBlog(body), {
 		body: BlogModel.createBlogBody,
 		response: {

@@ -6,7 +6,8 @@
 	"exports": {
 		"./query": "./src/query/index.ts",
 		"./events": "./src/events/index.ts",
-		"./decimal": "./src/decimal/index.ts"
+		"./decimal": "./src/decimal/index.ts",
+		"./utils": "./src/utils/index.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
