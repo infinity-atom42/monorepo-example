@@ -6,13 +6,9 @@ import { createSelectQuery } from './select'
 type AnyZodObject = z.ZodObject<z.ZodRawShape>
 
 /** Extracts the raw shape from a Zod object, used to feed `createSelectQuery`. */
-type ZodObjectShape<TSchema extends AnyZodObject> = TSchema extends z.ZodObject<infer Shape>
-	? Shape
-	: never
+type ZodObjectShape<TSchema extends AnyZodObject> = TSchema extends z.ZodObject<infer Shape> ? Shape : never
 
-type RelationSelectSchema<TSchema extends AnyZodObject> = ReturnType<
-	typeof createSelectQuery<ZodObjectShape<TSchema>>
->
+type RelationSelectSchema<TSchema extends AnyZodObject> = ReturnType<typeof createSelectQuery<ZodObjectShape<TSchema>>>
 
 /** Schema used to validate a single relation entry inside the include object. */
 type IncludeFieldSchema<TSchema extends AnyZodObject> = z.ZodOptional<
@@ -33,8 +29,8 @@ type SelectKeys<TSchema extends AnyZodObject> = Extract<keyof ZodObjectShape<TSc
 export type IncludeRelationValue<TSchema extends AnyZodObject> =
 	| true
 	| {
-		select?: Array<SelectKeys<TSchema>>
-	}
+			select?: Array<SelectKeys<TSchema>>
+	  }
 
 /** Type representing the full include object keyed by relation names. */
 export type IncludeSelection<TRelations extends Record<string, AnyZodObject>> = {
@@ -50,29 +46,21 @@ export type IncludeQuery<TRelations extends Record<string, AnyZodObject>> = {
  * Creates a Zod schema that validates relation include parameters.
  * Each relation can be toggled (`true`) or provide a nested select payload limited to the relation's fields.
  */
-export function createIncludeQuery<TRelations extends Record<string, AnyZodObject>>(
-	relations: TRelations,
-) {
+export function createIncludeQuery<TRelations extends Record<string, AnyZodObject>>(relations: TRelations) {
 	const includeShape = {} as IncludeSelectionSchema<TRelations>
 
 	for (const relationName of Object.keys(relations) as Array<keyof TRelations>) {
 		const schema = relations[relationName]
 		if (!schema) continue
-		const selectQuery = createSelectQuery(
-			schema,
-		) as RelationSelectSchema<TRelations[typeof relationName]>
+		const selectQuery = createSelectQuery(schema) as RelationSelectSchema<TRelations[typeof relationName]>
 
-		includeShape[relationName] = z
-			.union([z.literal(true), selectQuery])
-			.optional() as IncludeFieldSchema<TRelations[typeof relationName]>
+		includeShape[relationName] = z.union([z.literal(true), selectQuery]).optional() as IncludeFieldSchema<
+			TRelations[typeof relationName]
+		>
 	}
 
 	return z.object({
-		include: z
-			.object(includeShape)
-			.strict()
-			.optional()
-			.describe('Relations to include in response'),
+		include: z.object(includeShape).strict().optional().describe('Relations to include in response'),
 	})
 }
 
@@ -80,6 +68,34 @@ export function createIncludeQuery<TRelations extends Record<string, AnyZodObjec
 export type IncludeQuerySchema<TRelations extends Record<string, AnyZodObject>> = ReturnType<
 	typeof createIncludeQuery<TRelations>
 >
+
+/**
+ * Normalizes nested include payloads:
+ * - Coerces `select` from string to string[]
+ * - De-duplicates string[] values
+ * - Preserves non-object/boolean relation toggles
+ */
+export function normalizeNestedSelectArray<T>(input: T): T {
+	const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+		typeof v === 'object' && v !== null && !Array.isArray(v)
+
+	if (!isPlainObject(input)) return input
+
+	const result: Record<string, unknown> = {}
+	for (const [key, raw] of Object.entries(input as Record<string, unknown>)) {
+		if (isPlainObject(raw)) {
+			const next: Record<string, unknown> = { ...raw }
+			if ('select' in next) {
+				const sel = (next as Record<string, unknown>)['select']
+				if (typeof sel === 'string') (next as Record<string, unknown>)['select'] = sel ? [sel] : []
+			}
+			result[key] = normalizeNestedSelectArray(next)
+		} else {
+			result[key] = raw
+		}
+	}
+	return result as T
+}
 
 /**
  * Usage example:

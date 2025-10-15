@@ -6,7 +6,7 @@ import { z } from 'zod'
  */
 export function createSelectQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
 	return z.object({
-		select: z.array(allowedFields.keyof()).optional().describe('Fields to include in response'),
+		select: z.array(allowedFields.keyof()).optional().default([]).describe('Fields to include in response'),
 	})
 }
 

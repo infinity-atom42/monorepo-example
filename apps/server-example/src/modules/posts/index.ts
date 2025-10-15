@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia'
 import z from 'zod'
 
+import { normalizeNestedSelectArray } from '@packages/schemas/query'
 import { uniqueArraySchema } from '@packages/schemas/utils'
 
 import { ValidationError } from '@se/errors'
@@ -11,6 +12,9 @@ import * as PostService from './service'
 
 export const postController = new Elysia({ prefix: '/posts' })
 	// .use(auth)
+	.onBeforeHandle(({ query }) => {
+		console.log(query)
+	})
 	.get(
 		'/',
 		({ query }) => {
@@ -30,6 +34,15 @@ export const postController = new Elysia({ prefix: '/posts' })
 		},
 		{
 			query: PostModel.listPostsQuery,
+			transform: ({ query }) => {
+				if (typeof query.select === 'string') {
+					query.select = query.select ? [query.select] : []
+				}
+				console.log(query)
+				// if (query.include) {
+				// 	query.include = normalizeNestedSelectArray(query.include)
+				// }
+			},
 			response: {
 				200: PostModel.listPostsResponse,
 			},
