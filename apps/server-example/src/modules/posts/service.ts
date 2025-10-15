@@ -8,15 +8,11 @@ import { NotFoundError, NotImplementedError } from '@se/errors'
 import type * as PostModel from './model'
 
 export async function createPost(
-	authorId: string,
 	data: PostModel.CreatePostBody
 ): Promise<PostModel.CreatePostResponse> {
 	const [post] = await db
 		.insert(posts)
-		.values({
-			...data,
-			authorId,
-		})
+		.values(data)
 		.returning()
 
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

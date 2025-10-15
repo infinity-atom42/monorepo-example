@@ -1,9 +1,17 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-import { createPaginatedResponse, paginationQuery } from '@packages/schemas/pagination'
+import {
+	createIncludeQuery,
+	createPaginatedResponse,
+	createSelectQuery,
+	createSortQuery,
+	paginationQuery,
+} from '@packages/schemas/query'
 
 import { posts } from '@se/db/schema'
+
+import { blog } from '../blogs/model'
 
 // Field validation rules
 const postRefinements = {
@@ -15,7 +23,6 @@ const postRefinements = {
 const select = createSelectSchema(posts, postRefinements)
 const insert = createInsertSchema(posts, postRefinements).omit({
 	id: true,
-	authorId: true,
 	createdAt: true,
 	updatedAt: true,
 })
@@ -29,11 +36,74 @@ export const createPostBody = insert
 export const createPostResponse = post
 export const updatePostBody = update
 export const updatePostResponse = post
+
+const sortable = post.pick({ title: true, createdAt: true, updatedAt: true })
+
+const selectable = post.pick({
+	id: true,
+	title: true,
+	content: true,
+	blogId: true,
+	published: true,
+	createdAt: true,
+	updatedAt: true,
+})
+
+const includable = {
+	blog: blog.pick({
+		id: true,
+		name: true,
+		createdAt: true,
+		updatedAt: true,
+	}),
+}
+
 export const listPostsQuery = z.object({
 	...paginationQuery.shape,
-	published: z.boolean().optional(),
-	authorId: z.string().optional(),
+	...createSortQuery(sortable).shape,
+	...createSelectQuery(selectable).shape,
+	...createIncludeQuery(includable).shape,
 })
+
+// Test: don't remove this
+type testListPostsQuery = z.infer<typeof listPostsQuery>
+
+const { success, data: test } = listPostsQuery.safeParse({
+	page: 2,
+	limit: 20,
+	sort: [
+			{ field: 'createdAt', order: 'desc' },
+			{ field: 'title', order: 'asc' },
+		],
+	select: ['id', 'title', 'published', 'published'],
+	include: {
+		blog: {
+			select: ['id', 'name'],
+		},
+	},
+} satisfies testListPostsQuery)
+
+if (!success) {
+	console.log('Parse failed')
+} else {
+	console.log('Data parsed successfully >>>>>>>>>>>>')
+	console.log(JSON.stringify(test, null, 2))
+	console.log('test.include.blog >>>>>>>>>>>>')
+	const blogTest = test.include?.['blog']
+	if (blogTest === undefined) {
+		console.log('blogTest is undefined')
+	} else if (blogTest === true) {
+		// const blogTest: true
+		console.log(blogTest, 'is undefined')
+	} else {
+		const blogSelect = blogTest.select
+		console.log(blogSelect)
+	}
+	console.log(blogTest)
+}
+
+// End test
+
 export const listPostsResponse = createPaginatedResponse(post)
 
 // API responses

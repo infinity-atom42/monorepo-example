@@ -6,7 +6,7 @@ import { openapi } from '@elysiajs/openapi'
 import { env } from '@se/env'
 
 import { errorHandling } from './errors'
-import { postController, productController } from './modules'
+import { postController, productController, blogController } from './modules'
 // import { requestLogger } from './plugins'
 
 const app = new Elysia()
@@ -46,7 +46,7 @@ const app = new Elysia()
 		status: 'ok',
 		timestamp: new Date().toISOString(),
 	}))
-	.group('/v1', (app) => app.use(postController).use(productController))
+	.group('/v1', (app) => app.use(postController).use(productController).use(blogController))
 	.listen(env.PORT)
 
 export { app }

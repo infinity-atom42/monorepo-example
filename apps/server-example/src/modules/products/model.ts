@@ -2,7 +2,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 // import { moneyString } from '@packages/schemas/decimal'
-import { createPaginatedResponse, paginationQuery } from '@packages/schemas/pagination'
+import { createPaginatedResponse, paginationQuery } from '@packages/schemas/query'
 
 import { products } from '@se/db/schema'
 

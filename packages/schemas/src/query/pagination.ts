@@ -13,8 +13,8 @@ import { z } from 'zod'
  * // GET /products?page=2&limit=20&category=electronics
  */
 export const paginationQuery = z.object({
-	page: z.number().min(1).default(1).optional(),
-	limit: z.number().min(1).max(100).default(10).optional(),
+	page: z.number().min(1).default(1),
+	limit: z.number().min(1).max(100).default(10),
 })
 
 /**

@@ -32,9 +32,7 @@ export const postController = new Elysia({ prefix: '/posts' })
 	})
 	.post(
 		'/',
-		({ body, user }) => {
-			return PostService.createPost(user.id, body)
-		},
+		({ body }) => PostService.createPost(body),
 		{
 			body: PostModel.createPostBody,
 			response: {
@@ -49,9 +47,7 @@ export const postController = new Elysia({ prefix: '/posts' })
 	)
 	.put(
 		'/:postId',
-		({ params, body }) => {
-			return PostService.updatePost(params.postId, body)
-		},
+		({ params, body }) => PostService.updatePost(params.postId, body),
 		{
 			params: PostModel.postIdParam,
 			body: PostModel.updatePostBody,

@@ -4,8 +4,7 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./pagination": "./src/pagination/index.ts",
-		"./pagination/cursor": "./src/pagination/cursor.ts",
+		"./query": "./src/query/index.ts",
 		"./events": "./src/events/index.ts",
 		"./decimal": "./src/decimal/index.ts"
 	},

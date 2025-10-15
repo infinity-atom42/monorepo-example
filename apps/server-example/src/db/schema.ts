@@ -1,5 +1,20 @@
 import { boolean, decimal, index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
+// Blogs table
+export const blogs = pgTable(
+	'blogs',
+	{
+		id: uuid('id').primaryKey().defaultRandom(),
+		name: text('name').notNull(),
+		artiom: text('artiom').notNull(),
+		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
+		updatedAt: timestamp('updated_at', { mode: 'string' })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => new Date().toISOString()),
+	}
+)
+
 // Posts table
 export const posts = pgTable(
 	'posts',
@@ -7,7 +22,9 @@ export const posts = pgTable(
 		id: uuid('id').primaryKey().defaultRandom(),
 		title: text('title').notNull(),
 		content: text('content').notNull(),
-		authorId: text('author_id').notNull(),
+		blogId: uuid('blog_id')
+			.notNull()
+			.references(() => blogs.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		published: boolean('published').notNull().default(false),
 		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
 		updatedAt: timestamp('updated_at', { mode: 'string' })
@@ -15,7 +32,7 @@ export const posts = pgTable(
 			.defaultNow()
 			.$onUpdate(() => new Date().toISOString()),
 	},
-	(table) => [index('posts_author_id_idx').on(table.authorId), index('posts_published_idx').on(table.published)]
+	(table) => [index('posts_published_idx').on(table.published), index('posts_blog_id_idx').on(table.blogId)]
 )
 
 // Products table
