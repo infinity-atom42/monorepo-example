@@ -20,10 +20,11 @@ const { data, error} = await example.v1.posts.get({
 		// 		select: ['id', 'name'],
 		// 	},
 		// },
-		// sort: [
-			// { field: 'createdAt', order: 'desc' },
-			// { field: 'title', order: 'asc' },
-		// ],
+		sort: {
+			createdAt: 'desc',
+			title: 'asc',
+			updatedAt: 'asc',
+		},
 	},
 })
 

@@ -13,6 +13,7 @@ export const postController = new Elysia({ prefix: '/posts' })
 	// .use(auth)
 	.onBeforeHandle(({ request, query }) => {
 		console.log(request.url)
+		console.log('--------------------------------')
 		console.log(query)
 	})
 	.get(
@@ -37,13 +38,14 @@ export const postController = new Elysia({ prefix: '/posts' })
 		{
 			query: PostModel.listPostsQuery,
 			transform: ({ query }) => {
+				console.log('decoded query')
+				console.log(query)
+				console.log('--------------------------------')
 				// If select has only one string value inside the query, then the parsed value is a string instead of an array
 				// so we need to convert it manually to an array or else the validation will fail
 				if (typeof query.select === 'string') {
 					query.select = query.select ? [query.select] : []
 				}
-				console.log('decoded query')
-				console.log(query)
 			},
 			response: {
 				200: PostModel.listPostsResponse,
