@@ -16,19 +16,18 @@ import { z } from 'zod'
  */
 export function createSortQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
 	const Order = z.enum(['asc', 'desc'])
+	const OrderWithIndex = z.tuple([Order, z.number().int().gte(0)])
+	const SortValue = z.union([Order, OrderWithIndex])
 	const sortShape = Object.keys(allowedFields.shape).reduce(
 		(acc, key) => {
-			acc[key as keyof T] = Order
+			acc[key as keyof T] = SortValue
 			return acc
 		},
-		{} as { [K in keyof T]: typeof Order },
+		{} as { [K in keyof T]: typeof SortValue },
 	)
 
 	return z.object({
-		sort: z.strictObject(sortShape).partial().optional().refine((val) => {
-			console.log('<<<<<<<<<<<<<<<<<<<<<<< parsing sort >>>>>>>>>>>>>>>>>>>>>>>>>>')
-			return val
-		}),
+		sort: z.strictObject(sortShape).partial().optional(),
 	})
 }
 
