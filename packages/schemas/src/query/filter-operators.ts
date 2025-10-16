@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-// ! Disclaimer: This code is not fully typesafe
+// ! Disclaimer: This code is not fully typesafe but it is validated correctly
 
 /**
  * Creates operator-based filter query validator

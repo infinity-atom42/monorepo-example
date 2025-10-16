@@ -1,9 +1,9 @@
-import { createInsertSchema, createSchemaFactory, createSelectSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 import {
 	createIncludeQuery,
-	createLogicalFilterQuery,
+	// createLogicalFilterQuery,
 	createOperatorFilterQuery,
 	createPaginatedResponse,
 	createSelectQuery,
@@ -20,16 +20,9 @@ import { blog } from '../blogs/model'
 const postRefinements = {
 	title: (schema: z.ZodString) => schema.min(1).max(200),
 	content: (schema: z.ZodString) => schema.min(1),
+	createdAt: () => z.iso.datetime(),
+	updatedAt: () => z.iso.datetime(),
 }
-
-const { createInsertSchema: createInsertSchemaQuery } = createSchemaFactory({
-	coerce: {
-		date: true,
-		number: true,
-		bigint: true,
-		boolean: true,
-	},
-})
 
 // API request/response models
 export const post = createSelectSchema(posts, postRefinements)
@@ -45,10 +38,9 @@ export const updatePostBody = createPostBody.partial()
 export const updatePostResponse = post
 
 // query models
-const postQuery = createInsertSchemaQuery(posts, postRefinements)
-const sortable = postQuery.pick({ title: true, createdAt: true, updatedAt: true })
+const sortable = post.pick({ title: true, createdAt: true, updatedAt: true })
 
-const selectable = postQuery.pick({
+const selectable = post.pick({
 	id: true,
 	title: true,
 	content: true,
@@ -67,7 +59,7 @@ const includable = {
 	}),
 }
 
-const filterable = postQuery.pick({
+const filterable = post.pick({
 	published: true,
 	blogId: true,
 	createdAt: true,
@@ -80,8 +72,8 @@ export const listPostsQuery = z.strictObject({
 	select: createSelectQuery(selectable).optional(),
 	include: createIncludeQuery(includable).optional(),
 	filter: createSimpleFilterQuery(filterable).optional(),
-	// filterOperators: createOperatorFilterQuery(filterable).optional(), // TODO: test this code
-	// filterLogical: createLogicalFilterQuery(filterable).optional(), // TODO: test this code
+	filterOperators: createOperatorFilterQuery(filterable).optional(),
+	// filterLogical: createLogicalFilterQuery(filterable).optional(),
 })
 
 export const listPostsResponse = createPaginatedResponse(post)

@@ -54,8 +54,8 @@ export function listPosts(_query: PostModel.ListPostsQuery): PostModel.ListPosts
 				content: 'content',
 				blogId: '46633897-5768-4e72-9039-1858a4bd5bf5',
 				published: true,
-				createdAt: new Date('2021-01-01'),
-				updatedAt: new Date('2021-01-01'),
+				createdAt: new Date('2021-01-01').toISOString(),
+				updatedAt: new Date('2021-01-01').toISOString(),
 			},
 		],
 
