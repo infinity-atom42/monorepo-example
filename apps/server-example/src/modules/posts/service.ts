@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm'
 
 import db from '@se/db'
 import { posts } from '@se/db/schema'
-import { NotFoundError, NotImplementedError } from '@se/errors'
+import { NotFoundError } from '@se/errors'
 
 import type * as PostModel from './model'
 

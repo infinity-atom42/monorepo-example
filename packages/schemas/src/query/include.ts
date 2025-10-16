@@ -55,9 +55,7 @@ export function createIncludeQuery<TRelations extends Record<string, AnyZodObjec
 		>
 	}
 
-	return z.object({
-		include: z.strictObject(includeShape).optional().describe('Relations to include in response'),
-	})
+    return z.strictObject(includeShape).partial().describe('Relations to include in response')
 }
 
 /** Convenience alias for the Zod schema returned by `createIncludeQuery`. */

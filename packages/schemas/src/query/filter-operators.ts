@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+// ! Disclaimer: This code is not fully typesafe
+
 /**
  * Creates operator-based filter query validator
  *
@@ -26,11 +28,11 @@ export function createOperatorFilterQuery<T extends z.ZodRawShape>(
 	// Create operator schemas for each field type
 	const filterFields = fieldNames.reduce(
 		(acc, fieldName) => {
-			const fieldSchema = allowedFields.shape[fieldName] as z.ZodTypeAny
+			const fieldSchema = allowedFields.shape[fieldName] as z.ZodType
 
 			// Create operators object for this field
 			acc[fieldName] = z
-				.object({
+				.strictObject({
 					eq: fieldSchema.optional(),
 					ne: fieldSchema.optional(),
 					gt: fieldSchema.optional(),
@@ -51,7 +53,7 @@ export function createOperatorFilterQuery<T extends z.ZodRawShape>(
 		{} as Record<string, z.ZodTypeAny>,
 	)
 
-	return z.object(filterFields).partial()
+	return z.strictObject(filterFields).partial()
 }
 
 export type OperatorFilterQuery<T extends z.ZodRawShape> = z.infer<

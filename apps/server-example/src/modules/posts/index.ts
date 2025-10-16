@@ -28,7 +28,7 @@ export const postController = new Elysia({ prefix: '/posts' })
 				})
 				.safeParse({
 					select: query.select,
-					blogSelect: query.include?.blog instanceof Object ? query.include?.blog.select : [],
+					blogSelect: Array.isArray(query.include?.blog) ? query.include?.blog : [],
 				})
 			if (!success) {
 				throw new ValidationError('query', query, error.issues)

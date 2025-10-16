@@ -16,19 +16,28 @@ const { data, error} = await example.v1.posts.get({
 		// Base field select
 		// select: ['id', 'title'],
 		// include: {
-		// 	blog: {
-		// 		select: ['id', 'name'],
-		// 	},
+		// 	blog: ['id', 'createdAt', 'updatedAt'],
 		// },
-		sort: {
-			title: ['asc', 1],
-			createdAt: ['desc', 1],
-			updatedAt: ['asc', 2],
-		},
-		// sort: [
-		// 	{ field: 'createdAt', order: 'desc' },
-		// 	{ field: 'title', order: 'asc' },
-		// ],
+		// sort: {
+		// 	title: ['asc', 1],
+		// 	createdAt: ['desc', 1],
+		// 	updatedAt: ['asc', 2],
+		// },
+		filter: {
+			blogId: {
+				eq: '46633897-5768-4e72-9039-1858a4bd5bf5',
+				in: ['46633897-5768-4e72-9039-1858a4bd5bf5'],
+			},
+			createdAt: {
+				gte: '2024-01-01',
+			},
+			updatedAt: {
+				lte: '2024-01-01',
+			},
+			published: {
+				eq: true,
+			},
+		}
 	},
 })
 

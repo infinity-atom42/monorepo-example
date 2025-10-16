@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import {
 	createIncludeQuery,
+	createOperatorFilterQuery,
 	createPaginatedResponse,
 	createSelectQuery,
 	createSortQuery,
@@ -58,11 +59,19 @@ const includable = {
 	}),
 }
 
+const filterable = post.pick({
+	published: true,
+	blogId: true,
+	createdAt: true,
+	updatedAt: true,
+})
+
 export const listPostsQuery = z.object({
 	...paginationQuery.shape,
-	...createSortQuery(sortable).shape,
-	...createSelectQuery(selectable).shape,
-	...createIncludeQuery(includable).shape,
+	sort: createSortQuery(sortable).optional(),
+	select: createSelectQuery(selectable).optional(),
+	include: createIncludeQuery(includable).optional(),
+	filter: createOperatorFilterQuery(filterable).optional(),
 })
 
 export const listPostsResponse = createPaginatedResponse(post)

@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+// ! Disclaimer: This code is not fully typesafe
+
 /**
  * Creates logical combinator filter query validator
  *

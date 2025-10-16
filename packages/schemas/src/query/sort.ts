@@ -26,9 +26,7 @@ export function createSortQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObj
 		{} as { [K in keyof T]: typeof SortValue },
 	)
 
-	return z.object({
-		sort: z.strictObject(sortShape).partial().optional(),
-	})
+    return z.strictObject(sortShape).partial()
 }
 
 export type SortQuery<T extends z.ZodRawShape> = z.infer<
