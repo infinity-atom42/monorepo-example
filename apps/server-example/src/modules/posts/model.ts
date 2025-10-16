@@ -3,8 +3,6 @@ import { z } from 'zod'
 
 import {
 	createIncludeQuery,
-	// createLogicalFilterQuery,
-	createOperatorFilterQuery,
 	createPaginatedResponse,
 	createSelectQuery,
 	createSimpleFilterQuery,
@@ -72,8 +70,6 @@ export const listPostsQuery = z.strictObject({
 	select: createSelectQuery(selectable).optional(),
 	include: createIncludeQuery(includable).optional(),
 	filter: createSimpleFilterQuery(filterable).optional(),
-	filterOperators: createOperatorFilterQuery(filterable).optional(),
-	// filterLogical: createLogicalFilterQuery(filterable).optional(),
 })
 
 export const listPostsResponse = createPaginatedResponse(post)

@@ -22,34 +22,29 @@ const { data, error } = await example.v1.posts.get({
 			createdAt: ['desc', 1],
 			updatedAt: ['asc', 2],
 		},
-		filter: [
-			'blogId',
-			'createdAt',
-			'updatedAt',
-			'published',
-		],
-		filterOperators: {
-			blogId: {
-				eq: '46633897-5768-4e72-9039-1858a4bd5bf5',
-				// in: ['46633897-5768-4e72-9039-1858a4bd5bf5'],
-			},
-			createdAt: {
-				gte: new Date('2024-01-01'),
-			},
-			published: {
-				eq: true,
-			},
-		},
+		filter: ['blogId', 'createdAt', 'updatedAt', 'published'],
+		// filterOperators: {
+		// 	blogId: {
+		// 		eq: '46633897-5768-4e72-9039-1858a4bd5bf5',
+		// 		in: ['46633897-5768-4e72-9039-1858a4bd5bf5'],
+		// 	},
+		// 	createdAt: {
+		// 		gte: new Date('2024-01-01'),
+		// 	},
+		// 	published: {
+		// 		eq: true,
+		// 	},
+		// },
 		// filterLogical: {
 		// 	and: [
 		// 		{ published: { eq: true } }, // or { published: true }
 		// 		{
 		// 			or: [
 		// 				{ blogId: { eq: '46633897-5768-4e72-9039-1858a4bd5bf5' } },
-		// 				{ blogId: { in: ['46633897-5768-4e72-9039-1858a4bd5bf5', 'another-id'] } },
+		// 				{ blogId: { in: ['46633897-5768-4e72-9039-1858a4bd5bf5', '46633897-5768-4e72-9039-1858a4bd5bf6'] } },
 		// 			],
 		// 		},
-		// 		{ not: { createdAt: { lt: '2024-01-01' } } },
+		// 		{ not: { createdAt: { lt: new Date('2024-01-01') } } },
 		// 	],
 		// },
 	},

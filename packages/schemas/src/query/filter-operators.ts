@@ -3,6 +3,27 @@ import { z } from 'zod'
 // ! Disclaimer: This code is not fully typesafe but it is validated correctly
 
 /**
+ * Build an operator object schema for a single field type
+ */
+export function createFieldOperatorSchema(fieldSchema: z.ZodTypeAny) {
+	return z
+		.strictObject({
+			eq: fieldSchema.optional(),
+			ne: fieldSchema.optional(),
+			gt: fieldSchema.optional(),
+			gte: fieldSchema.optional(),
+			lt: fieldSchema.optional(),
+			lte: fieldSchema.optional(),
+			in: z.array(fieldSchema).optional(),
+			nin: z.array(fieldSchema).optional(),
+			// String-specific operators
+			like: z.string().optional(),
+			ilike: z.string().optional(),
+		})
+		.partial()
+}
+
+/**
  * Creates operator-based filter query validator
  *
  * Supports comparison operators for more complex filtering.
@@ -28,25 +49,9 @@ export function createOperatorFilterQuery<T extends z.ZodRawShape>(
 	// Create operator schemas for each field type
 	const filterFields = fieldNames.reduce(
 		(acc, fieldName) => {
-			const fieldSchema = allowedFields.shape[fieldName] as z.ZodType
-
+			const fieldSchema = allowedFields.shape[fieldName] as z.ZodTypeAny
 			// Create operators object for this field
-			acc[fieldName] = z
-				.strictObject({
-					eq: fieldSchema.optional(),
-					ne: fieldSchema.optional(),
-					gt: fieldSchema.optional(),
-					gte: fieldSchema.optional(),
-					lt: fieldSchema.optional(),
-					lte: fieldSchema.optional(),
-					in: z.array(fieldSchema).optional(),
-					nin: z.array(fieldSchema).optional(),
-					// String-specific operators
-					like: z.string().optional(),
-					ilike: z.string().optional(),
-				})
-				.partial()
-				.optional()
+			acc[fieldName] = createFieldOperatorSchema(fieldSchema).optional()
 
 			return acc
 		},
