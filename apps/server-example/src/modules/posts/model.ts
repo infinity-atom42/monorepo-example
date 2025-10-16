@@ -1,11 +1,13 @@
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import { createInsertSchema, createSchemaFactory, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 import {
 	createIncludeQuery,
+	createLogicalFilterQuery,
 	createOperatorFilterQuery,
 	createPaginatedResponse,
 	createSelectQuery,
+	createSimpleFilterQuery,
 	createSortQuery,
 	paginationQuery,
 } from '@packages/schemas/query'
@@ -20,27 +22,33 @@ const postRefinements = {
 	content: (schema: z.ZodString) => schema.min(1),
 }
 
-// Base schemas for CRUD operations
-const select = createSelectSchema(posts, postRefinements)
-const insert = createInsertSchema(posts, postRefinements).omit({
+const { createInsertSchema: createInsertSchemaQuery } = createSchemaFactory({
+	coerce: {
+		date: true,
+		number: true,
+		bigint: true,
+		boolean: true,
+	},
+})
+
+// API request/response models
+export const post = createSelectSchema(posts, postRefinements)
+export const postId = post.shape.id
+export const postIdParam = z.object({ postId: post.shape.id })
+export const createPostBody = createInsertSchema(posts, postRefinements).omit({
 	id: true,
 	createdAt: true,
 	updatedAt: true,
 })
-const update = insert.partial()
-
-// API request/response models
-export const post = select
-export const postId = post.shape.id
-export const postIdParam = z.object({ postId: post.shape.id })
-export const createPostBody = insert
 export const createPostResponse = post
-export const updatePostBody = update
+export const updatePostBody = createPostBody.partial()
 export const updatePostResponse = post
 
-const sortable = post.pick({ title: true, createdAt: true, updatedAt: true })
+// query models
+const postQuery = createInsertSchemaQuery(posts, postRefinements)
+const sortable = postQuery.pick({ title: true, createdAt: true, updatedAt: true })
 
-const selectable = post.pick({
+const selectable = postQuery.pick({
 	id: true,
 	title: true,
 	content: true,
@@ -59,19 +67,21 @@ const includable = {
 	}),
 }
 
-const filterable = post.pick({
+const filterable = postQuery.pick({
 	published: true,
 	blogId: true,
 	createdAt: true,
 	updatedAt: true,
 })
 
-export const listPostsQuery = z.object({
+export const listPostsQuery = z.strictObject({
 	...paginationQuery.shape,
 	sort: createSortQuery(sortable).optional(),
 	select: createSelectQuery(selectable).optional(),
 	include: createIncludeQuery(includable).optional(),
-	filter: createOperatorFilterQuery(filterable).optional(),
+	filter: createSimpleFilterQuery(filterable).optional(),
+	// filterOperators: createOperatorFilterQuery(filterable).optional(), // TODO: test this code
+	// filterLogical: createLogicalFilterQuery(filterable).optional(), // TODO: test this code
 })
 
 export const listPostsResponse = createPaginatedResponse(post)

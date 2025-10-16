@@ -24,11 +24,13 @@ export const postController = new Elysia({ prefix: '/posts' })
 			const { success, error } = z
 				.object({
 					select: uniqueArraySchema.optional(),
-					blogSelect: uniqueArraySchema.optional(),
+					filter: uniqueArraySchema.optional(),
+					includeBlog: uniqueArraySchema.optional(),
 				})
 				.safeParse({
 					select: query.select,
-					blogSelect: Array.isArray(query.include?.blog) ? query.include?.blog : [],
+					filter: query.filter,
+					includeBlog: query.include?.blog,
 				})
 			if (!success) {
 				throw new ValidationError('query', query, error.issues)
@@ -45,6 +47,9 @@ export const postController = new Elysia({ prefix: '/posts' })
 				// so we need to convert it manually to an array or else the validation will fail
 				if (typeof query.select === 'string') {
 					query.select = query.select ? [query.select] : []
+				}
+				if (typeof query.filter === 'string') {
+					query.filter = query.filter ? [query.filter] : []
 				}
 			},
 			response: {

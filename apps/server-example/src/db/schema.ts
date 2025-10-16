@@ -7,11 +7,11 @@ export const blogs = pgTable(
 		id: uuid('id').primaryKey().defaultRandom(),
 		name: text('name').notNull(),
 		artiom: text('artiom').notNull(),
-		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-		updatedAt: timestamp('updated_at', { mode: 'string' })
+		createdAt: timestamp('created_at').notNull().defaultNow(),
+		updatedAt: timestamp('updated_at')
 			.notNull()
 			.defaultNow()
-			.$onUpdate(() => new Date().toISOString()),
+			.$onUpdate(() => new Date()),
 	}
 )
 
@@ -26,11 +26,11 @@ export const posts = pgTable(
 			.notNull()
 			.references(() => blogs.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		published: boolean('published').notNull().default(false),
-		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-		updatedAt: timestamp('updated_at', { mode: 'string' })
+		createdAt: timestamp('created_at').notNull().defaultNow(),
+		updatedAt: timestamp('updated_at')
 			.notNull()
 			.defaultNow()
-			.$onUpdate(() => new Date().toISOString()),
+			.$onUpdate(() => new Date()),
 	},
 	(table) => [index('posts_published_idx').on(table.published), index('posts_blog_id_idx').on(table.blogId)]
 )
@@ -46,11 +46,11 @@ export const products = pgTable(
 		sku: text('sku').notNull().unique(),
 		inStock: boolean('in_stock').notNull().default(true),
 		category: text('category').notNull(),
-		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-		updatedAt: timestamp('updated_at', { mode: 'string' })
+		createdAt: timestamp('created_at').notNull().defaultNow(),
+		updatedAt: timestamp('updated_at')
 			.notNull()
 			.defaultNow()
-			.$onUpdate(() => new Date().toISOString()),
+			.$onUpdate(() => new Date()),
 	},
 	(table) => [
 		index('products_sku_idx').on(table.sku),

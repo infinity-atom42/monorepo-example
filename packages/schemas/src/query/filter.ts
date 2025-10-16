@@ -17,12 +17,8 @@ import { z } from 'zod'
  * })
  * // GET /posts?published=true&authorId=123
  */
-export function createSimpleFilterQuery<T extends z.ZodRawShape>(
-	allowedFields: z.ZodObject<T>,
-) {
-    return allowedFields.partial()
+export function createSimpleFilterQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
+	return z.array(allowedFields.keyof()).describe('Fields to filter by')
 }
 
-export type SimpleFilterQuery<T extends z.ZodRawShape> = z.infer<
-	ReturnType<typeof createSimpleFilterQuery<T>>
->
+export type SimpleFilterQuery<T extends z.ZodRawShape> = z.infer<ReturnType<typeof createSimpleFilterQuery<T>>>
