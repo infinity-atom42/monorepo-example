@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { eq } from 'drizzle-orm'
+import { count, eq } from 'drizzle-orm'
 
 import db from '@se/db'
 import { posts } from '@se/db/schema'
@@ -45,24 +44,43 @@ export async function deletePost(postId: PostModel.PostId): Promise<void> {
 	}
 }
 
-export function listPosts(_query: PostModel.ListPostsQuery): PostModel.ListPostsResponse {
-	return {
-		data: [
-			{
-				id: '46633897-5768-4e72-9039-1858a4bd5bf5',
-				title: 'title',
-				content: 'content',
-				blogId: '46633897-5768-4e72-9039-1858a4bd5bf5',
-				published: true,
-				createdAt: new Date('2021-01-01').toISOString(),
-				updatedAt: new Date('2021-01-01').toISOString(),
-			},
-		],
+export async function listPosts(query: PostModel.ListPostsQuery): Promise<PostModel.ListPostsResponse> {
+	const page = query.page
+	const limit = query.limit
+	const offset = (page - 1) * limit
 
+	// const where = query.select
+	// const orderBy = query.sort
+	// Page rows
+	const rows = await db
+		.select({
+			id: posts.id,
+			title: posts.title,
+			content: posts.content,
+			blogId: posts.blogId,
+			published: posts.published,
+			createdAt: posts.createdAt,
+			updatedAt: posts.updatedAt,
+		})
+		.from(posts)
+		// .where(query.filter)
+		// .orderBy(query.sort)
+		.limit(limit)
+		.offset(offset)
+
+	// Total count
+	const [result] = await db
+		.select({ total: count() })
+		.from(posts)
+	
+	const total = result?.total ?? 0 // TODO: implement a better way to get the total count
+
+	return {
+		data: rows,
 		meta: {
-			page: 1,
-			limit: 10,
-			total: 100,
+			page,
+			limit,
+			total,
 		},
 	}
 }

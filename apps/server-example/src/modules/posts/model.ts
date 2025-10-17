@@ -5,7 +5,7 @@ import {
 	createIncludeQuery,
 	createPaginatedResponse,
 	createSelectQuery,
-	createSimpleFilterQuery,
+	createOperatorFilterQuery,
 	createSortQuery,
 	paginationQuery,
 } from '@packages/schemas/query'
@@ -69,10 +69,10 @@ export const listPostsQuery = z.strictObject({
 	sort: createSortQuery(sortable).optional(),
 	select: createSelectQuery(selectable).optional(),
 	include: createIncludeQuery(includable).optional(),
-	filter: createSimpleFilterQuery(filterable).optional(),
+	filter: createOperatorFilterQuery(filterable).optional(),
 })
 
-export const listPostsResponse = createPaginatedResponse(post)
+export const listPostsResponse = createPaginatedResponse(selectable, includable)
 
 // API responses
 export const errorNotFound = z.object({ message: z.literal('Post not found') })

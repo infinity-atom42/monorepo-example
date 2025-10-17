@@ -34,15 +34,37 @@ export const paginationMeta = z.object({
 /**
  * Creates a complete paginated response schema
  *
- * Wraps your data schema with pagination metadata.
+ * Supports both simple pagination and dynamic select/include queries.
+ *
+ * @param itemSchema - The base schema for list items
+ * @param includableRelations - Optional relations that can be included in the response
  *
  * @example
+ * // Simple pagination (fields are required)
  * export const listProductsResponse = createPaginatedResponse(productSchema)
- * // Server returns: { data: Product[], meta: { page, limit, total } }
+ *
+ * @example
+ * // With select/include support (fields become optional)
+ * const selectable = post.pick({ id: true, title: true, content: true })
+ * const includable = { blog: blogSchema.pick({ id: true, name: true }) }
+ * export const listPostsResponse = createPaginatedResponse(selectable, includable)
  */
-export function createPaginatedResponse<T extends z.ZodTypeAny>(itemSchema: T) {
+export function createPaginatedResponse<
+	TBase extends z.ZodObject<z.ZodRawShape>,
+	TRelations extends Record<string, z.ZodObject<z.ZodRawShape>>
+>(baseSchema: TBase, includableRelations?: TRelations) {
+	// With relations or select support: extend and make partial
+	if (includableRelations) {
+		const extendedSchema = baseSchema.extend(includableRelations).partial()
+		return z.object({
+			data: z.array(extendedSchema),
+			meta: paginationMeta,
+		})
+	}
+
+	// Simple case: just base schema (keeps fields as-is for backward compatibility)
 	return z.object({
-		data: z.array(itemSchema),
+		data: z.array(baseSchema),
 		meta: paginationMeta,
 	})
 }

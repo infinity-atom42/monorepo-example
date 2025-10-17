@@ -13,17 +13,17 @@ const { data, error } = await example.v1.posts.get({
 		// Pagination (from paginationQuery)
 		page: 1,
 		limit: 10,
-		select: [],
-		include: {
-			blog: ['id', 'createdAt', 'updatedAt'],
-		},
-		sort: {
-			title: ['asc', 0],
-			createdAt: ['desc', 1],
-			updatedAt: ['asc', 2],
-		},
-		filter: ['blogId', 'createdAt', 'updatedAt', 'published'],
-		// filterOperators: {
+		select: ['title'],
+		// filter: ['blogId', 'createdAt', 'updatedAt', 'published'],
+		// include: {
+		// 	blog: ['id', 'createdAt', 'updatedAt'],
+		// },
+		// sort: {
+		// 	title: ['asc', 0],
+		// 	createdAt: ['desc', 1],
+		// 	updatedAt: ['asc', 2],
+		// },
+		// filter: {
 		// 	blogId: {
 		// 		eq: '46633897-5768-4e72-9039-1858a4bd5bf5',
 		// 		in: ['46633897-5768-4e72-9039-1858a4bd5bf5'],
@@ -53,5 +53,8 @@ const { data, error } = await example.v1.posts.get({
 if (error) {
 	console.error(error)
 } else {
-	console.log(data)
+	const firstPost = data.data[0]
+	if (firstPost) {
+		console.log(firstPost)
+	}
 }
