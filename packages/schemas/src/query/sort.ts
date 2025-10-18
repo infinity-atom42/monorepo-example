@@ -3,9 +3,10 @@ import { z } from 'zod'
 /**
  * Sorting helpers
  * - createSortQuery(allowed): Adds `sort` object to a query schema
- * - URL: ?sort[createdAt]=desc&sort[title]=asc
- * - Type: Partial<Record<keyof allowed, 'asc' | 'desc'>>
- * - Default: {} so servers can fallback (e.g., by id) when sort is omitted
+ * - New shape: exactly ONE allowed field must be provided, whose value is an
+ *   object with `{ order: 'asc' | 'desc', index: number }`.
+ * - Example URL: ?sort[createdAt][order]=desc&sort[createdAt][index]=1
+ * - Default: `sort` can be omitted entirely
  *
  * Example:
  *   const sortable = post.pick({ title: true, createdAt: true, updatedAt: true })
@@ -16,17 +17,22 @@ import { z } from 'zod'
  */
 export function createSortQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
 	const Order = z.enum(['asc', 'desc'])
-	const OrderWithIndex = z.tuple([Order, z.number().int().gte(0)])
-	const SortValue = z.union([Order, OrderWithIndex])
+	const SortSpec = z.strictObject({
+		order: Order,
+		index: z.number().int().gte(0),
+	})
+
 	const sortShape = Object.keys(allowedFields.shape).reduce(
 		(acc, key) => {
-			acc[key as keyof T] = SortValue
+			acc[key as keyof T] = SortSpec
 			return acc
 		},
-		{} as { [K in keyof T]: typeof SortValue }
+		{} as { [K in keyof T]: typeof SortSpec }
 	)
 
-	return z.strictObject(sortShape).partial()
+	return z
+		.strictObject(sortShape)
+		.partial() // all field keys optional at the top-level
 }
 
 export type SortQuery<T extends z.ZodRawShape> = z.infer<ReturnType<typeof createSortQuery<T>>>

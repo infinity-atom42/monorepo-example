@@ -2,7 +2,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 // import { moneyString } from '@packages/schemas/decimal'
-import { createPaginatedResponse, paginationQuery } from '@packages/schemas/query'
+import { paginationQuery, paginationMeta } from '@packages/schemas/query'
 
 import { products } from '@se/db/schema'
 
@@ -39,7 +39,10 @@ export const listProductsQuery = z.object({
 	// minPrice: moneyString.optional(),
 	// maxPrice: moneyString.optional(),
 })
-export const listProductsResponse = createPaginatedResponse(product)
+export const listProductsResponse = z.strictObject({
+	data: z.array(product),
+	meta: paginationMeta,
+})
 
 // API responses
 export const errorNotFound = z.object({ message: z.literal('Product not found') })

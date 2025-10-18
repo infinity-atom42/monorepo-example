@@ -2,10 +2,28 @@ import { z } from 'zod'
 
 // ! Disclaimer: This code is not fully typesafe but it is validated correctly
 
+// Helper TypeScript types to provide strong inference for the filter object
+type FieldOperatorOutput<TField extends z.ZodTypeAny> = Partial<{
+	eq: z.infer<TField>
+	ne: z.infer<TField>
+	gt: z.infer<TField>
+	gte: z.infer<TField>
+	lt: z.infer<TField>
+	lte: z.infer<TField>
+	in: Array<z.infer<TField>>
+	nin: Array<z.infer<TField>>
+	like: string
+	ilike: string
+}>
+
+export type OperatorFilterOutput<T extends z.ZodRawShape> = {
+	[K in keyof T]?: FieldOperatorOutput<Extract<T[K], z.ZodTypeAny>>
+}
+
 /**
  * Build an operator object schema for a single field type
  */
-export function createFieldOperatorSchema(fieldSchema: z.ZodTypeAny) {
+export function createFieldOperatorSchema<TField extends z.ZodTypeAny>(fieldSchema: TField) {
 	return z
 		.strictObject({
 			eq: fieldSchema.optional(),
@@ -41,24 +59,20 @@ export function createFieldOperatorSchema(fieldSchema: z.ZodTypeAny) {
  * })
  * // GET /posts?filter[published][eq]=true&filter[createdAt][gte]=2024-01-01
  */
-export function createOperatorFilterQuery<T extends z.ZodRawShape>(
-	allowedFields: z.ZodObject<T>,
-) {
+export function createOperatorFilterQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
 	const fieldNames = Object.keys(allowedFields.shape) as Array<keyof T & string>
 
-	// Create operator schemas for each field type
-	const filterFields = fieldNames.reduce(
-		(acc, fieldName) => {
-			const fieldSchema = allowedFields.shape[fieldName] as z.ZodTypeAny
-			// Create operators object for this field
-			acc[fieldName] = createFieldOperatorSchema(fieldSchema).optional()
+	// Build the runtime Zod shape (kept permissive to avoid generic constraints issues)
+	const filterFields: Record<string, z.ZodTypeAny> = {}
 
-			return acc
-		},
-		{} as Record<string, z.ZodTypeAny>,
-	)
+	for (const fieldName of fieldNames) {
+		const fieldSchema = allowedFields.shape[fieldName] as unknown as z.ZodTypeAny
+		const operatorSchema = createFieldOperatorSchema(fieldSchema)
+		filterFields[fieldName] = operatorSchema.optional()
+	}
 
-	return z.strictObject(filterFields).partial()
+	// Cast the return type so `z.infer` produces a strongly typed mapping
+	return z.strictObject(filterFields).partial() as unknown as z.ZodType<OperatorFilterOutput<T>>
 }
 
 export type OperatorFilterQuery<T extends z.ZodRawShape> = z.infer<

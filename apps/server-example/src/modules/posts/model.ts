@@ -1,14 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-import {
-	createIncludeQuery,
-	createPaginatedResponse,
-	createSelectQuery,
-	createOperatorFilterQuery,
-	createSortQuery,
-	paginationQuery,
-} from '@packages/schemas/query'
+import { createPaginatedQuery, createPaginatedResponse } from '@packages/schemas/query'
 
 import { posts } from '@se/db/schema'
 
@@ -22,18 +15,7 @@ const postRefinements = {
 	updatedAt: () => z.iso.datetime(),
 }
 
-// API request/response models
 export const post = createSelectSchema(posts, postRefinements)
-export const postId = post.shape.id
-export const postIdParam = z.object({ postId: post.shape.id })
-export const createPostBody = createInsertSchema(posts, postRefinements).omit({
-	id: true,
-	createdAt: true,
-	updatedAt: true,
-})
-export const createPostResponse = post
-export const updatePostBody = createPostBody.partial()
-export const updatePostResponse = post
 
 // query models
 const sortable = post.pick({ title: true, createdAt: true, updatedAt: true })
@@ -64,15 +46,19 @@ const filterable = post.pick({
 	updatedAt: true,
 })
 
-export const listPostsQuery = z.strictObject({
-	...paginationQuery.shape,
-	sort: createSortQuery(sortable).optional(),
-	select: createSelectQuery(selectable).optional(),
-	include: createIncludeQuery(includable).optional(),
-	filter: createOperatorFilterQuery(filterable).optional(),
+// API request/response models
+export const postId = post.shape.id
+export const postIdParam = z.object({ postId: post.shape.id })
+export const createPostBody = createInsertSchema(posts, postRefinements).omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
 })
-
-export const listPostsResponse = createPaginatedResponse(selectable, includable)
+export const createPostResponse = post
+export const updatePostBody = createPostBody.partial()
+export const updatePostResponse = post
+export const listPostsQuery = createPaginatedQuery({ sortable, selectable, includable, filterable })
+export const listPostsResponse = createPaginatedResponse(post, { selectable, includable })
 
 // API responses
 export const errorNotFound = z.object({ message: z.literal('Post not found') })

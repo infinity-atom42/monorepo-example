@@ -49,24 +49,28 @@ export async function listPosts(query: PostModel.ListPostsQuery): Promise<PostMo
 	const limit = query.limit
 	const offset = (page - 1) * limit
 
+	// if (query.filter) {
+	// 	console.log('filter', query.filter.blogId?.lt)
+	// }
+
 	// const where = query.select
 	// const orderBy = query.sort
 	// Page rows
-	const rows = await db
-		.select({
-			id: posts.id,
-			title: posts.title,
-			content: posts.content,
-			blogId: posts.blogId,
-			published: posts.published,
-			createdAt: posts.createdAt,
-			updatedAt: posts.updatedAt,
-		})
-		.from(posts)
-		// .where(query.filter)
-		// .orderBy(query.sort)
-		.limit(limit)
-		.offset(offset)
+	// const rows = await db
+	// 	.select({
+	// 		id: posts.id,
+	// 		title: posts.title,
+	// 		content: posts.content,
+	// 		blogId: posts.blogId,
+	// 		published: posts.published,
+	// 		createdAt: posts.createdAt,
+	// 		updatedAt: posts.updatedAt,
+	// 	})
+	// 	.from(posts)
+	// 	// .where(query.filter)
+	// 	// .orderBy(query.sort)
+	// 	.limit(limit)
+	// 	.offset(offset)
 
 	// Total count
 	const [result] = await db
@@ -76,7 +80,7 @@ export async function listPosts(query: PostModel.ListPostsQuery): Promise<PostMo
 	const total = result?.total ?? 0 // TODO: implement a better way to get the total count
 
 	return {
-		data: rows,
+		data: [],
 		meta: {
 			page,
 			limit,
