@@ -22,6 +22,7 @@ export const posts = pgTable(
 		id: uuid('id').primaryKey().defaultRandom(),
 		title: text('title').notNull(),
 		content: text('content').notNull(),
+		someDate: timestamp('some_date', { mode: 'string' }).notNull(),
 		blogId: uuid('blog_id')
 			.notNull()
 			.references(() => blogs.id, { onDelete: 'cascade', onUpdate: 'cascade' }),

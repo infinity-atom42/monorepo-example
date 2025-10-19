@@ -11,8 +11,8 @@ import { blog } from '../blogs/model'
 const postRefinements = {
 	title: (schema: z.ZodString) => schema.min(1).max(200),
 	content: (schema: z.ZodString) => schema.min(1),
-	createdAt: () => z.iso.datetime(),
-	updatedAt: () => z.iso.datetime(),
+	// createdAt: () => z.iso.datetime(),
+	// updatedAt: () => z.iso.datetime(),
 }
 
 export const post = createSelectSchema(posts, postRefinements)
@@ -25,9 +25,9 @@ const selectable = post.pick({
 	title: true,
 	content: true,
 	blogId: true,
-	published: true,
-	createdAt: true,
-	updatedAt: true,
+	// published: true,
+	// createdAt: true,
+	// updatedAt: true,
 })
 
 const includable = {
