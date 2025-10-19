@@ -27,8 +27,8 @@ const { data, error } = await example.v1.posts.get({
 	query: {
 		// Pagination (from paginationQuery)
 		page: 1,
-		limit: 2,
-		select: ['content', 'title'],
+		limit: 3,
+		select: ['content'],
 		include: {
 			blog: ['id', 'name', 'createdAt', 'updatedAt'],
 		},
@@ -40,7 +40,7 @@ const { data, error } = await example.v1.posts.get({
 				eq: 'dba04ddb-8ce4-4454-86b7-aaf26d113c0e',
 			},
 			createdAt: {
-				gte: new Date('2025-10-19 02:54:20.908Z').toISOString(),
+				// gte: new Date('2025-10-19 02:54:20.908Z').toISOString(),
 			},
 			// published: {
 			// 	eq: true,

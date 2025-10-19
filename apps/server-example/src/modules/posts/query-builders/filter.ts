@@ -1,10 +1,10 @@
 import { and, eq, gt, gte, ilike, inArray, like, lt, lte, ne, not, type SQL } from 'drizzle-orm'
 import type { PgColumn } from 'drizzle-orm/pg-core'
 
-type FilterValue = string | number | boolean | string[] | number[] | boolean[]
-type FilterOperator = 'eq' | 'ne' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'nin' | 'like' | 'ilike'
-type FieldFilter = Partial<Record<FilterOperator, FilterValue>>
-type FilterConfig = Record<string, FieldFilter | undefined>
+export type FilterValue = string | number | boolean | string[] | number[] | boolean[]
+export type FilterOperator = 'eq' | 'ne' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'nin' | 'like' | 'ilike'
+export type FieldFilter = Partial<Record<FilterOperator, FilterValue>>
+export type FilterConfig = Record<string, FieldFilter | undefined>
 
 interface BuildWhereOptions<T extends Record<string, PgColumn>> {
 	filter?: FilterConfig | undefined

@@ -30,6 +30,8 @@ const selectable = post.pick({
 	// updatedAt: true,
 })
 
+export const selectableFields = Object.keys(selectable.shape) as (keyof typeof selectable.shape)[]
+
 const includable = {
 	blog: blog.pick({
 		id: true,

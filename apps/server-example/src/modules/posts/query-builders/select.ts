@@ -4,32 +4,46 @@ import type { PgColumn, PgTable } from 'drizzle-orm/pg-core'
 interface BuildSelectOptions<T extends Record<string, PgColumn>> {
 	select?: string[] | undefined
 	columns: T
+	selectableFields?: string[]
+}
+
+export interface RelationInclude {
+	relationKey: string
+	fields: string[]
+	relationTable: PgTable
 }
 
 interface BuildSelectWithIncludeOptions<TMainColumns extends Record<string, PgColumn>> {
 	select?: string[] | undefined
 	mainColumns: TMainColumns
 	selectableFields?: string[]
-	include?:
-		| {
-				relationKey: string
-				fields: string[]
-				relationTable: PgTable
-		  }
-		| undefined
+	includes?: RelationInclude[]
 }
 
 /**
  * Builds SELECT clause from select configuration
+ * @param select - Array of field names to select (if undefined, selects all)
+ * @param columns - All available columns
+ * @param selectableFields - Fields that can be optionally selected (fields NOT in this list are always included)
  */
 export function buildSelectClause<T extends Record<string, PgColumn>>({
 	select,
 	columns,
+	selectableFields,
 }: BuildSelectOptions<T>): Record<string, PgColumn> {
 	const selectClause: Record<string, PgColumn> = {}
 
 	if (select && select.length > 0) {
-		// Select only specified fields
+		// First, add all required fields (fields NOT in selectableFields)
+		if (selectableFields) {
+			for (const [fieldName, column] of Object.entries(columns)) {
+				if (!selectableFields.includes(fieldName)) {
+					selectClause[fieldName] = column
+				}
+			}
+		}
+
+		// Then, add selected fields
 		for (const field of select) {
 			const column = columns[field as keyof T]
 			if (column) {
@@ -46,49 +60,41 @@ export function buildSelectClause<T extends Record<string, PgColumn>>({
 
 /**
  * Builds SELECT clause with relation includes
+ * @param select - Array of field names to select from main table
+ * @param mainColumns - All available columns from main table
+ * @param selectableFields - Fields that can be optionally selected (fields NOT in this list are always included)
+ * @param includes - Array of relations to include (e.g., [{blog}, {user}])
  */
 export function buildSelectWithInclude<TMainColumns extends Record<string, PgColumn>>({
 	select,
 	mainColumns,
 	selectableFields,
-	include,
+	includes,
 }: BuildSelectWithIncludeOptions<TMainColumns>): Record<string, PgColumn | Record<string, PgColumn>> {
-	let selectClause: Record<string, PgColumn | Record<string, PgColumn>> = {}
-
-	// Build main select clause
-	if (select && select.length > 0) {
-		// First, add all required fields (fields NOT in selectableFields)
-		for (const [fieldName, column] of Object.entries(mainColumns)) {
-			if (!selectableFields || !selectableFields.includes(fieldName)) {
-				selectClause[fieldName] = column
-			}
-		}
-
-		// Then, add selected fields
-		for (const field of select) {
-			const column = mainColumns[field as keyof TMainColumns]
-			if (column) {
-				selectClause[field] = column
-			}
-		}
-	} else {
-		// Select all main fields
-		selectClause = { ...mainColumns }
-	}
+	// Build main select clause using the core function
+	const selectClause = buildSelectClause({
+		select,
+		columns: mainColumns,
+		...(selectableFields ? { selectableFields } : {}),
+	}) as Record<string, PgColumn | Record<string, PgColumn>>
 
 	// Add relation fields if specified
-	if (include && include.fields.length > 0) {
-		const relationColumns = getTableColumns(include.relationTable)
-		const relationSelectClause: Record<string, PgColumn> = {}
+	if (includes && includes.length > 0) {
+		for (const include of includes) {
+			if (include.fields.length > 0) {
+				const relationColumns = getTableColumns(include.relationTable)
+				const relationSelectClause: Record<string, PgColumn> = {}
 
-		for (const field of include.fields) {
-			const column = relationColumns[field as keyof typeof relationColumns]
-			if (column) {
-				relationSelectClause[field] = column
+				for (const field of include.fields) {
+					const column = relationColumns[field as keyof typeof relationColumns]
+					if (column) {
+						relationSelectClause[field] = column
+					}
+				}
+
+				selectClause[include.relationKey] = relationSelectClause
 			}
 		}
-
-		selectClause[include.relationKey] = relationSelectClause
 	}
 
 	return selectClause
