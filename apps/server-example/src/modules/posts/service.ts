@@ -1,12 +1,13 @@
 import { eq } from 'drizzle-orm'
 
+import { createListQueryBuilder } from '@packages/drizzle-query-builder'
+
 import db from '@se/db'
 import { blogs, posts } from '@se/db/schema'
 import { NotFoundError } from '@se/errors'
 
 import type * as PostModel from './model'
 import { selectableFields } from './model'
-import { createListQueryBuilder } from './query-builders'
 
 export async function createPost(data: PostModel.CreatePostBody): Promise<PostModel.CreatePostResponse> {
 	const [post] = await db.insert(posts).values(data).returning()
@@ -50,6 +51,7 @@ export async function deletePost(postId: PostModel.PostId): Promise<void> {
 
 // Create the list query builder for posts
 const listPostsQueryBuilder = createListQueryBuilder({
+	db,
 	table: posts,
 	selectableFields,
 	relations: {

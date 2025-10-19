@@ -1,0 +1,21 @@
+{
+	"name": "@packages/drizzle-query-builder",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"type:check": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"drizzle-orm": "catalog:"
+	},
+	"peerDependencies": {
+		"drizzle-orm": "catalog:"
+	}
+}

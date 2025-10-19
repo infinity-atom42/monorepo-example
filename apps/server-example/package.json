@@ -28,6 +28,7 @@
 		"@elysiajs/opentelemetry": "catalog:",
 		"@elysiajs/static": "catalog:",
 		"@packages/cluster": "workspace:*",
+		"@packages/drizzle-query-builder": "workspace:*",
 		"@packages/schemas": "workspace:*",
 		"@t3-oss/env-core": "catalog:",
 		"@zod/core": "catalog:",

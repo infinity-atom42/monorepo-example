@@ -1,7 +1,6 @@
 import { count, getTableColumns, type SQL } from 'drizzle-orm'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import type { PgSelect, PgTable } from 'drizzle-orm/pg-core'
-
-import db from '@se/db'
 
 import { buildOrderByClause } from './sort'
 import { buildWhereClause, type FilterConfig } from './filter'
@@ -22,7 +21,12 @@ export interface RelationConfig {
 /**
  * Configuration for building a list query
  */
-export interface ListQueryConfig<TMainTable extends PgTable> {
+export interface ListQueryConfig<
+	TMainTable extends PgTable,
+	TSchema extends Record<string, unknown> = Record<string, never>
+> {
+	/** The Drizzle database instance */
+	db: NodePgDatabase<TSchema>
 	/** The main table to query */
 	table: TMainTable
 	/** 
@@ -65,6 +69,7 @@ export interface ListQueryResult<T> {
  * @example
  * ```typescript
  * const listPosts = createListQueryBuilder({
+ *   db,
  *   table: posts,
  *   selectableFields: ['id', 'title', 'content', 'blogId'],
  *   relations: {
@@ -80,8 +85,11 @@ export interface ListQueryResult<T> {
  * const result = await listPosts(query)
  * ```
  */
-export function createListQueryBuilder<TMainTable extends PgTable>(
-	config: ListQueryConfig<TMainTable>
+export function createListQueryBuilder<
+	TMainTable extends PgTable,
+	TSchema extends Record<string, unknown> = Record<string, never>
+>(
+	config: ListQueryConfig<TMainTable, TSchema>
 ) {
 	return async function executeListQuery<TResult>(
 		options: ListQueryOptions
@@ -134,7 +142,7 @@ export function createListQueryBuilder<TMainTable extends PgTable>(
 		// Note: Drizzle's type system doesn't handle dynamic query building with generics well
 		// When we add joins in a loop, the nullability map changes but TS can't track it
 		// We use targeted type assertions that match Drizzle's actual runtime behavior
-		let baseQuery = db.select(selectClause).from(config.table as PgTable)
+		let baseQuery = config.db.select(selectClause).from(config.table as PgTable)
 
 		// Add joins for included relations
 		if (config.relations) {
@@ -174,7 +182,7 @@ export function createListQueryBuilder<TMainTable extends PgTable>(
 		const data = await dynamicQuery
 
 		// Get total count with the same WHERE clause
-		const countQueryBuilder = db.select({ count: count() }).from(config.table as PgTable).$dynamic()
+		const countQueryBuilder = config.db.select({ count: count() }).from(config.table as PgTable).$dynamic()
 		
 		const countResult = await (whereClause 
 			? countQueryBuilder.where(whereClause) 
