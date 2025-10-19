@@ -25,8 +25,12 @@ export interface RelationConfig {
 export interface ListQueryConfig<TMainTable extends PgTable> {
 	/** The main table to query */
 	table: TMainTable
-	/** Array of field names that can be optionally selected */
-	selectableFields: string[]
+	/** 
+	 * Array of field names that can be optionally selected.
+	 * If not provided, field selection is disabled and all fields are always returned.
+	 * When provided, fields NOT in this array are always included (required fields).
+	 */
+	selectableFields?: string[]
 	/** Map of available relations that can be included */
 	relations?: Record<string, RelationConfig>
 }
@@ -120,9 +124,9 @@ export function createListQueryBuilder<TMainTable extends PgTable>(
 
 		// Build SELECT clause with includes
 		const selectClause = buildSelectWithInclude({
-			select,
+			select: config.selectableFields ? select : undefined, // Disable select if selectableFields not configured
 			mainColumns: tableColumns,
-			selectableFields: config.selectableFields,
+			...(config.selectableFields ? { selectableFields: config.selectableFields } : {}),
 			includes,
 		})
 
