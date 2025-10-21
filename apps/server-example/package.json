@@ -16,7 +16,8 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"start": "./dist/server",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "dotenvx run --env-file=.env.test -- bun test --concurrent",
+		"test:watch": "dotenvx run --env-file=.env.test -- bun test --watch --concurrent",
 		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {

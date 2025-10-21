@@ -1,3 +1,5 @@
+name: monorepo-dev
+
 include:
   - infra/postgresql.yml
   - infra/rabbitmq.yml

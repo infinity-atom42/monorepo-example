@@ -1,22 +1,22 @@
 services:
-  postgresql:
+  postgresql-test:
     image: postgres:latest
-    container_name: postgresql
+    container_name: postgresql-test
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin_password
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgresql-test-data:/var/lib/postgresql
       - ./postgresql/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U admin"]
-      interval: 3s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+      interval: 1s
+      timeout: 2s
+      retries: 10
+    restart: "no"
 
 volumes:
-  postgres_data:
+  postgresql-test-data:

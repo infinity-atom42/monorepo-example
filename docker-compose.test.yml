@@ -1,0 +1,8 @@
+name: monorepo-test
+
+include:
+  - infra/postgresql-test.yml
+
+# Test infrastructure services
+# The test services are included from their respective directories
+# All test databases use anonymous volumes for non-persistent storage
