@@ -1,4 +1,2 @@
 [test]
 preload = ["./src/test-setup.ts"]
-# Enable concurrent test execution for better performance
-# Tests within the same file run sequentially, but different files run in parallel
