@@ -47,7 +47,11 @@ const app = new Elysia()
 		timestamp: new Date().toISOString(),
 	}))
 	.group('/v1', (app) => app.use(postController).use(productController).use(blogController))
-	.listen(env.PORT)
+
+// Only listen if not in test mode
+if (env.NODE_ENV !== 'test') {
+	app.listen(env.PORT)
+}
 
 export { app }
 export { pool } from './db'
