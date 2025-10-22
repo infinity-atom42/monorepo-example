@@ -48,6 +48,7 @@
 		"@types/bun": "catalog:",
 		"@types/lodash-es": "catalog:",
 		"@types/pg": "catalog:",
+		"croner": "^9.1.0",
 		"drizzle-kit": "catalog:",
 		"drizzle-seed": "catalog:",
 		"eslint-plugin-drizzle": "catalog:"

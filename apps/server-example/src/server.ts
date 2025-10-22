@@ -6,7 +6,7 @@ import { openapi } from '@elysiajs/openapi'
 import { env } from '@se/env'
 
 import { errorHandling } from './errors'
-import { postController, productController, blogController } from './modules'
+import { postController, productController, blogController, cronController } from './modules'
 // import { requestLogger } from './plugins'
 
 const app = new Elysia()
@@ -46,7 +46,7 @@ const app = new Elysia()
 		status: 'ok',
 		timestamp: new Date().toISOString(),
 	}))
-	.group('/v1', (app) => app.use(postController).use(productController).use(blogController))
+	.group('/v1', (app) => app.use(postController).use(productController).use(blogController).use(cronController))
 
 // Only listen if not in test mode
 if (env.NODE_ENV !== 'test') {

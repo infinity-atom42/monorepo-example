@@ -49,7 +49,9 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - core-js
   - core-js-pure
+  - cpu-features
   - esbuild
   - protobufjs
   - puppeteer
   - sharp
+  - ssh2
