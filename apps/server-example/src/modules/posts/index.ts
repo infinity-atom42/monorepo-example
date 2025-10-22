@@ -10,7 +10,7 @@ import * as PostModel from './model'
 import * as PostService from './service'
 
 export const postController = new Elysia({ prefix: '/posts' })
-	// .use(auth)
+	.use(auth)
 	.onBeforeHandle(({ request, query }) => {
 		console.log(request.url)
 		console.log('--------------------------------')

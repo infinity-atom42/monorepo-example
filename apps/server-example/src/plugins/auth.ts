@@ -7,6 +7,17 @@ import { env } from '@se/env'
 
 import * as schema from '../../../web-example/src/db/auth-schema'
 
+// Mock user for testing environment
+const MOCK_TEST_USER = {
+	id: 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d',
+	name: 'Test User',
+	email: 'test@example.com',
+	emailVerified: true,
+	image: null,
+	createdAt: new Date('2024-01-01T00:00:00.000Z'),
+	updatedAt: new Date('2024-01-01T00:00:00.000Z'),
+}
+
 // Backend auth instance ONLY for session validation (not for handling auth endpoints)
 const auth = betterAuth({
 	appName: env.APP_NAME,
@@ -29,6 +40,12 @@ const auth = betterAuth({
 const authPlugin = new Elysia({ name: 'auth' })
 	// Don't mount auth.handler - we only validate sessions, not handle auth endpoints
 	.derive({ as: 'scoped' }, async ({ status, request: { headers } }) => {
+		// In test environment, always return mock user (bypass auth)
+		if (env.NODE_ENV === 'test') {
+			return { user: MOCK_TEST_USER }
+		}
+
+		// Production/Development: validate real session
 		const session = await auth.api.getSession({ headers })
 
 		if (!session) return status(401)
