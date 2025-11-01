@@ -1,10 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // This is a copy of the @elysiajs/cron plugin
-
 import { Cron, type CronOptions } from 'croner'
 import type { Elysia } from 'elysia'
 
 export type CronStore<Name extends string = string> = Record<Name, Cron>
+
+/**
+ * Represents the Elysia singleton store structure with cron support
+ */
+export type ElysiaStoreWithCron = Record<string, unknown> & {
+	cron?: CronStore
+}
+
 export interface CronConfig<Name extends string = string> extends CronOptions {
 	/**
 	 * Input pattern, input date, or input ISO 8601 time string
@@ -28,31 +34,27 @@ export interface CronConfig<Name extends string = string> extends CronOptions {
 	name: Name
 	/**
 	 * Function to execute on time
+	 * @param store - The Elysia singleton store containing all registered stores (including cron)
 	 */
-	run: (store: Cron) => any | Promise<any>
+	run: (store: ElysiaStoreWithCron) => void | Promise<void>
 }
 
 export const cron =
 	<Name extends string = string>({ pattern, name, run, ...options }: CronConfig<Name>) =>
 	(app: Elysia) => {
-		if (!pattern) throw new Error('pattern is required')
-		if (!name) throw new Error('name is required')
-
 		return app.state((store) => {
-			// @ts-expect-error private property
-			const prevCron = (app.singleton.store?.cron ?? {}) as CronStore
+			// @ts-expect-error - accessing private singleton.store property
+			const prevCron = app.singleton.store?.cron ?? {}
 
 			return {
 				...store,
 				cron: {
 					...prevCron,
-					[name]: new Cron(pattern, options, () =>
-						// @ts-expect-error private property
-						run(app.singleton.store as any)
-					),
-				} as Record<Name, Cron>,
+					[name]: new Cron(pattern, options, () => {
+						// @ts-expect-error - accessing private singleton.store property
+						run(app.singleton.store)
+					}),
+				} as CronStore<Name>,
 			}
 		})
 	}
-
-export default cron
