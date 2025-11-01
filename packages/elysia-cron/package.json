@@ -1,5 +1,5 @@
 {
-	"name": "@packages/drizzle-query-builder",
+	"name": "@packages/elysia-cron",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -12,7 +12,10 @@
 		"lint:fix": "eslint . --fix",
 		"type:check": "tsc --noEmit"
 	},
+	"dependencies": {
+		"croner": "catalog:"
+	},
 	"peerDependencies": {
-		"drizzle-orm": "catalog:"
+		"elysia": "catalog:"
 	}
 }

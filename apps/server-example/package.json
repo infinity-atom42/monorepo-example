@@ -30,7 +30,9 @@
 		"@elysiajs/static": "catalog:",
 		"@packages/cluster": "workspace:*",
 		"@packages/drizzle-query-builder": "workspace:*",
+		"@packages/elysia-cron": "workspace:*",
 		"@packages/schemas": "workspace:*",
+		"@packages/utils": "workspace:*",
 		"@t3-oss/env-core": "catalog:",
 		"@zod/core": "catalog:",
 		"better-auth": "catalog:",
@@ -48,7 +50,6 @@
 		"@types/bun": "catalog:",
 		"@types/lodash-es": "catalog:",
 		"@types/pg": "catalog:",
-		"croner": "^9.1.0",
 		"drizzle-kit": "catalog:",
 		"drizzle-seed": "catalog:",
 		"eslint-plugin-drizzle": "catalog:"

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // This is a copy of the @elysiajs/cron plugin
 
-import { Elysia } from 'elysia'
 import { Cron, type CronOptions } from 'croner'
+import type { Elysia } from 'elysia'
 
+export type CronStore<Name extends string = string> = Record<Name, Cron>
 export interface CronConfig<Name extends string = string> extends CronOptions {
 	/**
 	 * Input pattern, input date, or input ISO 8601 time string
@@ -32,19 +33,14 @@ export interface CronConfig<Name extends string = string> extends CronOptions {
 }
 
 export const cron =
-	<Name extends string = string>({
-		pattern,
-		name,
-		run,
-		...options
-	}: CronConfig<Name>) =>
+	<Name extends string = string>({ pattern, name, run, ...options }: CronConfig<Name>) =>
 	(app: Elysia) => {
 		if (!pattern) throw new Error('pattern is required')
 		if (!name) throw new Error('name is required')
 
 		return app.state((store) => {
 			// @ts-expect-error private property
-			const prevCron = app.singleton.store?.cron ?? {}
+			const prevCron = (app.singleton.store?.cron ?? {}) as CronStore
 
 			return {
 				...store,
@@ -53,12 +49,10 @@ export const cron =
 					[name]: new Cron(pattern, options, () =>
 						// @ts-expect-error private property
 						run(app.singleton.store as any)
-					)
-				} as Record<Name, Cron>
+					),
+				} as Record<Name, Cron>,
 			}
 		})
 	}
-
-export { Patterns } from './schedule'
 
 export default cron

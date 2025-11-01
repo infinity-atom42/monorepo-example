@@ -1,18 +1,15 @@
 {
-	"name": "@packages/drizzle-query-builder",
+	"name": "@packages/utils",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts"
+		"./cron-patterns": "./src/cron-patterns.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"type:check": "tsc --noEmit"
-	},
-	"peerDependencies": {
-		"drizzle-orm": "catalog:"
 	}
 }

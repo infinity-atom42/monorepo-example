@@ -1,4 +1,4 @@
-import type { CronStore } from './model'
+import type { CronStore } from '@packages/elysia-cron'
 
 import { NotFoundError } from '@se/errors'
 
