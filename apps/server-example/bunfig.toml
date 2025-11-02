@@ -1,2 +1,4 @@
 [test]
 preload = ["./src/tests/setup.ts"]
+["test.reporter"]
+junit = "./.test/junit-report.xml"

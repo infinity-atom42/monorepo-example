@@ -5,8 +5,8 @@
 	"tasks": {
 		"test": {
 			"dependsOn": ["^test"],
-			"inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts"],
-			"outputs": ["coverage/**"]
+			"inputs": ["src/**/*.ts", "src/**/*.tsx"],
+			"outputs": [".test/**"]
 		},
 		"dev": {
 			"cache": false,
@@ -26,7 +26,7 @@
 			"inputs": ["src/**", "eslint.config.js", "tsconfig.json", "package.json"]
 		},
 		"type:check": {
-			"inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "tsconfig.json", "package.json"]
+			"inputs": ["src/**/*.ts", "src/**/*.tsx", "*.ts", "tsconfig.json", "package.json"]
 		},
 		"clean": {
 			"cache": false

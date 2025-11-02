@@ -25,7 +25,7 @@ export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
 	return {
 		testDir: './src',
 		globalSetup: './src/playwright/global-setup.ts',
-		outputDir: 'test/test-results',
+		outputDir: '.test/test-results',
 		/* Run tests in files in parallel */
 		fullyParallel: true,
 		/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -37,7 +37,7 @@ export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
 		/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 		reporter: process.env.CI
 			? 'github' // CI: GitHub annotations only (no HTML needed if no errors)
-			: [['list'], ['html', { outputFolder: 'test/playwright-report' }]], // Local: terminal output + HTML report for debugging
+			: [['list'], ['html', { outputFolder: '.test/playwright-report' }]], // Local: terminal output + HTML report for debugging
 		/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 		use: {
 			/* Base URL to use in actions like `await page.goto('/')`. */
@@ -60,7 +60,7 @@ export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
 				name: 'chromium',
 				use: {
 					...devices['Desktop Chrome'],
-					storageState: 'test/storage-state/.auth/default.json',
+					storageState: '.test/storage-state/.auth/default.json',
 				},
 				dependencies: ['setup'],
 			},
@@ -68,7 +68,7 @@ export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
 				name: 'firefox',
 				use: {
 					...devices['Desktop Firefox'],
-					storageState: 'test/storage-state/.auth/default.json',
+					storageState: '.test/storage-state/.auth/default.json',
 				},
 				dependencies: ['setup'],
 			},
@@ -76,7 +76,7 @@ export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
 				name: 'webkit',
 				use: {
 					...devices['Desktop Safari'],
-					storageState: 'test/storage-state/.auth/default.json',
+					storageState: '.test/storage-state/.auth/default.json',
 				},
 				dependencies: ['setup'],
 			},

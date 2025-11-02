@@ -24,6 +24,7 @@ import { env } from '@se/env'
 console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
 console.log('🔧 Test Environment Setup (Preload)')
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
+console.log('📄 JUnit report: ./.test/junit-report.xml')
 
 // Create a temporary pool for setup
 const setupPool = new Pool({

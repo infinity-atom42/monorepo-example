@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { clientEnv, serverEnv } from '@/env'
 import { expect, test as setup } from '@playwright/test'
 
-const AUTH_STATE_DIR = join(process.cwd(), 'test', 'storage-state', '.auth')
+const AUTH_STATE_DIR = join(process.cwd(), '.test', 'storage-state', '.auth')
 const AUTH_STATE_FILE = join(AUTH_STATE_DIR, 'default.json')
 
 const routes = {

@@ -41,3 +41,4 @@ package-lock.json
 
 # migrations
 migrations
+.test
