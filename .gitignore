@@ -11,6 +11,7 @@ node_modules
 
 # Testing
 coverage
+apps/web-example/test/
 
 # Turbo
 .turbo

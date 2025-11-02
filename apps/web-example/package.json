@@ -8,7 +8,7 @@
 		"auth:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/auth.config.ts",
 		"auth:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/auth.config.ts",
 		"build": "next build",
-		"clean": "rm -rf .next .turbo node_modules",
+		"clean": "rm -rf .next .turbo node_modules test",
 		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",
 		"db:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/drizzle.config.ts",
 		"db:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/drizzle.config.ts",
