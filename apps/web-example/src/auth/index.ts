@@ -3,8 +3,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { openAPI } from 'better-auth/plugins'
 
-import db from '@/db/auth-db'
-import * as schema from '@/db/auth-schema'
+import db from './drizzle.db'
+import * as schema from './drizzle.schema'
 import { clientEnv, serverEnv } from '@/env'
 
 export const auth: BetterAuth = betterAuth({

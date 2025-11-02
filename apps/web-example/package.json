@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"auth:generate": "dotenvx run --convention=nextjs -- pnpx @better-auth/cli@latest generate --output src/db/auth-schema.ts --config src/utils/auth.ts --yes",
-		"auth:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/auth.config.ts",
-		"auth:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/auth.config.ts",
+		"auth:generate": "dotenvx run --convention=nextjs -- pnpx @better-auth/cli@latest generate --output src/auth/drizzle.schema.ts --config src/auth/index.ts --yes",
+		"auth:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/auth/drizzle.config.ts",
+		"auth:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/auth/drizzle.config.ts",
 		"build": "next build",
 		"clean": "rm -rf .next .turbo node_modules test",
 		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",

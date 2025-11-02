@@ -5,7 +5,7 @@ import { Elysia } from 'elysia'
 import db from '@se/db/auth-db'
 import { env } from '@se/env'
 
-import * as schema from '../../../web-example/src/db/auth-schema'
+import * as schema from '../../../web-example/src/auth/drizzle.schema'
 
 // Mock user for testing environment
 const MOCK_TEST_USER = {
