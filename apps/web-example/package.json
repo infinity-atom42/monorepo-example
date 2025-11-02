@@ -16,8 +16,14 @@
 		"dev": "next dev --turbopack -p 3001",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"postinstall": "playwright install --with-deps chromium",
 		"start": "next start -p 3001",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "dotenvx run --convention=nextjs -- playwright test --project=chromium",
+		"test:all": "dotenvx run --convention=nextjs -- playwright test",
+		"test:ui": "dotenvx run --convention=nextjs -- playwright test --ui --project=chromium",
+		"test:ui:all": "dotenvx run --convention=nextjs -- playwright test --ui",
+		"test:headed": "dotenvx run --convention=nextjs -- playwright test --project=chromium --headed",
+		"test:report": "playwright show-report",
 		"type:check": "tsc --noEmit"
 	},
 	"dependencies": {
@@ -38,6 +44,7 @@
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "catalog:",
+		"@playwright/test": "^1.48.0",
 		"@tailwindcss/postcss": "catalog:",
 		"@types/bun": "catalog:",
 		"@types/pg": "catalog:",

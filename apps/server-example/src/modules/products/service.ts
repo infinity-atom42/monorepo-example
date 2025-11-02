@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DrizzleQueryError, eq } from 'drizzle-orm'
+
+import { createListQueryBuilder } from '@packages/drizzle-query-builder'
 
 import db from '@se/db'
 import { products } from '@se/db/schema'
-import { ConflictError, NotFoundError, NotImplementedError } from '@se/errors'
+import { ConflictError, NotFoundError } from '@se/errors'
 
 import type * as ProductModel from './model'
 
@@ -61,6 +62,22 @@ export async function deleteProduct(productId: ProductModel.ProductId): Promise<
 	}
 }
 
-export function listProducts(_query: ProductModel.ListProductsQuery): ProductModel.ListProductsResponse {
-	throw new NotImplementedError('listProducts')
+export async function listProducts(query: ProductModel.ListProductsQuery): Promise<ProductModel.ListProductsResponse> {
+	type ProductResponseItem = ProductModel.ListProductsResponse['data'][number]
+
+	// Create the list query builder for products
+	const listProductsQueryBuilder = createListQueryBuilder({
+		db,
+		table: products,
+	})
+
+	const result = await listProductsQueryBuilder<ProductResponseItem>({
+		page: query.page,
+		limit: query.limit,
+	})
+
+	return {
+		data: result.data,
+		meta: result.meta,
+	}
 }

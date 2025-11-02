@@ -7,7 +7,7 @@ describe('Products API', () => {
 	// Create a type-safe client using Eden - using productController instance directly
 	const api = treaty<typeof productController>(productController)
 
-	test.skip('should list products', async () => {
+	test('should list products', async () => {
 		// Type-safe query parameters with autocomplete
 		// Note: listProducts is not implemented yet (returns 501)
 		const { data, error } = await api.products.get({

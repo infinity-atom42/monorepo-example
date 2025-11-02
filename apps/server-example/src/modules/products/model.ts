@@ -1,8 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-// import { moneyString } from '@packages/schemas/decimal'
-import { paginationQuery, paginationMeta } from '@packages/schemas/query'
+import { createPaginatedQuery, createPaginatedResponse } from '@packages/schemas/query'
 
 import { products } from '@se/db/schema'
 
@@ -10,13 +9,13 @@ import { products } from '@se/db/schema'
 const productRefinements = {
 	name: (schema: z.ZodString) => schema.min(1).max(200),
 	description: (schema: z.ZodString) => schema.min(1),
-	// price: () => moneyString,
 	sku: (schema: z.ZodString) => schema.min(1).max(100),
 	category: (schema: z.ZodString) => schema.min(1),
 }
 
+export const product = createSelectSchema(products, productRefinements)
+
 // Base schemas for CRUD operations
-const select = createSelectSchema(products, productRefinements)
 const insert = createInsertSchema(products, productRefinements).omit({
 	id: true,
 	createdAt: true,
@@ -25,24 +24,14 @@ const insert = createInsertSchema(products, productRefinements).omit({
 const update = insert.partial()
 
 // API request/response models
-export const product = select
 export const productId = product.shape.id
 export const productIdParam = z.object({ productId: product.shape.id })
 export const createProductBody = insert
 export const createProductResponse = product
 export const updateProductBody = update
 export const updateProductResponse = product
-export const listProductsQuery = z.object({
-	...paginationQuery.shape,
-	inStock: select.shape.inStock.optional(),
-	category: select.shape.category.optional(),
-	// minPrice: moneyString.optional(),
-	// maxPrice: moneyString.optional(),
-})
-export const listProductsResponse = z.strictObject({
-	data: z.array(product),
-	meta: paginationMeta,
-})
+export const listProductsQuery = createPaginatedQuery()
+export const listProductsResponse = createPaginatedResponse(product)
 
 // API responses
 export const errorNotFound = z.object({ message: z.literal('Product not found') })

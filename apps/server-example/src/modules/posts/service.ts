@@ -49,29 +49,29 @@ export async function deletePost(postId: PostModel.PostId): Promise<void> {
 	}
 }
 
-// Create the list query builder for posts
-const listPostsQueryBuilder = createListQueryBuilder({
-	db,
-	table: posts,
-	selectableFields,
-	relations: {
-		blog: {
-			relationKey: 'blog',
-			table: blogs,
-			joinCondition: eq(posts.blogId, blogs.id),
-		},
-		// Add more relations here as needed
-		// user: {
-		//   relationKey: 'user',
-		//   table: users,
-		//   joinCondition: eq(posts.userId, users.id),
-		// },
-	},
-})
-
 export async function listPosts(query: PostModel.ListPostsQuery): Promise<PostModel.ListPostsResponse> {
 	type PostResponseItem = PostModel.ListPostsResponse['data'][number]
-	
+
+	// Create the list query builder for posts
+	const listPostsQueryBuilder = createListQueryBuilder({
+		db,
+		table: posts,
+		selectableFields,
+		relations: {
+			blog: {
+				relationKey: 'blog',
+				table: blogs,
+				joinCondition: eq(posts.blogId, blogs.id),
+			},
+			// Add more relations here as needed
+			// user: {
+			//   relationKey: 'user',
+			//   table: users,
+			//   joinCondition: eq(posts.userId, users.id),
+			// },
+		},
+	})
+
 	const result = await listPostsQueryBuilder<PostResponseItem>({
 		page: query.page,
 		limit: query.limit,
@@ -80,7 +80,7 @@ export async function listPosts(query: PostModel.ListPostsQuery): Promise<PostMo
 		filter: query.filter,
 		include: query.include,
 	})
-	
+
 	return {
 		data: result.data,
 		meta: result.meta,

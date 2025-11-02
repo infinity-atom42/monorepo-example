@@ -17,7 +17,7 @@ export default function Page() {
 		try {
 			setLoading('posts')
 
-			const response = await example.v1.posts.get()
+			const response = await example.v1.posts.get({query: {page: 1, limit: 10}})
 
 			setPostsData(response.data)
 			console.log('Posts:', response.data)
@@ -31,7 +31,7 @@ export default function Page() {
 	const handleGetProducts = async () => {
 		try {
 			setLoading('products')
-			const response = await example.v1.products.get()
+			const response = await example.v1.products.get({query: {page: 1, limit: 10}})
 			setProductsData(response.data)
 			console.log('Products:', response.data)
 		} catch (error) {
