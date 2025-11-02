@@ -11,7 +11,8 @@
 		"./eslint/base": "./eslint/base.js",
 		"./eslint/next": "./eslint/next.js",
 		"./eslint/react-internal": "./eslint/react-internal.js",
-		"./eslint/react": "./eslint/react.js"
+		"./eslint/react": "./eslint/react.js",
+		"./playwright/base": "./playwright/base.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules"
@@ -19,6 +20,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.37.0",
 		"@next/eslint-plugin-next": "^15.5.4",
+		"@playwright/test": "^1.48.0",
 		"@tanstack/eslint-plugin-query": "^5.91.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-only-warn": "^1.1.0",
