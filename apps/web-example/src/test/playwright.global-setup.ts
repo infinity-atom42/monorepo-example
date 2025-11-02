@@ -1,4 +1,4 @@
-import { clientEnv } from './env'
+import { clientEnv } from '@/env'
 
 /**
  * Playwright Global Setup

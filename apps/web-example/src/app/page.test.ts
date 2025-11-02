@@ -8,21 +8,6 @@ test.describe('Homepage', () => {
 		await expect(page.getByRole('heading', { name: 'Hello World' })).toBeVisible()
 	})
 
-	test('should display posts data after clicking Get Posts button', async ({ page }) => {
-		await page.goto('/')
-
-		// Click the Get Posts button
-		const getPostsButton = page.getByRole('button', { name: 'Get Posts' })
-		await getPostsButton.click()
-
-		// Wait for the posts data to appear
-		await expect(page.getByText('Posts Response:')).toBeVisible()
-
-		// Verify the data container is visible
-		const postsContainer = page.locator('div').filter({ hasText: 'Posts Response:' }).first()
-		await expect(postsContainer).toBeVisible()
-	})
-
 	test('should display products data after clicking Get Products button', async ({ page }) => {
 		await page.goto('/')
 
@@ -36,6 +21,21 @@ test.describe('Homepage', () => {
 		// Verify the data container is visible
 		const productsContainer = page.locator('div').filter({ hasText: 'Products Response:' }).first()
 		await expect(productsContainer).toBeVisible()
+	})
+
+	test('should display posts data after clicking Get Posts button', async ({ page }) => {
+		await page.goto('/')
+
+		// Click the Get Posts button
+		const getPostsButton = page.getByRole('button', { name: 'Get Posts' })
+		await getPostsButton.click()
+
+		// Wait for the posts data to appear
+		await expect(page.getByText('Posts Response:')).toBeVisible()
+
+		// Verify the data container is visible
+		const postsContainer = page.locator('div').filter({ hasText: 'Posts Response:' }).first()
+		await expect(postsContainer).toBeVisible()
 	})
 
 	test('should handle button loading states correctly', async ({ page }) => {
