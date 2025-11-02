@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
 		"build:linux": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/server src/index.ts",
-		"clean": "rm -rf dist .turbo node_modules",
+		"clean": "rm -rf dist .turbo node_modules migrations",
 		"db:generate": "dotenvx run --convention=nextjs -- drizzle-kit generate --config=src/scripts/drizzle.config.ts",
 		"db:migrate": "dotenvx run --convention=nextjs -- drizzle-kit migrate --config=src/scripts/drizzle.config.ts",
 		"db:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/drizzle.config.ts",

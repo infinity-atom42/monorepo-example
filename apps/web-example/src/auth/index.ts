@@ -1,11 +1,12 @@
-import { betterAuth, type Auth as BetterAuth } from 'better-auth'
+import { betterAuth, type Auth as BetterAuth, type BetterAuthPlugin } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { openAPI } from 'better-auth/plugins'
 
+import { clientEnv, serverEnv } from '@/env'
+
 import db from './drizzle.db'
 import * as schema from './drizzle.schema'
-import { clientEnv, serverEnv } from '@/env'
 
 export const auth: BetterAuth = betterAuth({
 	appName: clientEnv.NEXT_PUBLIC_APP_NAME,
@@ -20,7 +21,7 @@ export const auth: BetterAuth = betterAuth({
 	// 	},
 	// },
 	trustedOrigins: [clientEnv.NEXT_PUBLIC_EXAMPLE_API_URL],
-	plugins: [openAPI(), nextCookies()],
+	plugins: [openAPI(), nextCookies() as BetterAuthPlugin],
 	database: drizzleAdapter(db, {
 		provider: 'pg',
 		usePlural: true,

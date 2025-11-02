@@ -30,6 +30,8 @@ export const baseConfig = [
 	},
 	{
 		rules: {
+			// TODO: Re-enable once https://github.com/typescript-eslint/typescript-eslint/issues/11732 is resolved
+			'@typescript-eslint/unified-signatures': 'off',
 			// Safety and Security Rules
 			eqeqeq: ['error', 'smart'], // Enforce strict equality (=== and !==)
 			'no-eval': 'error', // Disallow eval()
