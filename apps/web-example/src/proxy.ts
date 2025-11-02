@@ -1,4 +1,3 @@
-import type { NextMiddlewareResult } from 'next/dist/server/web/types'
 import { NextResponse } from 'next/server'
 
 export const config = {
@@ -15,6 +14,6 @@ export const config = {
 	],
 }
 
-export default async function middleware(): Promise<NextMiddlewareResult> {
+export default async function proxy(): Promise<Response> {
 	return NextResponse.next()
 }
