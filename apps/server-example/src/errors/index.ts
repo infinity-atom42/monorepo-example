@@ -44,7 +44,7 @@ export const errorHandling = new Elysia({ name: 'errorHandling' })
 				if (code !== 'UNKNOWN' && typeof code !== 'number') {
 					set.status = error.status
 				}
-				if (env.NODE_ENV === 'development') {
+				if (process.env.NODE_ENV === 'development') {
 					// TODO: report this to the Elysia team
 					// typeof code === 'number' is add to avoid a bug in the type system.
 					if (typeof code === 'number') {

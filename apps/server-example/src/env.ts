@@ -6,7 +6,6 @@ export const env = createEnv({
 	server: {
 		APP_NAME: z.string(),
 		PORT: z.coerce.number().int().positive(),
-		NODE_ENV: z.enum(['development', 'production', 'test']),
 		DATABASE_URL: z.url(),
 		AUTH_DATABASE_URL: z.url(),
 		API_CLIENT_BASE_URL: z.url(),

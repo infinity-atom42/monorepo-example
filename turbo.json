@@ -32,31 +32,42 @@
 			"cache": false
 		},
 		"auth:generate": {
-			"inputs": ["src/auth/index.ts", "src/auth/drizzle.schema.ts", ".env*", "!.env*.example"],
+			"inputs": [
+				"src/auth/index.ts",
+				"src/auth/drizzle.schema.ts",
+				"src/auth/drizzle.config.ts",
+				".env*",
+				"!.env*.example"
+			],
 			"outputs": ["src/auth/drizzle.schema.ts"]
-		},
-		"auth:migrate": {
-			"dependsOn": ["^auth:generate"],
-			"inputs": ["src/auth/drizzle.schema.ts", "src/auth/drizzle.config.ts", ".env*", "!.env*.example"]
-		},
-		"auth:push": {
-			"cache": false
 		},
 		"db:generate": {
 			"dependsOn": ["^auth:generate"],
-			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"],
+			"inputs": [
+				"src/db/schema.ts",
+				"src/db/schema/**/*.ts",
+				"src/scripts/drizzle.config.ts",
+				".env*",
+				"!.env*.example"
+			],
 			"outputs": [".migrations/**"]
 		},
 		"db:migrate": {
 			"dependsOn": ["^db:generate"],
-			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"]
+			"inputs": [
+				"src/db/schema.ts",
+				"src/db/schema/**/*.ts",
+				"src/scripts/drizzle.config.ts",
+				".env*",
+				"!.env*.example"
+			]
 		},
 		"db:push": {
 			"cache": false
 		},
 		"db:seed": {
 			"dependsOn": ["^db:migrate"],
-			"inputs": ["src/scripts/seed.ts", "src/scripts/seed/**", "src/db/schema.ts", ".env*", "!.env*.example"]
+			"inputs": ["src/scripts/seed.ts", "src/scripts/seed/**", "src/db/**/*.ts", ".env*", "!.env*.example"]
 		}
 	}
 }

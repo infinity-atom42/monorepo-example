@@ -41,7 +41,7 @@ const authPlugin = new Elysia({ name: 'auth' })
 	// Don't mount auth.handler - we only validate sessions, not handle auth endpoints
 	.derive({ as: 'scoped' }, async ({ status, request: { headers } }) => {
 		// In test environment, always return mock user (bypass auth)
-		if (env.NODE_ENV === 'test') {
+		if (process.env.NODE_ENV === 'test') {
 			return { user: MOCK_TEST_USER }
 		}
 

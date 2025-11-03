@@ -28,9 +28,6 @@ export default async function globalSetup() {
 	console.log('🔧 Playwright Global Setup (Preload)')
 	console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
 
-	console.log('AUTH_DATABASE_URL:', serverEnv.AUTH_DATABASE_URL)
-	process.exit(1)
-
 	// Create a temporary pool for auth setup
 	const authPool = new Pool({
 		connectionString: serverEnv.AUTH_DATABASE_URL,
@@ -62,7 +59,7 @@ export default async function globalSetup() {
 		const fs = await import('fs')
 		if (!fs.existsSync(authMigrationsFolder)) {
 			console.error('❌ No auth migrations folder found. Cannot start Playwright tests.')
-			console.error('   Run "pnpm --filter web-example auth:migrate" to create migrations in ./.migrations/auth.')
+			console.error('   Run "pnpm --filter web-example db:generate" to create migrations in ./.migrations/auth.')
 			await authPool.end()
 			process.exit(1)
 		}

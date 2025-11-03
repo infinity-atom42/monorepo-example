@@ -4,10 +4,10 @@ import { env } from '@se/env'
 
 await startClusteredService<typeof import('./server')>({
 	serviceName: 'server-example',
-	isProduction: env.NODE_ENV === 'production',
+	isProduction: process.env.NODE_ENV === 'production',
 	workerModulePath: new URL('./server.ts', import.meta.url).pathname,
 	onPrimaryStartup: ({ workerCount }) => {
-		if (env.NODE_ENV === 'production') {
+		if (process.env.NODE_ENV === 'production') {
 			console.log(`Starting ${workerCount} workers in production mode`)
 		} else {
 			console.log('Starting single worker in development mode')

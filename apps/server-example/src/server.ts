@@ -49,7 +49,7 @@ const app = new Elysia()
 	.group('/v1', (app) => app.use(postController).use(productController).use(blogController).use(cronController))
 
 // Only listen if not in test mode
-if (env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
 	app.listen(env.PORT)
 }
 

@@ -4,7 +4,6 @@ import { createEnv } from '@t3-oss/env-nextjs'
 
 export const serverEnv = createEnv({
 	server: {
-		NODE_ENV: z.enum(['development', 'production', 'test']),
 		AUTH_DATABASE_URL: z.url(),
 		BETTER_AUTH_SECRET: z.string(),
 		GITHUB_CLIENT_ID: z.string(),

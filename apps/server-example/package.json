@@ -13,6 +13,7 @@
 		"db:push": "dotenvx run --convention=nextjs -- drizzle-kit push --config=src/scripts/drizzle.config.ts",
 		"db:seed": "dotenvx run --convention=nextjs -- bun run src/scripts/seed.ts",
 		"dev": "bun run --watch src/index.ts",
+		"dev:test": "NODE_ENV=test dotenvx run --convention=nextjs -- bun run --watch src/index.ts",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"start": "./dist/server",
