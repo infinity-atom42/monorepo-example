@@ -40,11 +40,9 @@ A modern monorepo setup with infrastructure services and development tools.
 Add shadcn components to your app from the root of your workspace:
 
 ```bash
-# Add to default web app
-pnpm dlx shadcn@canary add [component-name]
-
-# Add to specific app
-pnpm dlx shadcn@canary add [component-name] -c apps/[app-name]
+# To add components to your app, run the following command at the root of your app:
+pnpm dlx shadcn@latest add [component-name] -c apps/[app-name]
+# This will place the ui components in the packages/ui/src/components directory.
 ```
 
 #### Generate Better Auth Secret
