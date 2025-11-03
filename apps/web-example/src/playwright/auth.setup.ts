@@ -19,50 +19,46 @@ setup('prepare default auth storage state', async ({ request }) => {
 	const password = serverEnv.DEFAULT_USER_PASSWORD
 	const name = serverEnv.DEFAULT_USER_NAME
 
-	const attemptSignIn = () =>
-		request.post(routes.signInEmail, {
-			data: {
-				email,
-				password,
-			},
-			headers: {
-				Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
-			},
-		})
+	// Sign up first (DB is always clean, so user won't exist)
+	const signUpResponse = await request.post(routes.signUpEmail, {
+		data: {
+			email,
+			password,
+			name,
+		},
+		headers: {
+			Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
+		},
+	})
 
-	let signInResponse = await attemptSignIn()
+	const signUpStatus = signUpResponse.status()
+	const signUpBody = await signUpResponse.json().catch(() => null)
+
+	if (!signUpResponse.ok() && ![409, 422].includes(signUpStatus)) {
+		const errorBody = signUpBody ? JSON.stringify(signUpBody, null, 2) : await signUpResponse.text()
+		console.error(
+			`Failed to sign up default user. Received ${signUpStatus} ${signUpResponse.statusText()}\n${errorBody}`
+		)
+		process.exit(1)
+	}
+
+	// Sign in after signup
+	const signInResponse = await request.post(routes.signInEmail, {
+		data: {
+			email,
+			password,
+		},
+		headers: {
+			Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
+		},
+	})
 
 	if (!signInResponse.ok()) {
-		const signUpResponse = await request.post(routes.signUpEmail, {
-			data: {
-				email,
-				password,
-				name,
-			},
-			headers: {
-				Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
-			},
-		})
-
-		const signUpStatus = signUpResponse.status()
-		const signUpBody = await signUpResponse.json().catch(() => null)
-
-		if (!signUpResponse.ok() && ![409, 422].includes(signUpStatus)) {
-			const errorBody = signUpBody ? JSON.stringify(signUpBody, null, 2) : await signUpResponse.text()
-			console.error(
-				`Failed to ensure default user exists. Received ${signUpStatus} ${signUpResponse.statusText()}\n${errorBody}`
-			)
-			process.exit(1)
-		}
-
-		signInResponse = await attemptSignIn()
-		
-		if (!signInResponse.ok()) {
-			const signInBody = await signInResponse.json().catch(() => null)
-			console.error('Sign-in failed after sign-up attempt')
-			console.error('Sign-in status:', signInResponse.status())
-			console.error('Sign-in body:', JSON.stringify(signInBody, null, 2))
-		}
+		const signInBody = await signInResponse.json().catch(() => null)
+		console.error('Sign-in failed after sign-up')
+		console.error('Sign-in status:', signInResponse.status())
+		console.error('Sign-in body:', JSON.stringify(signInBody, null, 2))
+		process.exit(1)
 	}
 
 	expect(signInResponse.ok(), 'Default user sign-in should succeed').toBeTruthy()
