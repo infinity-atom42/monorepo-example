@@ -76,12 +76,14 @@ const migrationsFolder = resolve(process.cwd(), '.migrations')
 try {
 	const fs = await import('fs')
 	if (!fs.existsSync(migrationsFolder)) {
-	console.log('⚠ No migrations folder found. Skipping migrations.')
-	console.log('  Run "pnpm db:generate" to create migrations in ./.migrations.')
-	} else {
-		await migrate(setupDb, { migrationsFolder })
-		console.log('✓ Migrations completed')
+		console.error('❌ No migrations folder found. Cannot start tests.')
+		console.error('   Run "pnpm db:generate" to create migrations in ./.migrations.')
+		await setupPool.end()
+		process.exit(1)
 	}
+
+	await migrate(setupDb, { migrationsFolder })
+	console.log('✓ Migrations completed')
 } catch (error) {
 	console.error('Failed to run migrations:', error)
 	await setupPool.end()
@@ -111,7 +113,7 @@ try {
 	}
 } catch (error) {
 	console.error('Warning: Failed to clean database:', error)
-	// Don't abort - continue with tests even if cleanup fails
+	console.error('         Continuing without auth cleanup (data may persist between tests).')
 }
 
 console.log('✓ Test database ready')
