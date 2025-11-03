@@ -3,5 +3,5 @@
 
 # Generated files
 pnpm-lock.yaml
-**/auth-schema.ts
-**/migrations
+**/drizzle.schema.ts
+**/.migrations/

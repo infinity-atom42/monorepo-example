@@ -45,7 +45,7 @@
 		"db:generate": {
 			"dependsOn": ["^auth:generate"],
 			"inputs": ["src/db/schema.ts", "src/scripts/drizzle.config.ts", ".env*", "!.env*.example"],
-			"outputs": ["migrations/**"]
+			"outputs": [".migrations/**"]
 		},
 		"db:migrate": {
 			"dependsOn": ["^db:generate"],

@@ -71,13 +71,13 @@ try {
 // Step 2: Run Migrations
 // ============================================================================
 
-const migrationsFolder = resolve(process.cwd(), 'migrations')
+const migrationsFolder = resolve(process.cwd(), '.migrations')
 
 try {
 	const fs = await import('fs')
 	if (!fs.existsSync(migrationsFolder)) {
-		console.log('⚠ No migrations folder found. Skipping migrations.')
-		console.log('  Run "pnpm db:generate" to create migrations.')
+	console.log('⚠ No migrations folder found. Skipping migrations.')
+	console.log('  Run "pnpm db:generate" to create migrations in ./.migrations.')
 	} else {
 		await migrate(setupDb, { migrationsFolder })
 		console.log('✓ Migrations completed')

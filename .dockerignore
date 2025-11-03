@@ -1,67 +1,30 @@
-# Node.js dependencies and caches
-node_modules
-**/node_modules
-.npm
-.pnpm-store
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
-
-# Build artifacts and outputs
-.next
-**/.next
-dist
-**/dist
-build
-**/build
-out
-**/out
-.turbo
-**/.turbo
-.cache
-**/.cache
-.vercel
-
-# Test and coverage reports
-coverage
-**/coverage
-.nyc_output
-
-# Docker and container files
-Dockerfile
-**/*.Dockerfile
-.dockerignore
-docker-compose*.yml
-*.pod
-podman-pod.sh
-
-# Version control
+# Git and version control
 .git
 .gitignore
-.github
 
-# Environment and config files
-.env
-.env.*
-!.env.example
-*.local
+# Dependencies & caches
+node_modules
+.turbo
+
+# Local env files
+.env.local
+.env.*.local
+
+# Build artifacts
+.next/
+dist/
+.migrations/
+
+# Test artifacts
+.test/
 
 # Logs
-logs
-*.log
+pnpm-debug.log*
 
-# IDE and editor files
-.vscode
-.idea
-*.swp
-*.swo
-
-# OS specific files
+# Misc
 .DS_Store
-Thumbs.db
+*.pem
 
-# Documentation and config files
-*.md
-!README.md
-.eslintrc*
-.prettierrc* 
+# IDEs
+.vscode
+.cursor
