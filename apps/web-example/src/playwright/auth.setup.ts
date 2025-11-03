@@ -25,6 +25,9 @@ setup('prepare default auth storage state', async ({ request }) => {
 				email,
 				password,
 			},
+			headers: {
+				Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
+			},
 		})
 
 	let signInResponse = await attemptSignIn()
@@ -36,15 +39,30 @@ setup('prepare default auth storage state', async ({ request }) => {
 				password,
 				name,
 			},
+			headers: {
+				Origin: clientEnv.NEXT_PUBLIC_BASE_URL,
+			},
 		})
 
-		if (!signUpResponse.ok() && ![409, 422].includes(signUpResponse.status())) {
-			throw new Error(
-				`Failed to ensure default user exists. Received ${signUpResponse.status()} ${signUpResponse.statusText()}`
+		const signUpStatus = signUpResponse.status()
+		const signUpBody = await signUpResponse.json().catch(() => null)
+
+		if (!signUpResponse.ok() && ![409, 422].includes(signUpStatus)) {
+			const errorBody = signUpBody ? JSON.stringify(signUpBody, null, 2) : await signUpResponse.text()
+			console.error(
+				`Failed to ensure default user exists. Received ${signUpStatus} ${signUpResponse.statusText()}\n${errorBody}`
 			)
+			process.exit(1)
 		}
 
 		signInResponse = await attemptSignIn()
+		
+		if (!signInResponse.ok()) {
+			const signInBody = await signInResponse.json().catch(() => null)
+			console.error('Sign-in failed after sign-up attempt')
+			console.error('Sign-in status:', signInResponse.status())
+			console.error('Sign-in body:', JSON.stringify(signInBody, null, 2))
+		}
 	}
 
 	expect(signInResponse.ok(), 'Default user sign-in should succeed').toBeTruthy()
