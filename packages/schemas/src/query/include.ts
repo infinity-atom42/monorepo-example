@@ -50,12 +50,10 @@ export function createIncludeQuery<TRelations extends Record<string, AnyZodObjec
 		if (!schema) continue
 		const selectQuery = createSelectQuery(schema) as RelationSelectSchema<TRelations[typeof relationName]>
 
-		includeShape[relationName] = selectQuery.optional() as IncludeFieldSchema<
-			TRelations[typeof relationName]
-		>
+		includeShape[relationName] = selectQuery.optional() as IncludeFieldSchema<TRelations[typeof relationName]>
 	}
 
-    return z.strictObject(includeShape).partial().describe('Relations to include in response')
+	return z.strictObject(includeShape).partial().describe('Relations to include in response')
 }
 
 /** Convenience alias for the Zod schema returned by `createIncludeQuery`. */

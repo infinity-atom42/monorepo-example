@@ -2,21 +2,25 @@ import Decimal from 'decimal.js'
 import { z } from 'zod'
 
 // Base schema: validates string input and converts to Decimal
-const baseDecimalSchema = z.string().transform((val, ctx) => {
-	try {
-		return new Decimal(val)
-	} catch {
-		ctx.addIssue({
-			code: 'custom',
-			message: 'Invalid decimal value',
-		})
-		return z.NEVER
-	}
-}).refine((val) => val.isFinite(), {
-	message: 'Value must be a finite decimal number',
-}).refine((val) => !val.isNaN(), {
-	message: 'Value cannot be NaN',
-})
+const baseDecimalSchema = z
+	.string()
+	.transform((val, ctx) => {
+		try {
+			return new Decimal(val)
+		} catch {
+			ctx.addIssue({
+				code: 'custom',
+				message: 'Invalid decimal value',
+			})
+			return z.NEVER
+		}
+	})
+	.refine((val) => val.isFinite(), {
+		message: 'Value must be a finite decimal number',
+	})
+	.refine((val) => !val.isNaN(), {
+		message: 'Value cannot be NaN',
+	})
 
 // Money validation rules (reusable)
 const moneySchema = baseDecimalSchema
@@ -26,12 +30,15 @@ const moneySchema = baseDecimalSchema
 	.refine((val) => val.dp() <= 2, {
 		message: 'Value cannot have more than 2 decimal places',
 	})
-	.refine((val) => {
-		const maxValue = new Decimal(10).pow(8).minus(new Decimal(10).pow(-2)) // 99999999.99
-		return val.abs().lte(maxValue)
-	}, {
-		message: 'Value exceeds maximum precision (10 digits, 2 decimals)',
-	})
+	.refine(
+		(val) => {
+			const maxValue = new Decimal(10).pow(8).minus(new Decimal(10).pow(-2)) // 99999999.99
+			return val.abs().lte(maxValue)
+		},
+		{
+			message: 'Value exceeds maximum precision (10 digits, 2 decimals)',
+		}
+	)
 
 /**
  * Decimal validator - returns Decimal object

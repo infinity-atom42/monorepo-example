@@ -16,10 +16,7 @@ type Credentials = ReturnType<typeof createRandomCredentials>
 
 const existingUser: Credentials = createRandomCredentials()
 
-const signInWithCredentials = async (
-	page: Page,
-	{ email, password }: Pick<Credentials, 'email' | 'password'>
-) => {
+const signInWithCredentials = async (page: Page, { email, password }: Pick<Credentials, 'email' | 'password'>) => {
 	await page.goto('/auth/sign-in')
 
 	await page.getByLabel('Email').fill(email)
@@ -27,10 +24,7 @@ const signInWithCredentials = async (
 
 	const submitButton = page.getByRole('button', { name: /login/i })
 
-	await Promise.all([
-		page.waitForURL('**/', { waitUntil: 'load' }),
-		submitButton.click(),
-	])
+	await Promise.all([page.waitForURL('**/', { waitUntil: 'load' }), submitButton.click()])
 }
 
 // Ensure this suite starts unauthenticated instead of reusing the shared storage state
@@ -60,10 +54,7 @@ test.describe('Auth Sequential Flow', () => {
 
 		const submitButton = page.getByRole('button', { name: /create an account/i })
 
-		await Promise.all([
-			page.waitForURL('**/', { waitUntil: 'load' }),
-			submitButton.click(),
-		])
+		await Promise.all([page.waitForURL('**/', { waitUntil: 'load' }), submitButton.click()])
 
 		await expect(page.getByRole('heading', { name: 'Hello World' })).toBeVisible()
 	})

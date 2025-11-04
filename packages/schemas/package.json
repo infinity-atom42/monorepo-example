@@ -16,8 +16,8 @@
 		"type:check": "tsc --noEmit"
 	},
 	"peerDependencies": {
-		"zod": "catalog:",
-		"decimal.js": "catalog:"
+		"decimal.js": "catalog:",
+		"zod": "catalog:"
 	},
 	"peerDependenciesMeta": {
 		"decimal.js": {

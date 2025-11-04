@@ -1,7 +1,5 @@
 import { Elysia } from 'elysia'
 
-import { env } from '@se/env'
-
 import { AuthenticationError } from './authentication'
 import { AuthorizationError } from './authorization'
 import { ConflictError } from './conflict'
@@ -11,7 +9,15 @@ import { NotImplementedError } from './not-implemented'
 import { ValidationError } from './validation'
 
 // Export error classes for use in other modules
-export { AuthenticationError, AuthorizationError, ConflictError, InvariantError, NotFoundError, NotImplementedError, ValidationError }
+export {
+	AuthenticationError,
+	AuthorizationError,
+	ConflictError,
+	InvariantError,
+	NotFoundError,
+	NotImplementedError,
+	ValidationError,
+}
 
 export const errorHandling = new Elysia({ name: 'errorHandling' })
 	.error('AUTHENTICATION_ERROR', AuthenticationError)

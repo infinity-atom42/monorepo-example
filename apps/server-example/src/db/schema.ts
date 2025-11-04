@@ -1,19 +1,16 @@
 import { boolean, decimal, index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 // Blogs table
-export const blogs = pgTable(
-	'blogs',
-	{
-		id: uuid('id').primaryKey().defaultRandom(),
-		name: text('name').notNull(),
-		artiom: text('artiom').notNull(),
-		createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-		updatedAt: timestamp('updated_at', { mode: 'string' })
-			.notNull()
-			.defaultNow()
-			.$onUpdate(() => new Date().toISOString()),
-	}
-)
+export const blogs = pgTable('blogs', {
+	id: uuid('id').primaryKey().defaultRandom(),
+	name: text('name').notNull(),
+	artiom: text('artiom').notNull(),
+	createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
+	updatedAt: timestamp('updated_at', { mode: 'string' })
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => new Date().toISOString()),
+})
 
 // Posts table
 export const posts = pgTable(

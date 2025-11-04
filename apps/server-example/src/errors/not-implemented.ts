@@ -7,5 +7,4 @@ export class NotImplementedError extends BaseHttpError {
 		super(message, { cause })
 		this.name = 'NotImplementedError'
 	}
-
 }

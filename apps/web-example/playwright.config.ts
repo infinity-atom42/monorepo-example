@@ -1,6 +1,6 @@
-import { defineConfig } from '@playwright/test'
-
 import { basePlaywrightConfig } from '@packages/config/playwright/base'
+
+import { defineConfig } from '@playwright/test'
 
 const BASE_URL = process.env['NEXT_PUBLIC_BASE_URL']
 const API_URL = process.env['NEXT_PUBLIC_EXAMPLE_API_URL']

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
-import { treaty } from '@elysiajs/eden'
 
+import { treaty } from '@elysiajs/eden'
 import { app, type App } from '@se/server'
 
 describe('Server Smoke Tests', () => {

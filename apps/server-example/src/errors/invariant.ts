@@ -7,5 +7,4 @@ export class InvariantError extends BaseHttpError {
 		super(message, { cause })
 		this.name = 'InvariantError'
 	}
-
 }

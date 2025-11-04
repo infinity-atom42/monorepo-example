@@ -21,10 +21,10 @@ export type CleanupResult = z.infer<typeof cleanupResult>
  */
 export function runCleanup(): CleanupResult {
 	const timestamp = new Date().toISOString()
-	
+
 	// Simulate cleanup work (in real app, this would clean database, logs, etc.)
 	const itemsCleaned = Math.floor(Math.random() * 10)
-	
+
 	const message = `[Cleanup] Cleaned ${itemsCleaned} items at ${timestamp}`
 
 	// Log to console

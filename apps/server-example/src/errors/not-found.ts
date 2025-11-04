@@ -7,5 +7,4 @@ export class NotFoundError extends BaseHttpError {
 		super(message, { cause })
 		this.name = 'NotFoundError'
 	}
-
 }

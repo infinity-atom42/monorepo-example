@@ -18,17 +18,21 @@ export const blogController = new Elysia({ prefix: '/blogs' })
 			description: 'Create a new blog',
 		},
 	})
-	.delete('/:blogId', ({ params }) => {
-		BlogService.deleteBlog(params.blogId)
-		return { message: 'Blog deleted successfully' }
-	}, {
-		params: BlogModel.blogIdParam,
-		response: {
-			200: BlogModel.successMessage,
+	.delete(
+		'/:blogId',
+		({ params }) => {
+			BlogService.deleteBlog(params.blogId)
+			return { message: 'Blog deleted successfully' }
 		},
-		detail: {
-			tags: ['Blogs'],
-			summary: 'Delete blog',
-			description: 'Delete a blog by its ID',
-		},
-	})
+		{
+			params: BlogModel.blogIdParam,
+			response: {
+				200: BlogModel.successMessage,
+			},
+			detail: {
+				tags: ['Blogs'],
+				summary: 'Delete blog',
+				description: 'Delete a blog by its ID',
+			},
+		}
+	)

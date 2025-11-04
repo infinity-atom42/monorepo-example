@@ -16,13 +16,15 @@ export class ValidationError extends Error {
 	}
 
 	toResponse() {
-
-		return Response.json({
-			type: this.type,
-			on: this.on,
-			message: this.message,
-			found: this.found,
-			errors: this.errors,
-		}, { status: this.status })
+		return Response.json(
+			{
+				type: this.type,
+				on: this.on,
+				message: this.message,
+				found: this.found,
+				errors: this.errors,
+			},
+			{ status: this.status }
+		)
 	}
 }

@@ -27,8 +27,8 @@ const schema = z.object({
   amount: decimal,
 })
 
-const result = schema.parse({ amount: "123.456" })
-result.amount.plus(10)  // Decimal object - can do math
+const result = schema.parse({ amount: '123.456' })
+result.amount.plus(10) // Decimal object - can do math
 result.amount.toString() // "123.456"
 ```
 
@@ -48,10 +48,10 @@ const schema = z.object({
   amount: decimalString,
 })
 
-schema.parse({ amount: "123.456" })  // ✅ "123.456"
-schema.parse({ amount: "-45.67" })   // ✅ "-45.67"
-schema.parse({ amount: "NaN" })      // ❌ Error
-schema.parse({ amount: "Infinity" }) // ❌ Error
+schema.parse({ amount: '123.456' }) // ✅ "123.456"
+schema.parse({ amount: '-45.67' }) // ✅ "-45.67"
+schema.parse({ amount: 'NaN' }) // ❌ Error
+schema.parse({ amount: 'Infinity' }) // ❌ Error
 ```
 
 ### 3. `money`
@@ -71,9 +71,9 @@ const orderSchema = z.object({
   tax: money,
 })
 
-const result = orderSchema.parse({ 
-  subtotal: "100.00", 
-  tax: "10.00" 
+const result = orderSchema.parse({
+  subtotal: '100.00',
+  tax: '10.00',
 })
 
 // Calculate total using Decimal methods
@@ -97,25 +97,25 @@ const productSchema = z.object({
   price: moneyString,
 })
 
-productSchema.parse({ price: "99.99" })        // ✅ "99.99"
-productSchema.parse({ price: "10" })           // ✅ "10.00" (formatted to 2 decimals)
-productSchema.parse({ price: "10.5" })         // ✅ "10.50" (formatted to 2 decimals)
-productSchema.parse({ price: "0" })            // ✅ "0.00"
-productSchema.parse({ price: "-10" })          // ❌ Error (must be positive)
-productSchema.parse({ price: "99.999" })       // ❌ Error (max 2 decimals)
-productSchema.parse({ price: "999999999.99" }) // ❌ Error (exceeds precision)
+productSchema.parse({ price: '99.99' }) // ✅ "99.99"
+productSchema.parse({ price: '10' }) // ✅ "10.00" (formatted to 2 decimals)
+productSchema.parse({ price: '10.5' }) // ✅ "10.50" (formatted to 2 decimals)
+productSchema.parse({ price: '0' }) // ✅ "0.00"
+productSchema.parse({ price: '-10' }) // ❌ Error (must be positive)
+productSchema.parse({ price: '99.999' }) // ❌ Error (max 2 decimals)
+productSchema.parse({ price: '999999999.99' }) // ❌ Error (exceeds precision)
 ```
 
 ## Quick Reference
 
-| Schema | Input | Output | Negative? | Max Decimals | Max Value |
-|--------|-------|--------|-----------|--------------|-----------|
-| `decimal` | `string` | `Decimal` | ✅ Yes | Very large* | Very large* |
-| `decimalString` | `string` | `string` (as-is) | ✅ Yes | Very large* | Very large* |
-| `money` | `string` | `Decimal` | ❌ No | 2 | 99,999,999.99 |
-| `moneyString` | `string` | `string` (always 2 decimals) | ❌ No | 2 | 99,999,999.99 |
+| Schema          | Input    | Output                       | Negative? | Max Decimals | Max Value     |
+| --------------- | -------- | ---------------------------- | --------- | ------------ | ------------- |
+| `decimal`       | `string` | `Decimal`                    | ✅ Yes    | Very large\* | Very large\*  |
+| `decimalString` | `string` | `string` (as-is)             | ✅ Yes    | Very large\* | Very large\*  |
+| `money`         | `string` | `Decimal`                    | ❌ No     | 2            | 99,999,999.99 |
+| `moneyString`   | `string` | `string` (always 2 decimals) | ❌ No     | 2            | 99,999,999.99 |
 
-*Decimal.js supports extremely large numbers (exponent range ±9e15) but is not mathematically infinite.
+\*Decimal.js supports extremely large numbers (exponent range ±9e15) but is not mathematically infinite.
 
 ## Naming Convention
 

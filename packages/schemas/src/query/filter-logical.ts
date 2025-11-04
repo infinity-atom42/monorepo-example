@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { createFieldOperatorSchema } from './filter-operators'
 
 // ! Disclaimer: This code is not fully typesafe but it is validated correctly
@@ -22,45 +23,41 @@ import { createFieldOperatorSchema } from './filter-operators'
  *   filterLogical: createLogicalFilterQuery(filterableFields).optional(),
  * })
  */
-export function createLogicalFilterQuery<T extends z.ZodRawShape>(
-    allowedFields: z.ZodObject<T>,
-) {
-    const fieldNames = Object.keys(allowedFields.shape) as Array<keyof T & string>
+export function createLogicalFilterQuery<T extends z.ZodRawShape>(allowedFields: z.ZodObject<T>) {
+	const fieldNames = Object.keys(allowedFields.shape) as Array<keyof T & string>
 
-    // Build operator object for a single field based on its schema (reused)
-    const buildOperatorObject = (fieldSchema: z.ZodTypeAny) => createFieldOperatorSchema(fieldSchema)
+	// Build operator object for a single field based on its schema (reused)
+	const buildOperatorObject = (fieldSchema: z.ZodTypeAny) => createFieldOperatorSchema(fieldSchema)
 
-    // Field conditions object: { [field]: operatorObject | directValue }
-    const fieldConditionsShape = fieldNames.reduce(
-        (acc, fieldName) => {
-            const fieldSchema = allowedFields.shape[fieldName] as z.ZodTypeAny
-            acc[fieldName] = z.union([buildOperatorObject(fieldSchema), fieldSchema]).optional()
-            return acc
-        },
-        {} as Record<string, z.ZodTypeAny>,
-    )
+	// Field conditions object: { [field]: operatorObject | directValue }
+	const fieldConditionsShape = fieldNames.reduce(
+		(acc, fieldName) => {
+			const fieldSchema = allowedFields.shape[fieldName] as z.ZodTypeAny
+			acc[fieldName] = z.union([buildOperatorObject(fieldSchema), fieldSchema]).optional()
+			return acc
+		},
+		{} as Record<string, z.ZodTypeAny>
+	)
 
-    const fieldConditions = z.strictObject(fieldConditionsShape).partial()
+	const fieldConditions = z.strictObject(fieldConditionsShape).partial()
 
-    // Recursive logical node
-    const node: z.ZodTypeAny = z.lazy(() =>
-        z.union([
-            fieldConditions,
-            z.strictObject({ and: z.array(node).nonempty() }),
-            z.strictObject({ or: z.array(node).nonempty() }),
-            z.strictObject({ not: node }),
-        ]),
-    )
+	// Recursive logical node
+	const node: z.ZodTypeAny = z.lazy(() =>
+		z.union([
+			fieldConditions,
+			z.strictObject({ and: z.array(node).nonempty() }),
+			z.strictObject({ or: z.array(node).nonempty() }),
+			z.strictObject({ not: node }),
+		])
+	)
 
-    return node
+	return node
 }
 
-export type LogicalFilterQuery<T extends z.ZodRawShape> = z.infer<
-    ReturnType<typeof createLogicalFilterQuery<T>>
->
+export type LogicalFilterQuery<T extends z.ZodRawShape> = z.infer<ReturnType<typeof createLogicalFilterQuery<T>>>
 
 export const LOGICAL_OPERATORS = {
-    and: 'Logical AND',
-    or: 'Logical OR',
-    not: 'Logical NOT',
+	and: 'Logical AND',
+	or: 'Logical OR',
+	not: 'Logical NOT',
 } as const

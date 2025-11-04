@@ -2,9 +2,9 @@ import { count, getTableColumns, type SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import type { PgSelect, PgTable } from 'drizzle-orm/pg-core'
 
-import { buildOrderByClause } from './sort'
 import { buildWhereClause, type FilterConfig } from './filter'
 import { buildSelectWithInclude, type RelationInclude } from './select'
+import { buildOrderByClause } from './sort'
 
 /**
  * Configuration for a relation that can be included in the query
@@ -23,13 +23,13 @@ export interface RelationConfig {
  */
 export interface ListQueryConfig<
 	TMainTable extends PgTable,
-	TSchema extends Record<string, unknown> = Record<string, never>
+	TSchema extends Record<string, unknown> = Record<string, never>,
 > {
 	/** The Drizzle database instance */
 	db: NodePgDatabase<TSchema>
 	/** The main table to query */
 	table: TMainTable
-	/** 
+	/**
 	 * Array of field names that can be optionally selected.
 	 * If not provided, field selection is disabled and all fields are always returned.
 	 * When provided, fields NOT in this array are always included (required fields).
@@ -65,7 +65,7 @@ export interface ListQueryResult<T> {
 
 /**
  * Creates a generic list query function for a given table configuration
- * 
+ *
  * @example
  * ```typescript
  * const listPosts = createListQueryBuilder({
@@ -80,20 +80,16 @@ export interface ListQueryResult<T> {
  *     },
  *   },
  * })
- * 
+ *
  * // Usage:
  * const result = await listPosts(query)
  * ```
  */
 export function createListQueryBuilder<
 	TMainTable extends PgTable,
-	TSchema extends Record<string, unknown> = Record<string, never>
->(
-	config: ListQueryConfig<TMainTable, TSchema>
-) {
-	return async function executeListQuery<TResult>(
-		options: ListQueryOptions
-	): Promise<ListQueryResult<TResult>> {
+	TSchema extends Record<string, unknown> = Record<string, never>,
+>(config: ListQueryConfig<TMainTable, TSchema>) {
+	return async function executeListQuery<TResult>(options: ListQueryOptions): Promise<ListQueryResult<TResult>> {
 		const { page, limit, select, sort, filter, include } = options
 		const offset = (page - 1) * limit
 
@@ -149,7 +145,10 @@ export function createListQueryBuilder<
 			for (const [relationKey, relationConfig] of Object.entries(config.relations)) {
 				if (joinFlags[relationKey]) {
 					// Type assertion needed: leftJoin changes the query's nullability map, incompatible with loop typing
-					baseQuery = baseQuery.leftJoin(relationConfig.table, relationConfig.joinCondition) as unknown as typeof baseQuery
+					baseQuery = baseQuery.leftJoin(
+						relationConfig.table,
+						relationConfig.joinCondition
+					) as unknown as typeof baseQuery
 				}
 			}
 		}
@@ -162,7 +161,7 @@ export function createListQueryBuilder<
 			limit: (limit: number) => DynamicQuery
 			offset: (offset: number) => DynamicQuery
 		}
-		
+
 		let dynamicQuery = baseQuery.$dynamic() as unknown as DynamicQuery
 
 		// Apply WHERE clause
@@ -182,12 +181,12 @@ export function createListQueryBuilder<
 		const data = await dynamicQuery
 
 		// Get total count with the same WHERE clause
-		const countQueryBuilder = config.db.select({ count: count() }).from(config.table as PgTable).$dynamic()
-		
-		const countResult = await (whereClause 
-			? countQueryBuilder.where(whereClause) 
-			: countQueryBuilder
-		)
+		const countQueryBuilder = config.db
+			.select({ count: count() })
+			.from(config.table as PgTable)
+			.$dynamic()
+
+		const countResult = await (whereClause ? countQueryBuilder.where(whereClause) : countQueryBuilder)
 
 		const total = countResult[0]?.count ?? 0
 

@@ -11,10 +11,12 @@ Reusable Drizzle ORM query builders for PostgreSQL with support for:
 ## Usage
 
 ```typescript
-import { createListQueryBuilder } from '@packages/drizzle-query-builder'
 import { eq } from 'drizzle-orm'
+
+import { createListQueryBuilder } from '@packages/drizzle-query-builder'
+
 import db from './db'
-import { posts, blogs } from './schema'
+import { blogs, posts } from './schema'
 
 // Create a list query builder for posts
 const listPostsQueryBuilder = createListQueryBuilder({

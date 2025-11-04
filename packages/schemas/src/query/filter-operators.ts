@@ -75,9 +75,7 @@ export function createOperatorFilterQuery<T extends z.ZodRawShape>(allowedFields
 	return z.strictObject(filterFields).partial() as unknown as z.ZodType<OperatorFilterOutput<T>>
 }
 
-export type OperatorFilterQuery<T extends z.ZodRawShape> = z.infer<
-	ReturnType<typeof createOperatorFilterQuery<T>>
->
+export type OperatorFilterQuery<T extends z.ZodRawShape> = z.infer<ReturnType<typeof createOperatorFilterQuery<T>>>
 
 /**
  * Available filter operators

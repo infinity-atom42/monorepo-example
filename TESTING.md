@@ -159,7 +159,7 @@ Edit `infra/postgresql-test.yml` and change the port:
 
 ```yaml
 ports:
-  - "5434:5432"  # Change to different port
+  - '5434:5432' # Change to different port
 ```
 
 Then update `.env.test` in the affected package.

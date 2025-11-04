@@ -1,7 +1,8 @@
 import { Elysia } from 'elysia'
 
-import { ValidationError } from '@se/errors'
 import { moneyString } from '@packages/schemas/decimal'
+
+import { ValidationError } from '@se/errors'
 
 import * as ProductModel from './model'
 import * as ProductService from './service'
@@ -30,24 +31,28 @@ export const productController = new Elysia({ prefix: '/products' })
 			description: 'Get a specific product by its ID',
 		},
 	})
-	.post('/', ({ body }) => {
-		const { success, error } = moneyString.safeParse(body.price)
-		if (!success) {
-			throw new ValidationError('body', body, error.issues)
+	.post(
+		'/',
+		({ body }) => {
+			const { success, error } = moneyString.safeParse(body.price)
+			if (!success) {
+				throw new ValidationError('body', body, error.issues)
+			}
+			return ProductService.createProduct(body)
+		},
+		{
+			body: ProductModel.createProductBody,
+			response: {
+				200: ProductModel.createProductResponse,
+				409: ProductModel.errorDuplicateSku,
+			},
+			detail: {
+				tags: ['Products'],
+				summary: 'Create product',
+				description: 'Create a new product',
+			},
 		}
-		return ProductService.createProduct(body)
-	}, {
-		body: ProductModel.createProductBody,
-		response: {
-			200: ProductModel.createProductResponse,
-			409: ProductModel.errorDuplicateSku,
-		},
-		detail: {
-			tags: ['Products'],
-			summary: 'Create product',
-			description: 'Create a new product',
-		},
-	})
+	)
 	.put('/:productId', ({ params, body }) => ProductService.updateProduct(params.productId, body), {
 		params: ProductModel.productIdParam,
 		body: ProductModel.updateProductBody,

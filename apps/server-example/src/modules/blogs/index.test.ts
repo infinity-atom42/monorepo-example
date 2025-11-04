@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 
 import { treaty } from '@elysiajs/eden'
+
 import { blogController } from './index'
 
 describe('Blogs API', () => {

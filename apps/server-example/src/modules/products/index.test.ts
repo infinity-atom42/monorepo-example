@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 
 import { treaty } from '@elysiajs/eden'
+
 import { productController } from './index'
 
 describe('Products API', () => {

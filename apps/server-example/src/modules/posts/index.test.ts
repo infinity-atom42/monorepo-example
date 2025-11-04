@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, test } from 'bun:test'
 
 import { treaty } from '@elysiajs/eden'
 import { blogController } from '@se/modules/blogs'
+
 import { postController } from './index'
 
 describe('Posts API', () => {

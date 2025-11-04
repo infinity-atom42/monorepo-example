@@ -2,18 +2,18 @@ import { devices, type PlaywrightTestConfig } from '@playwright/test'
 
 /**
  * Base Playwright configuration.
- * 
+ *
  * Can be extended in app's playwright.config.ts:
  * @example
  * ```ts
  * import { defineConfig } from '@playwright/test'
  * import { basePlaywrightConfig } from '@packages/config/playwright/base'
- * 
+ *
  * const BASE_URL = process.env['NEXT_PUBLIC_BASE_URL']
  * if (!BASE_URL) {
  *   throw new Error('NEXT_PUBLIC_BASE_URL must be defined')
  * }
- * 
+ *
  * export default defineConfig({
  *   ...basePlaywrightConfig(BASE_URL),
  *   // App-specific overrides here
@@ -21,7 +21,6 @@ import { devices, type PlaywrightTestConfig } from '@playwright/test'
  * ```
  */
 export function basePlaywrightConfig(baseUrl: string): PlaywrightTestConfig {
-
 	return {
 		testDir: './src',
 		globalSetup: './src/playwright/global-setup.ts',

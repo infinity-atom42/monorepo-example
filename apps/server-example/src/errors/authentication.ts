@@ -7,5 +7,4 @@ export class AuthenticationError extends BaseHttpError {
 		super(message, { cause })
 		this.name = 'AuthenticationError'
 	}
-
 }

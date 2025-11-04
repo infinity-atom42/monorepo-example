@@ -141,13 +141,13 @@ importers:
         specifier: workspace:*
         version: link:packages/config
       '@types/node':
-        specifier: ^24.9.2
+        specifier: ^24.10.0
         version: 24.10.0
       eslint:
-        specifier: ^9.39.0
+        specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
       knip:
-        specifier: ^5.66.4
+        specifier: ^5.67.1
         version: 5.67.1(@types/node@24.10.0)(typescript@5.9.3)
       prettier:
         specifier: ^3.6.2
@@ -449,7 +449,7 @@ importers:
   packages/config:
     devDependencies:
       '@eslint/js':
-        specifier: ^9.39.0
+        specifier: ^9.39.1
         version: 9.39.1
       '@next/eslint-plugin-next':
         specifier: ^16.0.1
@@ -479,7 +479,7 @@ importers:
         specifier: ^16.5.0
         version: 16.5.0
       typescript-eslint:
-        specifier: ^8.46.2
+        specifier: ^8.46.3
         version: 8.46.3(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
 
   packages/drizzle-query-builder:
