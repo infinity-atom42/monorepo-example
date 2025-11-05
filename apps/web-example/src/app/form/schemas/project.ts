@@ -1,4 +1,4 @@
-import z from "zod"
+import { z } from "zod"
 
 export const PROJECT_STATUSES = ["draft", "active", "finished"] as const
 

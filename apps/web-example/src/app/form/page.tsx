@@ -19,11 +19,11 @@ import {
   InputGroupInput,
 } from "@packages/ui/components/input-group"
 import { SelectItem } from "@packages/ui/components/select"
-import { PROJECT_STATUSES, projectSchema } from "@/schemas/project"
+import { PROJECT_STATUSES, projectSchema } from "./schemas/project"
 import { XIcon } from "lucide-react"
 import { toast } from "@packages/ui/lib/sonner"
 import { z } from "zod"
-import { useAppForm } from "@packages/ui/form/hooks"
+import { useAppForm } from "@packages/ui/hooks/form"
 
 type FormData = z.infer<typeof projectSchema>
 

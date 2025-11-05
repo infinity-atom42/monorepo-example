@@ -1,6 +1,6 @@
 import { Textarea } from "@packages/ui/components/textarea"
 import { FormBase, type FormControlProps } from "./FormBase"
-import { useFieldContext } from "./hooks"
+import { useFieldContext } from "@packages/ui/hooks/form"
 
 export function FormTextarea(props: FormControlProps) {
   const field = useFieldContext<string>()

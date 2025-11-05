@@ -1,6 +1,6 @@
 import { Input } from "@packages/ui/components/input"
 import { FormBase, type FormControlProps } from "./FormBase"
-import { useFieldContext } from "./hooks"
+import { useFieldContext } from "@packages/ui/hooks/form"
 
 export function FormInput(props: FormControlProps) {
   const field = useFieldContext<string>()
