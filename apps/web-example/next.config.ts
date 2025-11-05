@@ -11,6 +11,7 @@ import './src/env'
 
 const nextConfig: NextConfig = {
 	// output: 'standalone',
+	reactCompiler: true,
 	transpilePackages: [
 		'@packages/ui',
 		// '@t3-oss/env-nextjs'
