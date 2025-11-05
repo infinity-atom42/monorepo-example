@@ -1,6 +1,6 @@
 "use server"
 
-import { projectSchema } from "@/schemas/project"
+import { projectSchema } from "@/app/form/_schemas/project"
 import z from "zod"
 
 export async function createProject(unsafeData: z.infer<typeof projectSchema>) {

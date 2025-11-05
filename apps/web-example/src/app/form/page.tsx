@@ -19,7 +19,7 @@ import {
   InputGroupInput,
 } from "@packages/ui/components/input-group"
 import { SelectItem } from "@packages/ui/components/select"
-import { PROJECT_STATUSES, projectSchema } from "./schemas/project"
+import { PROJECT_STATUSES, projectSchema } from "./_schemas/project"
 import { XIcon } from "lucide-react"
 import { toast } from "@packages/ui/lib/sonner"
 import { z } from "zod"
