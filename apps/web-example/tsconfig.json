@@ -4,6 +4,7 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@packages/ui/*": ["../../packages/ui/src/*"],
+			"@packages/table_v1/*": ["../../packages/table_v1/src/*"],
 			"@se": ["../server-example/src/server"],
 			"@se/*": ["../server-example/src/*"]
 		}

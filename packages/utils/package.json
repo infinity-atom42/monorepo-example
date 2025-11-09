@@ -4,7 +4,8 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./cron-patterns": "./src/cron-patterns.ts"
+		"./cron-patterns": "./src/cron-patterns.ts",
+		"./omit-undefined": "./src/omit-undefined.ts"
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
