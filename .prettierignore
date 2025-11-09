@@ -5,3 +5,4 @@
 pnpm-lock.yaml
 **/drizzle.schema.ts
 **/.migrations/
+next-env.d.ts

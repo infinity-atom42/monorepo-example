@@ -2,8 +2,9 @@
 
 import { DataTable } from '@packages/table_v1/data-table/data-table'
 import { DataTableToolbar } from '@packages/table_v1/data-table/toolbar'
-import { Checkbox } from '@packages/ui/components/checkbox'
 import { useDataTable } from '@packages/table_v1/hooks/use-data-table'
+import { Checkbox } from '@packages/ui/components/checkbox'
+
 import type { ColumnDef } from '@tanstack/react-table'
 
 type Invoice = {

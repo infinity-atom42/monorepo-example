@@ -39,9 +39,9 @@
 		"react-day-picker": "^9.11.1",
 		"react-dom": "catalog:",
 		"tailwind-merge": "^3.3.1",
+		"tailwindcss": "catalog:",
 		"usehooks-ts": "^3.1.1",
-		"zod": "catalog:",
-		"tailwindcss": "catalog:"
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@packages/config": "workspace:*",

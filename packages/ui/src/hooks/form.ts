@@ -1,22 +1,22 @@
-import { createFormHook, createFormHookContexts } from "@tanstack/react-form"
-import { FormInput } from "@packages/ui/form/FormInput"
-import { FormTextarea } from "@packages/ui/form/FormTextarea"
-import { FormSelect } from "@packages/ui/form/FormSelect"
-import { FormCheckbox } from "@packages/ui/form/FormCheckbox"
+import { FormCheckbox } from '@packages/ui/form/FormCheckbox'
+import { FormInput } from '@packages/ui/form/FormInput'
+import { FormSelect } from '@packages/ui/form/FormSelect'
+import { FormTextarea } from '@packages/ui/form/FormTextarea'
 
-const { fieldContext, formContext, useFieldContext, useFormContext } =
-  createFormHookContexts()
+import { createFormHook, createFormHookContexts } from '@tanstack/react-form'
+
+const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts()
 
 const { useAppForm } = createFormHook({
-  fieldComponents: {
-    Input: FormInput,
-    Textarea: FormTextarea,
-    Select: FormSelect,
-    Checkbox: FormCheckbox,
-  },
-  formComponents: {},
-  fieldContext,
-  formContext,
+	fieldComponents: {
+		Input: FormInput,
+		Textarea: FormTextarea,
+		Select: FormSelect,
+		Checkbox: FormCheckbox,
+	},
+	formComponents: {},
+	fieldContext,
+	formContext,
 })
 
 export { useAppForm, useFieldContext, useFormContext }

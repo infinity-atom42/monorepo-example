@@ -13,12 +13,12 @@ export type OmitUndefined<T extends Record<string, unknown>> = {
  * omitUndefined({ foo: 'bar', baz: undefined });
  * // => { foo: 'bar' }
  * ```
- * 
+ *
  * @example
  * ```ts
  * // title: string | undefined;
  * const props = { id: 'item-1', label: undefined, {...omitUndefined({ title })} };
- * 
+ *
  * // resulting object will be either
  *    => { id: 'item-1', label: undefined, title: 'Hello, world!' }
  * or => { id: 'item-1', label: undefined }

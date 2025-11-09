@@ -1,7 +1,7 @@
-"use client";
-"use no memo";
+'use client'
+'use no memo'
 
-import { useReactTable, type TableOptions } from "@tanstack/react-table";
+import { useReactTable, type TableOptions } from '@tanstack/react-table'
 
 /**
  * Wrapper around TanStack Table's useReactTable to isolate React Compiler incompatibility.
@@ -15,6 +15,6 @@ import { useReactTable, type TableOptions } from "@tanstack/react-table";
  * of the codebase to benefit from React Compiler optimizations.
  */
 export function useReactTableWrapper<TData>(options: TableOptions<TData>) {
-  // eslint-disable-next-line react-hooks/incompatible-library
-  return useReactTable(options);
+	// eslint-disable-next-line react-hooks/incompatible-library
+	return useReactTable(options)
 }
