@@ -19,9 +19,8 @@ import { SelectItem } from '@packages/ui/components/select'
 import { useAppForm } from '@packages/ui/hooks/form'
 import { toast } from '@packages/ui/lib/sonner'
 
-import { createProject } from './actions/project'
-
 import { PROJECT_STATUSES, projectSchema } from './_schemas/project'
+import { createProject } from './actions/project'
 
 type FormData = z.infer<typeof projectSchema>
 
