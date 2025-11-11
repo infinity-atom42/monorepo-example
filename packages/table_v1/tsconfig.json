@@ -1,0 +1,11 @@
+{
+	"extends": "@packages/config/typescript/react-library",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@packages/table_v1/*": ["./src/*"]
+		}
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
+}

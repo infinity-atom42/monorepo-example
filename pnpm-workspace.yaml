@@ -7,6 +7,10 @@ packages:
 catalog:
   '@daveyplate/better-auth-ui': ^3.2.8
   '@dotenvx/dotenvx': ^1.51.1
+  '@dnd-kit/core': ^6.3.1
+  '@dnd-kit/modifiers': ^9.0.0
+  '@dnd-kit/sortable': ^10.0.0
+  '@dnd-kit/utilities': ^3.2.2
   '@elysiajs/bearer': ^1.4.1
   '@elysiajs/cors': ^1.4.0
   '@elysiajs/eden': ^1.4.4
@@ -15,10 +19,13 @@ catalog:
   '@elysiajs/opentelemetry': ^1.4.6
   '@elysiajs/static': ^1.4.6
   '@playwright/test': ^1.56.1
+  '@radix-ui/react-slot': ^1.2.4
   '@t3-oss/env-core': ^0.13.8
   '@t3-oss/env-nextjs': ^0.13.8
   '@tailwindcss/postcss': ^4.1.16
   '@tanstack/react-query': ^5.90.6
+  '@tanstack/react-table': ^8.21.3
+  '@tanstack/react-virtual': ^3.13.12
   '@types/amqplib': ^0.10.8
   '@types/bun': ^1.3.1
   '@types/lodash-es': ^4.17.12
@@ -30,6 +37,7 @@ catalog:
   amqplib: ^0.10.9
   babel-plugin-react-compiler: ^1.0.0
   better-auth: ^1.3.34
+  class-variance-authority: ^0.7.1
   croner: ^9.1.0
   decimal.js: ^10.6.0
   drizzle-kit: ^0.31.6
@@ -41,11 +49,16 @@ catalog:
   jose: ^6.1.0
   lodash-es: ^4.17.21
   lucide-react: ^0.552.0
+  motion: ^12.23.24
+  nanoid: ^5.1.6
   next: ^16.0.1
+  nuqs: ^2.7.2
   pg: ^8.16.3
   react: ^19.2.0
   react-dom: ^19.2.0
+  react-day-picker: ^9.11.1
   tailwindcss: ^4.1.16
+  usehooks-ts: ^3.1.1
   zod: ^4.1.12
 
 onlyBuiltDependencies:

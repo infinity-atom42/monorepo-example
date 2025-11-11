@@ -1,0 +1,51 @@
+{
+	"name": "@packages/table_v1",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./components/*": "./src/components/*.tsx",
+		"./config/*": "./src/config/*.ts",
+		"./data-table/*": "./src/data-table/*.tsx",
+		"./hooks/*": "./src/hooks/*.ts",
+		"./lib/*": "./src/lib/*.ts",
+		"./types/*": "./src/types/*.ts"
+	},
+	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"type:check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@dnd-kit/core": "catalog:",
+		"@dnd-kit/modifiers": "catalog:",
+		"@dnd-kit/sortable": "catalog:",
+		"@dnd-kit/utilities": "catalog:",
+		"@packages/ui": "workspace:*",
+		"@packages/utils": "workspace:*",
+		"@radix-ui/react-slot": "catalog:",
+		"@tanstack/react-table": "catalog:",
+		"class-variance-authority": "catalog:",
+		"lucide-react": "catalog:",
+		"motion": "catalog:",
+		"nanoid": "catalog:",
+		"nuqs": "catalog:",
+		"react": "catalog:",
+		"react-day-picker": "catalog:",
+		"react-dom": "catalog:",
+		"tailwindcss": "catalog:",
+		"usehooks-ts": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@packages/config": "workspace:*",
+		"@tailwindcss/postcss": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:"
+	},
+	"peerDependencies": {
+		"@tanstack/react-table": "catalog:",
+		"nuqs": "catalog:"
+	}
+}

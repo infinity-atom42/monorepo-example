@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import type { Metadata } from 'next'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 import { Toaster } from '@packages/ui/components/sonner'
 import { ThemeProvider } from '@packages/ui/components/theme-provider'
@@ -35,14 +36,16 @@ export default function RootLayout({
 			suppressHydrationWarning
 			className="h-full">
 			<body className={`${fontSans.variable} ${fontMono.variable} flex min-h-full flex-col font-sans antialiased`}>
-				<ThemeProvider>
-					<QueryClientProvider>
-						<AuthUIProvider>
-							{children}
-							<Toaster />
-						</AuthUIProvider>
-					</QueryClientProvider>
-				</ThemeProvider>
+				<NuqsAdapter>
+					<ThemeProvider>
+						<QueryClientProvider>
+							<AuthUIProvider>
+								<main className="flex-1">{children}</main>
+								<Toaster />
+							</AuthUIProvider>
+						</QueryClientProvider>
+					</ThemeProvider>
+				</NuqsAdapter>
 			</body>
 		</html>
 	)
